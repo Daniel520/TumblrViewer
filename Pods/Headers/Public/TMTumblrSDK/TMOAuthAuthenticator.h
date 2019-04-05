@@ -1,0 +1,1 @@
+../../../TMTumblrSDK/Classes/Auth/TMOAuthAuthenticator.h

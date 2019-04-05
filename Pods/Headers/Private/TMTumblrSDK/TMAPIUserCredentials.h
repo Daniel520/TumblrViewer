@@ -1,0 +1,1 @@
+../../../TMTumblrSDK/Classes/TMAPIUserCredentials.h

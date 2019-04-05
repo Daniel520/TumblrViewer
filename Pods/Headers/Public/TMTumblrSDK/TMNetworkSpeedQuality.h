@@ -1,0 +1,1 @@
+../../../TMTumblrSDK/Classes/Networking/TMNetworkSpeedQuality.h
