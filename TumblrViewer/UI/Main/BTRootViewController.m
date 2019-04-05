@@ -266,8 +266,8 @@
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.backgroundColor = [UIColor whiteColor];
-    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
-            forCellWithReuseIdentifier:CELL_IDENTIFIER];
+//    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
+//            forCellWithReuseIdentifier:CELL_IDENTIFIER];
     [self.view addSubview:self.mainCollectionView];
     //    [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]
     //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
@@ -290,16 +290,16 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BTDashboardCollectionCell *cell =
-    (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
-                                                                                forIndexPath:indexPath];
-
-//    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
-//                forCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]];
-//
 //    BTDashboardCollectionCell *cell =
-//    (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]
-//                                                                           forIndexPath:indexPath];
+//    (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
+//                                                                                forIndexPath:indexPath];
+
+    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
+                forCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]];
+
+    BTDashboardCollectionCell *cell =
+    (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]
+                                                                           forIndexPath:indexPath];
 #warning todo
     cell.imgDicArr = [self.dashboardImgArr objectAtIndex:indexPath.item];
     return cell;
