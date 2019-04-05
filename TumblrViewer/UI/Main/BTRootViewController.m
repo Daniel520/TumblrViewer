@@ -10,6 +10,7 @@
 #import "APIAccessHelper.h"
 #import "BTDashboardCollectionCell.h"
 #import "HTMLParser.h"
+#import <MJRefresh.h>
 
 #import <CHTCollectionViewWaterfallLayout.h>
 //#import "LJJWaterFlowLayout.h"
@@ -36,7 +37,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self loadData];
+    [self loadData:NO];
 //    [self testLoadImage];
 }
 
@@ -89,26 +90,36 @@
 //    }];
 //}
 
-- (void)loadData
+- (void)loadData:(BOOL)isLoadMore
 {
     BTWeakSelf(weakSelf);
     
     //test
-    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, SCREEN_HEIGHT - 150)];
-    [self.view addSubview:self.textView];
+//    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, SCREEN_HEIGHT - 150)];
+//    [self.view addSubview:self.textView];
     //test
     
     TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
     
     NSURLSessionTask *task = nil;
     
-    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@0} callback:^( id _Nullable response, NSError * _Nullable error){
+    NSInteger offset = 0;
+    
+    if (isLoadMore) {
+        
+        offset = self.dashboardImgArr.count;
+    } else {
+        // clear data to refresh
+        self.dashboardImgArr = [NSArray new];
+    }
+    
+    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
 
         if (error) {
             NSLog(@"error info:%@",error);
         }
 //        NSLog(@"%@",response);
-        weakSelf.textView.text = [response description];
+//        weakSelf.textView.text = [response description];
 
 //        weakSelf.dashboardDic = response;
         //to get the img data and set to self.dashboardImgArr
@@ -155,7 +166,7 @@
         }
     }
     
-    self.dashboardImgArr = [postsURLs copy];
+    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:postsURLs];
 }
 
 - (NSArray*)getImageURLsFromPhotos:(NSArray *)photos
@@ -246,11 +257,20 @@
         [self initDashboardCollectView];
     }
     
+    
     [self.mainCollectionView reloadData];
+    [self collectionStopRefreshData];
+}
+
+- (void)collectionStopRefreshData
+{
+    [self.mainCollectionView.mj_header endRefreshing];
+    [self.mainCollectionView.mj_footer endRefreshing];
 }
 
 - (void)initDashboardCollectView
 {
+    BTWeakSelf(weakSelf);
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
 
     layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -275,6 +295,14 @@
     //    [_collectionView registerClass:[CHTCollectionViewWaterfallFooter class]
     //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionFooter
     //               withReuseIdentifier:FOOTER_IDENTIFIER];
+    
+    self.mainCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadData:NO];
+    }];
+    
+    self.mainCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [weakSelf loadData:YES];
+    }];
     
 }
 
