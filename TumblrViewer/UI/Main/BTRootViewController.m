@@ -106,8 +106,10 @@
     NSInteger offset = 0;
     
     if (isLoadMore) {
+        
         offset = self.dashboardImgArr.count;
     } else {
+        // clear data to refresh
         self.dashboardImgArr = [NSArray new];
     }
     
