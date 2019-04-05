@@ -36,7 +36,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self loadData];
+    [self loadData:NO];
 //    [self testLoadImage];
 }
 
@@ -89,7 +89,7 @@
 //    }];
 //}
 
-- (void)loadData
+- (void)loadData:(BOOL)isLoadMore
 {
     BTWeakSelf(weakSelf);
     
@@ -102,7 +102,15 @@
     
     NSURLSessionTask *task = nil;
     
-    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@0} callback:^( id _Nullable response, NSError * _Nullable error){
+    NSInteger offset = 0;
+    
+    if (isLoadMore) {
+        offset = self.dashboardImgArr.count - 1;
+    }else{
+        self.dashboardImgArr = [NSArray new];
+    }
+    
+    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
 
         if (error) {
             NSLog(@"error info:%@",error);
