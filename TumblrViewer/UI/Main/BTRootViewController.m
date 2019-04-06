@@ -264,8 +264,8 @@
 
 - (void)collectionStopRefreshData
 {
-    [self.mainCollectionView.mj_header endRefreshing];
-    [self.mainCollectionView.mj_footer endRefreshing];
+//    [self.mainCollectionView.mj_header endRefreshing];
+//    [self.mainCollectionView.mj_footer endRefreshing];
 }
 
 - (void)initDashboardCollectView
