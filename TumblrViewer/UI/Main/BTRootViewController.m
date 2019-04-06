@@ -264,7 +264,15 @@
 
 - (void)collectionStopRefreshData
 {
+    self.mainCollectionView.mj_header.endRefreshingCompletionBlock = ^{
+        NSLog(@"header end refresh");
+    };
     [self.mainCollectionView.mj_header endRefreshing];
+    
+    self.mainCollectionView.mj_footer.endRefreshingCompletionBlock = ^{
+        NSLog(@"footer end refresh");
+    };
+    
     [self.mainCollectionView.mj_footer endRefreshing];
 }
 
