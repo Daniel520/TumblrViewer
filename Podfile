@@ -12,6 +12,7 @@ target 'TumblrViewer' do
 	pod 'TMTumblrSDK'
 	pod 'MJRefresh'
 	pod 'CHTCollectionViewWaterfallLayout'
+	pod 'WSLWaterFlowLayout'
 
   target 'TumblrViewerTests' do
     inherit! :search_paths

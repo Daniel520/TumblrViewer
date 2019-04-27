@@ -22,6 +22,7 @@ PODS:
     - SDWebImage/Core (= 4.4.6)
   - SDWebImage/Core (4.4.6)
   - TMTumblrSDK (5.0)
+  - WSLWaterFlowLayout (1.0.1)
 
 DEPENDENCIES:
   - AFNetworking
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - MJRefresh
   - SDWebImage (~> 4.0)
   - TMTumblrSDK
+  - WSLWaterFlowLayout
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -37,6 +39,7 @@ SPEC REPOS:
     - MJRefresh
     - SDWebImage
     - TMTumblrSDK
+    - WSLWaterFlowLayout
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -44,7 +47,8 @@ SPEC CHECKSUMS:
   MJRefresh: 7798e16e53a5ef7f332dd05b27664db4e29530fd
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   TMTumblrSDK: 75aca84910dd905a1ca63f5f5826fbeaf28a0c1e
+  WSLWaterFlowLayout: 37cfcb9c483b24144cd5c34c2cef4586ae6eef97
 
-PODFILE CHECKSUM: 2892955474c8149ad06f5e342166217f861da356
+PODFILE CHECKSUM: c1f824e456764dfd7325faf1b9a2b02044756432
 
 COCOAPODS: 1.6.1

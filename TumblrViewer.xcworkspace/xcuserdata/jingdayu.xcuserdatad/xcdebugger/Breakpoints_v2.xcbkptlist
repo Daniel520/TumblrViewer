@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TumblrViewer/UI/Main/BTRootViewController.m"
-            timestampString = "576173044.33901"
+            timestampString = "578033725.2298549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-loadData:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TumblrViewer/UI/Main/BTRootViewController.m"
-            timestampString = "576173044.339523"
+            timestampString = "578033725.230394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "-loadData:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,12 +42,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TumblrViewer/UI/Main/BTRootViewController.m"
-            timestampString = "576173044.33986"
+            timestampString = "578033725.230696"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-loadData:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblrViewer/UI/Main/BTRootViewController.m"
+            timestampString = "578033725.230974"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
+            landmarkName = "-initDashboardCollectView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TumblrViewer/UI/Main/BTRootViewController.m"
+            timestampString = "578033725.231257"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "-initDashboardCollectView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

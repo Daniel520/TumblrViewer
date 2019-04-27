@@ -22,6 +22,7 @@
 @property (nonatomic,strong) UICollectionView *mainCollectionView;
 //@property (nonatomic,strong) NSDictionary *dashboardDic;
 @property (nonatomic,strong) NSArray *dashboardImgArr;
+@property (nonatomic,assign) NSUInteger currentDataOffset;
 
 //test
 @property (nonatomic,strong) UIButton *authButton;
@@ -107,7 +108,7 @@
     
     if (isLoadMore) {
         
-        offset = self.dashboardImgArr.count;
+        offset = self.currentDataOffset;
     } else {
         // clear data to refresh
         self.dashboardImgArr = [NSArray new];
@@ -147,6 +148,8 @@
 - (void)translteDashboardData:(NSDictionary*)response
 {
     NSArray *posts = [response objectForKey:@"posts"];
+    
+    self.currentDataOffset += posts.count;
     
     NSMutableArray *postsURLs = [NSMutableArray new];
     
@@ -264,8 +267,8 @@
 
 - (void)collectionStopRefreshData
 {
-//    [self.mainCollectionView.mj_header endRefreshing];
-//    [self.mainCollectionView.mj_footer endRefreshing];
+    [self.mainCollectionView.mj_header endRefreshing];
+    [self.mainCollectionView.mj_footer endRefreshing];
 }
 
 - (void)initDashboardCollectView
