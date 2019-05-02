@@ -9,6 +9,8 @@
 #import "BTRootViewController.h"
 #import "APIAccessHelper.h"
 #import "BTDashboardCollectionCell.h"
+#import "BTImageInfo.h"
+
 #import "HTMLParser.h"
 #import <MJRefresh.h>
 
@@ -19,14 +21,14 @@
 
 @interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout>
 
-@property (nonatomic,strong) UICollectionView *mainCollectionView;
-//@property (nonatomic,strong) NSDictionary *dashboardDic;
-@property (nonatomic,strong) NSArray *dashboardImgArr;
+@property (nonatomic, strong) UICollectionView *mainCollectionView;
+@property (nonatomic, strong) NSArray *dashboardImgArr;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 //test
-@property (nonatomic,strong) UIButton *authButton;
-@property (nonatomic,strong) UITextView *textView;
-@property (nonatomic,strong) UIImageView *testImageView;
+//@property (nonatomic,strong) UIButton *authButton;
+//@property (nonatomic,strong) UITextView *textView;
+//@property (nonatomic,strong) UIImageView *testImageView;
 
 @end
 
@@ -38,68 +40,41 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.title = @"Dashboard";
-    
-    [self loadData:NO];
-//    [self testLoadImage];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-//    if ([[APIAccessHelper shareApiAccessHelper] isNeedLogin]) {
-//        [self setUpAuthenticateButton];
-//        return;
-//    }
+    
+    [self initDashboardCollectView];
+    
+    [self loadData:NO];
 }
 
-//- (IBAction)authenticate
-//{
-//    BTWeakSelf(weakSelf);
-//    [[APIAccessHelper shareApiAccessHelper] authenticate:^(NSError *error){
-//        if (error) {
-//            UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"Login Fail" message:@"Login fail,you may check your network and try again" preferredStyle:UIAlertControllerStyleActionSheet];
-//
-//            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
-//
-//            [actionSheet addAction:action1];
-//
-//            //相当于之前的[actionSheet show];
-//            [weakSelf presentViewController:actionSheet animated:YES completion:nil];
-//        }else{
-//
-//            weakSelf.authButton.hidden = YES;
-//
-//            [weakSelf loadData];
-//        }
-//
-//    }];
-//}
+- (void)showLoading
+{
+    if (!self.loadingView) {
+        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.loadingView = loadingView;
+    }
+    
+    self.loadingView.center = self.view.center;
+    self.loadingView.color = UIColor.grayColor;
+    [self.view addSubview:self.loadingView];
+    [self.loadingView startAnimating];
+}
 
-//- (void)testLoadImage
-//{
-//    NSURL *url = [NSURL URLWithString:@"https://66.media.tumblr.com/a600361897ce9f5140620de9ed225e3f/tumblr_ov9nr4tXKh1ut081ko1_640.jpg"];
-//    self.testImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 100, 320, 480)];
-//    self.testImageView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-//    [self.view addSubview:self.testImageView];
-//    [self.testImageView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
-//        if (error) {
-//            NSLog(@"load error:%@",error);
-//        }else{
-//            NSLog(@"load success:%@",imageURL);
-//        }
-//
-//    }];
-//}
+- (void)hideLoading
+{
+    [self.loadingView stopAnimating];
+    [self.loadingView removeFromSuperview];
+}
 
 - (void)loadData:(BOOL)isLoadMore
 {
-    BTWeakSelf(weakSelf);
     
-    //test
-//    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, SCREEN_HEIGHT - 150)];
-//    [self.view addSubview:self.textView];
-    //test
+    
+    BTWeakSelf(weakSelf);
     
     TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
     
@@ -111,12 +86,17 @@
         
         offset = self.dashboardImgArr.count;
     } else {
+        //Just refresh to show loading
+        [self showLoading];
+        
         // clear data to refresh
         self.dashboardImgArr = [NSArray new];
     }
     
     task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
-
+        
+        [weakSelf hideLoading];
+        
         if (error) {
             NSLog(@"error info:%@",error);
         }
@@ -255,10 +235,9 @@
 
 - (void)updateDashboard
 {
-    if (!self.mainCollectionView) {
-        [self initDashboardCollectView];
-    }
-    
+//    if (!self.mainCollectionView) {
+//        [self initDashboardCollectView];
+//    }
     
     [self.mainCollectionView reloadData];
     [self collectionStopRefreshData];
@@ -320,7 +299,6 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning todo
     return self.dashboardImgArr.count;
 }
 
@@ -332,14 +310,7 @@
     BTDashboardCollectionCell *cell =
     (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
                                                                                 forIndexPath:indexPath];
-
-//    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
-//                forCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]];
-//
-//    BTDashboardCollectionCell *cell =
-//    (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"cell-%ld-%ld",(long)indexPath.section,(long)indexPath.item]
-//                                                                           forIndexPath:indexPath];
-#warning todo
+    
     cell.imgDicArr = [self.dashboardImgArr objectAtIndex:indexPath.item];
     return cell;
 }
@@ -362,10 +333,7 @@
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-#warning todo
     NSArray *imgDics = [self.dashboardImgArr objectAtIndex:indexPath.item];
-    
-   
     
     //now use 100 width to show, then the height should sum all the photos' height
     long width = 100;

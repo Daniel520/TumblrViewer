@@ -13,7 +13,6 @@
 		A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */; };
 		A99CC702224CCBFB007B22C9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC701224CCBFB007B22C9 /* SystemConfiguration.framework */; };
 		A99CC704224CCC03007B22C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */; };
-		A99CC709224CCCF6007B22C9 /* APIAccessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A99CC706224CCCF6007B22C9 /* APIAccessManager.m */; };
 		A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */; };
 		A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB61224BBCFD00B2FAFD /* Assets.xcassets */; };
 		A9B5CB65224BBCFD00B2FAFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB63224BBCFD00B2FAFD /* LaunchScreen.storyboard */; };
@@ -65,8 +64,6 @@
 		A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTRootViewController.m; sourceTree = "<group>"; };
 		A99CC701224CCBFB007B22C9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		A99CC705224CCCF6007B22C9 /* APIAccessManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIAccessManager.h; sourceTree = "<group>"; };
-		A99CC706224CCCF6007B22C9 /* APIAccessManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIAccessManager.m; sourceTree = "<group>"; };
 		A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIAccessHelper.m; sourceTree = "<group>"; };
 		A99CC708224CCCF6007B22C9 /* APIAccessHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIAccessHelper.h; sourceTree = "<group>"; };
 		A9B5CB55224BBCFC00B2FAFD /* TumblrViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,8 +176,6 @@
 			children = (
 				A99CC708224CCCF6007B22C9 /* APIAccessHelper.h */,
 				A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */,
-				A99CC705224CCCF6007B22C9 /* APIAccessManager.h */,
-				A99CC706224CCCF6007B22C9 /* APIAccessManager.m */,
 			);
 			path = APIAccess;
 			sourceTree = "<group>";
@@ -566,7 +561,6 @@
 				A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */,
 				A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
-				A99CC709224CCCF6007B22C9 /* APIAccessManager.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,

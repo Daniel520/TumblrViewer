@@ -11,15 +11,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface BTImageResInfo : NSObject
+
+@property (nonatomic, strong) NSURL *resUrl;
+
+@property (nonatomic, assign) CGSize size;
+
+@end
+
 @interface BTImageInfo : NSObject
 
-@property (nonatomic, strong) NSURL *imageUrl;
+@property (nonatomic, strong) BTImageResInfo *originResInfo;
 
-@property (nonatomic, strong) NSArray *imageSizeArr;
+@property (nonatomic, strong) NSArray<BTImageResInfo*> *imageResArr;
 
-@property (nonatomic) CGSize currentSzie;
+//@property (nonatomic) CGSize currentSzie;
 
-@property (nonatomic, strong) NSString *imageMD5;
+//@property (nonatomic, strong) NSString *imageMD5;
 
 @end
 
