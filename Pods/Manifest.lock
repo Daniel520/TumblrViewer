@@ -17,23 +17,30 @@ PODS:
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
+  - FLAnimatedImage (1.0.12)
   - MJRefresh (3.1.16)
   - SDWebImage (4.4.6):
     - SDWebImage/Core (= 4.4.6)
   - SDWebImage/Core (4.4.6)
+  - SDWebImage/GIF (4.4.6):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
   - TMTumblrSDK (5.0)
 
 DEPENDENCIES:
   - AFNetworking
   - CHTCollectionViewWaterfallLayout
+  - FLAnimatedImage
   - MJRefresh
   - SDWebImage (~> 4.0)
+  - SDWebImage/GIF
   - TMTumblrSDK
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
     - CHTCollectionViewWaterfallLayout
+    - FLAnimatedImage
     - MJRefresh
     - SDWebImage
     - TMTumblrSDK
@@ -41,10 +48,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MJRefresh: 7798e16e53a5ef7f332dd05b27664db4e29530fd
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   TMTumblrSDK: 75aca84910dd905a1ca63f5f5826fbeaf28a0c1e
 
-PODFILE CHECKSUM: 2892955474c8149ad06f5e342166217f861da356
+PODFILE CHECKSUM: 13db4c1a12330e44bf547ad66721bf88aae54cbf
 
 COCOAPODS: 1.6.1

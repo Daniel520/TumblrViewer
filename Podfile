@@ -9,6 +9,8 @@ target 'TumblrViewer' do
 
 	pod 'AFNetworking'
 	pod 'SDWebImage', '~> 4.0'
+	pod 'SDWebImage/GIF'
+	pod 'FLAnimatedImage'
 	pod 'TMTumblrSDK'
 	pod 'MJRefresh'
 	pod 'CHTCollectionViewWaterfallLayout'

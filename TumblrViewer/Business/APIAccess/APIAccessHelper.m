@@ -52,7 +52,7 @@ static APIAccessHelper *instance = nil;
         self.applicationCredentials = [[TMAPIApplicationCredentials alloc] initWithConsumerKey:API_KEY consumerSecret:SECRET_KEY];
         
         if ([self isNeedLogin]) {
-            self.session = [[TMURLSession alloc] initWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+            self.session = [[TMURLSession alloc] initWithConfiguration:[self getNetworkConfiguration]
                                                 applicationCredentials:self.applicationCredentials
                                                        userCredentials:[TMAPIUserCredentials new]
                                                 networkActivityManager:nil
@@ -61,7 +61,7 @@ static APIAccessHelper *instance = nil;
                                                     requestTransformer:nil
                                                      additionalHeaders:nil];
         }else{
-            self.session = [[TMURLSession alloc] initWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] applicationCredentials:self.applicationCredentials userCredentials:[[TMAPIUserCredentials alloc] initWithToken:self.tmToken tokenSecret:self.tmTokenSecret]];
+            self.session = [[TMURLSession alloc] initWithConfiguration:[self getNetworkConfiguration] applicationCredentials:self.applicationCredentials userCredentials:[[TMAPIUserCredentials alloc] initWithToken:self.tmToken tokenSecret:self.tmTokenSecret]];
         }
         
         
@@ -112,7 +112,7 @@ static APIAccessHelper *instance = nil;
                 weakSelf.tmToken = creds.token;
                 weakSelf.tmTokenSecret = creds.tokenSecret;
                 
-                weakSelf.session = [[TMURLSession alloc] initWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] applicationCredentials:self.applicationCredentials userCredentials:[[TMAPIUserCredentials alloc] initWithToken:creds.token tokenSecret:creds.tokenSecret]];
+                weakSelf.session = [[TMURLSession alloc] initWithConfiguration:[self getNetworkConfiguration] applicationCredentials:self.applicationCredentials userCredentials:[[TMAPIUserCredentials alloc] initWithToken:creds.token tokenSecret:creds.tokenSecret]];
                 //                self.authResultsTextView.text = [NSString stringWithFormat:@"Success!\nToken: %@\nSecret: %@", creds.token, creds.tokenSecret];
                 //                [self request];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -124,6 +124,15 @@ static APIAccessHelper *instance = nil;
             }
         });
     }];
+}
+
+- (NSURLSessionConfiguration*)getNetworkConfiguration
+{
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForResource = 10;
+    config.timeoutIntervalForRequest = 10;
+    
+    return config;
 }
 
 //- (void)getBlogBaseInfo:(NSString*)blogID
