@@ -55,16 +55,17 @@
         [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     
-    BTWeakSelf(weakSelf);
+//    BTWeakSelf(weakSelf);
     long y = 0;
 //    for (NSDictionary *imageDic in imgDicArr) {
     for (int i = 0; i < imgDicArr.count; i++) {
         NSDictionary *imageDic = [imgDicArr objectAtIndex:i];
         
         UIImageView *imgView = [[UIImageView alloc] init];
-        imgView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//        imgView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         imgView.contentMode = UIViewContentModeScaleAspectFill;
         imgView.clipsToBounds = YES;
+        imgView.layer.masksToBounds = YES;
         
         NSString *imgURL = [imageDic objectForKey:@"url"];
         NSNumber *width = [imageDic objectForKey:@"width"];
@@ -77,18 +78,19 @@
         }
         
         imgView.backgroundColor = [UIColor lightGrayColor];
-//        imgView.backgroundColor = [UIColor colorWithRed:i/255.0 green:(255-i)%255/255.0 blue:((255-i+1))%255/255.0 alpha:1];
+//        imgView.backgroundColor = [UIColor colorWithRed:0.3 green:i/imgDicArr.count blue:0.5 alpha:1];
         
 #warning todo sdwebimage使用有问题
-        [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-
-            [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(weakSelf.contentView.frame), viewHeight)];
-
-        }];
-
+//        [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//
+//            [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(weakSelf.contentView.frame), viewHeight)];
+//
+//        }];
+        [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
         [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight)];
+//        [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight-1)];
         
-        y += [height longValue];
+        y += viewHeight;
         
         [self.contentView addSubview:imgView];
     }
