@@ -14,6 +14,7 @@
 		A99CC702224CCBFB007B22C9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC701224CCBFB007B22C9 /* SystemConfiguration.framework */; };
 		A99CC704224CCC03007B22C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */; };
 		A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */; };
+		A9B35CE22281CF380041CE4C /* BTPost.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B35CE12281CF380041CE4C /* BTPost.m */; };
 		A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB61224BBCFD00B2FAFD /* Assets.xcassets */; };
 		A9B5CB65224BBCFD00B2FAFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB63224BBCFD00B2FAFD /* LaunchScreen.storyboard */; };
 		A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CB67224BBCFD00B2FAFD /* main.m */; };
@@ -66,6 +67,8 @@
 		A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIAccessHelper.m; sourceTree = "<group>"; };
 		A99CC708224CCCF6007B22C9 /* APIAccessHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIAccessHelper.h; sourceTree = "<group>"; };
+		A9B35CE02281CF380041CE4C /* BTPost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTPost.h; sourceTree = "<group>"; };
+		A9B35CE12281CF380041CE4C /* BTPost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTPost.m; sourceTree = "<group>"; };
 		A9B5CB55224BBCFC00B2FAFD /* TumblrViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B5CB61224BBCFD00B2FAFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9B5CB64224BBCFD00B2FAFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -302,6 +305,8 @@
 			children = (
 				A9D19FE72250C5B30043CFBE /* BTImageInfo.h */,
 				A9D19FE82250C5B30043CFBE /* BTImageInfo.m */,
+				A9B35CE02281CF380041CE4C /* BTPost.h */,
+				A9B35CE12281CF380041CE4C /* BTPost.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -564,6 +569,7 @@
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,
+				A9B35CE22281CF380041CE4C /* BTPost.m in Sources */,
 				A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */,
 				A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */,
 				A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */,

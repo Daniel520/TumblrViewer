@@ -14,7 +14,7 @@
 
 @interface BTDashboardCollectionCell()
 
-@property (nonatomic,strong) NSArray *cats;
+//@property (nonatomic,strong) NSArray *cats;
 
 @end
 
@@ -52,11 +52,30 @@
 //    return self;
 //}
 
-- (void)setImgDicArr:(NSArray *)imgDicArr
+- (void)setPost:(BTPost *)post
 {
     if (self.contentView.subviews.count > 0) {
         [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
+    
+    if (post.type == DBPhoto) {
+        [self setImgDicArr:post.imgURLs];
+    }else if (post.type == DBText) {
+        [self setContentText:post.text];
+    }
+}
+
+- (void)setContentText:(NSString*)text{
+    
+    UILabel *content = [[UILabel alloc] initWithFrame:self.bounds];
+    content.text = text;
+    content.numberOfLines = 0;
+    content.clipsToBounds = YES;
+    [self.contentView addSubview:content];
+}
+
+- (void)setImgDicArr:(NSArray *)imgDicArr
+{
     
 //    BTWeakSelf(weakSelf);
     long y = 0;

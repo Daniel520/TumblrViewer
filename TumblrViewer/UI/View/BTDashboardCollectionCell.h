@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BTImageInfo.h"
+#import "BTPost.h"
 
 #define CELL_IDENTIFIER @"DashboardCell"
 
@@ -15,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BTDashboardCollectionCell : UICollectionViewCell
 
-@property (nonatomic,strong) NSArray *imgDicArr;
+@property (nonatomic, strong) BTPost *post;
+//@property (nonatomic, strong) NSArray *imgDicArr;
 
 //- (instancetype)initWithImageInfo:(BTImageInfo*)imageInfo;
 //

@@ -10,6 +10,7 @@
 #import "APIAccessHelper.h"
 #import "BTDashboardCollectionCell.h"
 #import "BTImageInfo.h"
+#import "BTPost.h"
 
 #import "HTMLParser.h"
 #import <MJRefresh.h>
@@ -19,6 +20,8 @@
 #import <AFNetworking.h>
 #import <UIImageView+WebCache.h>
 
+
+
 @interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
@@ -26,9 +29,9 @@
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 //test
-//@property (nonatomic,strong) UIButton *authButton;
-//@property (nonatomic,strong) UITextView *textView;
-//@property (nonatomic,strong) UIImageView *testImageView;
+#warning  now is skip post type video, so use currentOffset to mark the offset. should disable in future
+@property (nonatomic, assign) NSInteger currentOffset;
+@property (nonatomic, strong) NSArray<BTPost*> *dashboardArr;
 
 @end
 
@@ -38,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    self.currentOffset = 0;
     self.title = @"Dashboard";
 }
 
@@ -72,28 +75,28 @@
 
 - (void)loadData:(BOOL)isLoadMore
 {
-    
-    
     BTWeakSelf(weakSelf);
     
     TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
     
     NSURLSessionTask *task = nil;
     
-    NSInteger offset = 0;
+//    NSInteger offset = 0;
     
-    if (isLoadMore) {
+    if (!isLoadMore) {
         
-        offset = self.dashboardImgArr.count;
-    } else {
+        //refresh current offset
+        self.currentOffset = 0;
+        
         //Just refresh to show loading
         [self showLoading];
         
         // clear data to refresh
-        self.dashboardImgArr = [NSArray new];
+//        self.dashboardImgArr = [NSArray new];
+        self.dashboardArr = [NSArray new];
     }
     
-    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+    task = [apiClient dashboardRequest:@{@"limit":@20,@"offset":@(self.currentOffset)} callback:^( id _Nullable response, NSError * _Nullable error){
         
         [weakSelf hideLoading];
         
@@ -105,6 +108,7 @@
 
 //        weakSelf.dashboardDic = response;
         //to get the img data and set to self.dashboardImgArr
+        weakSelf.currentOffset += 20;
         [weakSelf translteDashboardData:response];
         
         [weakSelf updateDashboard];
@@ -128,27 +132,41 @@
 
 - (void)translteDashboardData:(NSDictionary*)response
 {
-    NSArray *posts = [response objectForKey:@"posts"];
+    NSArray *tmPosts = [response objectForKey:@"posts"];
     
-    NSMutableArray *postsURLs = [NSMutableArray new];
+    NSMutableArray *posts = [NSMutableArray new];
     
-    for (NSDictionary *postDic in posts) {
+    for (NSDictionary *postDic in tmPosts) {
         NSString *type = [postDic objectForKey:@"type"];
+//        BTPost *post = [BTPost new];
+        
         if ([type isEqualToString:@"text"]) {
-            NSString *body = [postDic objectForKey:@"body"];
-            NSArray *imgURLs = [self getImageURLsFromPostBody:body];
-            [postsURLs addObject:imgURLs];
+//            NSString *body = [postDic objectForKey:@"body"];
+            BTPost *post = [self translatePostDic:postDic];
+            
+            if (post) {
+                [posts addObject:post];
+            }
+            
         } else if ([type isEqualToString:@"photo"]) {
             
             NSArray *postImages = [postDic objectForKey:@"photos"];
             
             NSArray *imgURLs = [self getImageURLsFromPhotos:postImages];
             
-            [postsURLs addObject:imgURLs];
+            if (imgURLs) {
+                BTPost *post = [BTPost new];
+                post.type = DBPhoto;
+                post.imgURLs = imgURLs;
+                
+                [posts addObject:post];
+            }
         }
     }
     
-    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:postsURLs];
+    
+    self.dashboardArr = [self.dashboardArr arrayByAddingObjectsFromArray:posts];
+//    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:posts];
 }
 
 - (NSArray*)getImageURLsFromPhotos:(NSArray *)photos
@@ -166,13 +184,25 @@
         
     }
     
-    return [imgURLs copy];
+    return imgURLs > 0 ? [imgURLs copy] : NULL;
 }
 
-- (NSArray*)getImageURLsFromPostBody:(NSString*)body
+- (BTPost*)translatePostDic:(NSDictionary*)postDic
 {
     NSError *error = nil;
     NSMutableArray *imgURLs = [NSMutableArray new];
+    NSString *content = @"";
+    
+    NSString *body = [postDic objectForKey:@"body"];
+    
+    if ([BTUtils isStringEmpty:body]) {
+        content = [postDic objectForKey:@"title"];
+        BTPost *post = [BTPost new];
+        post.type = DBText;
+        post.text = content;
+        
+        return post;
+    }
     
     HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
     
@@ -213,9 +243,29 @@
             [imgURLs addObject:imgDic];
         }
         
+        if (imageNodes.count == 0) {
+            content = [bodyNode allContents];
+//            NSArray *textNodes = [bodyNode findChildTags:@"p"];
+//
+//            for (HTMLNode *textNode in textNodes) {
+//                content = [[content stringByAppendingString:[textNode contents]] stringByAppendingString:@"\n"];
+//
+//            }
+        }
+        
     }
     
-    return [imgURLs copy];
+    BTPost *post = [BTPost new];
+    post.contentBody = body;
+    if (imgURLs && imgURLs.count > 0) {
+        post.type = DBPhoto;
+        post.imgURLs = imgURLs;
+    } else {
+        post.type = DBText;
+        post.text = content;
+    }
+    
+    return post;
 }
 
 - (NSDictionary *)translateImgDicByHTMLNode:(HTMLNode*)htmlNode
@@ -299,7 +349,7 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dashboardImgArr.count;
+    return self.dashboardArr.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -310,8 +360,10 @@
     BTDashboardCollectionCell *cell =
     (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
                                                                                 forIndexPath:indexPath];
+    BTPost *post = [self.dashboardArr objectAtIndex:indexPath.item];
+    [cell setPost:post];
     
-    cell.imgDicArr = [self.dashboardImgArr objectAtIndex:indexPath.item];
+//    cell.imgDicArr = [self.dashboardImgArr objectAtIndex:indexPath.item];
     return cell;
 }
 
@@ -333,27 +385,57 @@
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *imgDics = [self.dashboardImgArr objectAtIndex:indexPath.item];
     
-    //now use 100 width to show, then the height should sum all the photos' height
-    long width = 100;
-    long height = 0;
-    
-    for (NSDictionary *imgDic in imgDics) {
-        long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
-        long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+    BTPost *post = [self.dashboardArr objectAtIndex:indexPath.item];
+    if (post.type == DBPhoto) {
         
-        long adjustHeight = originHeight * width/originWidth;
+        //now use 100 width to show, then the height should sum all the photos' height
+        long width = 100;
+        long height = 0;
         
-        if (adjustHeight > SCREEN_HEIGHT) {
-            adjustHeight = SCREEN_HEIGHT;
+        for (NSDictionary *imgDic in post.imgURLs) {
+            long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
+            long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+            
+            long adjustHeight = originHeight * width/originWidth;
+            
+            if (adjustHeight > SCREEN_HEIGHT) {
+                adjustHeight = SCREEN_HEIGHT;
+            }
+            
+            height += adjustHeight;
+            
         }
         
-        height += adjustHeight;
-        
+        return CGSizeMake(width, height);
+    } else if (post.type == DBText) {
+        //now use 100 width to show, text height hardcode now to 150;
+        return CGSizeMake(100, 150);
     }
     
-    return CGSizeMake(width, height);
+    return CGSizeMake(0, 0);
+    
+//    NSArray *imgDics = [self.dashboardImgArr objectAtIndex:indexPath.item];
+//
+//    //now use 100 width to show, then the height should sum all the photos' height
+//    long width = 100;
+//    long height = 0;
+//
+//    for (NSDictionary *imgDic in imgDics) {
+//        long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
+//        long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+//
+//        long adjustHeight = originHeight * width/originWidth;
+//
+//        if (adjustHeight > SCREEN_HEIGHT) {
+//            adjustHeight = SCREEN_HEIGHT;
+//        }
+//
+//        height += adjustHeight;
+//
+//    }
+//
+//    return CGSizeMake(width, height);
 }
 
 /*
