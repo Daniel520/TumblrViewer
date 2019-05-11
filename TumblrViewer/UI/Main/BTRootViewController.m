@@ -9,8 +9,8 @@
 #import "BTRootViewController.h"
 #import "APIAccessHelper.h"
 #import "BTDashboardCollectionCell.h"
-#import "BTImageInfo.h"
 #import "BTPost.h"
+#import "BTPostGallaryViewController.h"
 
 #import "HTMLParser.h"
 #import <MJRefresh.h>
@@ -40,9 +40,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationItem setHidesBackButton:TRUE animated:NO];
+//    self.view.backgroundColor = [UIColor grayColor];
     self.currentOffset = 0;
     self.title = @"Dashboard";
+    [self loadData:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,7 +53,6 @@
     
     [self initDashboardCollectView];
     
-    [self loadData:NO];
 }
 
 - (void)showLoading
@@ -161,6 +162,13 @@
                 
                 [posts addObject:post];
             }
+        } else if ([type isEqualToString:@"video"]) {
+            
+            BTPost *post = [self translateVideoPostDic:postDic];
+            
+            if (post) {
+                [posts addObject:post];
+            }
         }
     }
     
@@ -185,6 +193,81 @@
     }
     
     return imgURLs > 0 ? [imgURLs copy] : NULL;
+}
+
+- (BTPost*)translateVideoPostDic:(NSDictionary*)postDic
+{
+    NSArray *videoInfos = [postDic objectForKey:@"player"];
+    BTPost *post = nil;
+    NSError *error = nil;
+    
+    BTVideoInfo *videoInfo = [BTVideoInfo new];
+    NSMutableArray *resInfoArray = [NSMutableArray new];
+    
+    for (NSDictionary *videoDic in videoInfos) {
+        NSString *videoInfoString = [videoDic objectForKey:@"embed_code"];
+        
+        if (![BTUtils isStringEmpty:videoInfoString]) {
+            
+            
+            if (error) {
+                NSLog(@"Error: %@", error);
+                continue;
+            }
+            
+            HTMLParser *parser = [[HTMLParser alloc] initWithString:videoInfoString error:&error];
+            
+            if (error) {
+                NSLog(@"Error: %@", error);
+                return nil;
+            }
+            
+            HTMLNode *bodyNode = [parser body];
+            
+            HTMLNode *videoNode = [bodyNode findChildTags:@"video"][0];
+            CGFloat width = [[videoNode getAttributeNamed:@"width"] floatValue];
+            CGFloat height = [[videoNode getAttributeNamed:@"height"] floatValue];
+            videoInfo.posterURL = [NSURL URLWithString:[videoNode getAttributeNamed:@"poster"]];
+            videoInfo.originVideoURL = [NSURL URLWithString:[videoNode getAttributeNamed:@"video_url"]];
+            
+            
+            
+            BTResInfo *resInfo = [BTResInfo new];
+            resInfo.size = CGSizeMake(width, height);
+            
+            HTMLNode *sourceNode = [videoNode findChildTags:@"source"][0];
+            videoInfo.fileType = [sourceNode getAttributeNamed:@"type"];
+            resInfo.resUrl = [NSURL URLWithString:[sourceNode getAttributeNamed:@"src"]];
+            
+            
+            [resInfoArray addObject:resInfo];
+            
+        } else {
+            continue;
+        }
+    }
+    
+    if (resInfoArray.count > 0) {
+        
+//        [resInfoArray sortUsingComparator:^NSComparisonResult(BTResInfo* info1, BTResInfo* info2){
+//            
+//            if (info1.size.width > info2.size.width) {
+//                return NSOrderedAscending;
+//            } else {
+//                return NSOrderedDescending;
+//            }
+//        
+//        }];
+        
+        videoInfo.resolutionInfo = [resInfoArray copy];
+        
+        post = [BTPost new];
+        post.videoInfo = videoInfo;
+        post.type = DBVideo;
+    }
+    
+    return post;
+    
 }
 
 - (BTPost*)translatePostDic:(NSDictionary*)postDic
@@ -367,6 +450,23 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    BTPost *post = [self.dashboardArr objectAtIndex:indexPath.item];
+    
+    switch (post.type) {
+        case DBVideo:
+            {
+                BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPost:post];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 //- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 //    UICollectionReusableView *reusableView = nil;
 //
@@ -387,30 +487,76 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     BTPost *post = [self.dashboardArr objectAtIndex:indexPath.item];
-    if (post.type == DBPhoto) {
-        
-        //now use 100 width to show, then the height should sum all the photos' height
-        long width = 100;
-        long height = 0;
-        
-        for (NSDictionary *imgDic in post.imgURLs) {
-            long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
-            long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+//    if (post.type == DBPhoto) {
+//        //now use 100 width to show, then the height should sum all the photos' height
+//        long width = 100;
+//        long height = 0;
+//
+//        for (NSDictionary *imgDic in post.imgURLs) {
+//            long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
+//            long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+//
+//            long adjustHeight = originHeight * width/originWidth;
+//
+//            if (adjustHeight > SCREEN_HEIGHT) {
+//                adjustHeight = SCREEN_HEIGHT;
+//            }
+//
+//            height += adjustHeight;
+//
+//        }
+//
+//        return CGSizeMake(width, height);
+//
+//    } else if (post.type == DBText) {
+//        //now use 100 width to show, text height hardcode now to 150;
+//        return CGSizeMake(100, 150);
+//    }
+    
+    
+    //now use 100 width to show, then the height should sum all the photos/text/video's height
+    long width = 100;
+    
+    switch (post.type) {
+        case DBPhoto:
+        {
+           
+            long height = 0;
             
-            long adjustHeight = originHeight * width/originWidth;
-            
-            if (adjustHeight > SCREEN_HEIGHT) {
-                adjustHeight = SCREEN_HEIGHT;
+            for (NSDictionary *imgDic in post.imgURLs) {
+                long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
+                long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+                
+                long adjustHeight = originHeight * width/originWidth;
+                
+                if (adjustHeight > SCREEN_HEIGHT) {
+                    adjustHeight = SCREEN_HEIGHT;
+                }
+                
+                height += adjustHeight;
+                
             }
             
-            height += adjustHeight;
-            
+            return CGSizeMake(width, height);
         }
-        
-        return CGSizeMake(width, height);
-    } else if (post.type == DBText) {
-        //now use 100 width to show, text height hardcode now to 150;
-        return CGSizeMake(100, 150);
+            break;
+        case DBText:
+        {
+            //now use 100 width to show, text height hardcode now to 150;
+            return CGSizeMake(width, 150);
+        }
+            break;
+        case DBVideo:{
+            CGFloat originWidth = post.videoInfo.resolutionInfo[0].size.width;
+            CGFloat originHeight = post.videoInfo.resolutionInfo[0].size.height;
+            
+            CGFloat height = originHeight * width/originWidth;
+            
+            return CGSizeMake(width, height);
+        }
+            break;
+        default:
+            break;
     }
     
     return CGSizeMake(0, 0);

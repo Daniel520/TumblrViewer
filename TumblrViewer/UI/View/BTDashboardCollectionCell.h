@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BTImageInfo.h"
 #import "BTPost.h"
 
 #define CELL_IDENTIFIER @"DashboardCell"

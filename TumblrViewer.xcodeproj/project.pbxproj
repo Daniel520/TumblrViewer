@@ -25,7 +25,6 @@
 		A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */; };
 		A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FD6224DDB350043CFBE /* BTUtils.m */; };
 		A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FDD224E2BE30043CFBE /* Storyboard.storyboard */; };
-		A9D19FE92250C5B30043CFBE /* BTImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FE82250C5B30043CFBE /* BTImageInfo.m */; };
 		A9D19FF22250CF370043CFBE /* BTDashboardCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF12250CF370043CFBE /* BTDashboardCollectionCell.m */; };
 		A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF62250EEE60043CFBE /* HTMLParser.m */; };
 		A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF82250EEE70043CFBE /* HTMLNode.m */; };
@@ -34,6 +33,7 @@
 		A9D1A003225208A80043CFBE /* cat3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FFF225208A80043CFBE /* cat3.jpg */; };
 		A9D1A004225208A80043CFBE /* cat4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A000225208A80043CFBE /* cat4.jpg */; };
 		A9D1A005225208A80043CFBE /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A001225208A80043CFBE /* cat1.jpg */; };
+		C3D44741228706F600E21E0C /* BTPostGallaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,8 +91,6 @@
 		A9D19FD6224DDB350043CFBE /* BTUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUtils.m; sourceTree = "<group>"; };
 		A9D19FDA224DEC860043CFBE /* BT_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BT_Prefix.pch; sourceTree = "<group>"; };
 		A9D19FDD224E2BE30043CFBE /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		A9D19FE72250C5B30043CFBE /* BTImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTImageInfo.h; sourceTree = "<group>"; };
-		A9D19FE82250C5B30043CFBE /* BTImageInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTImageInfo.m; sourceTree = "<group>"; };
 		A9D19FF02250CF370043CFBE /* BTDashboardCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTDashboardCollectionCell.h; sourceTree = "<group>"; };
 		A9D19FF12250CF370043CFBE /* BTDashboardCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTDashboardCollectionCell.m; sourceTree = "<group>"; };
 		A9D19FF42250EEE60043CFBE /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
@@ -104,6 +102,8 @@
 		A9D19FFF225208A80043CFBE /* cat3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat3.jpg; sourceTree = "<group>"; };
 		A9D1A000225208A80043CFBE /* cat4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat4.jpg; sourceTree = "<group>"; };
 		A9D1A001225208A80043CFBE /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
+		C3D4473F228706F600E21E0C /* BTPostGallaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTPostGallaryViewController.h; sourceTree = "<group>"; };
+		C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTPostGallaryViewController.m; sourceTree = "<group>"; };
 		D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -258,6 +258,8 @@
 				A9B5CB9B224BC08800B2FAFD /* BTMainTabViewController.m */,
 				A960E6ED224CBFF7007A9F2E /* BTRootViewController.h */,
 				A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */,
+				C3D4473F228706F600E21E0C /* BTPostGallaryViewController.h */,
+				C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -303,8 +305,6 @@
 		A9D19FE62250C59C0043CFBE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A9D19FE72250C5B30043CFBE /* BTImageInfo.h */,
-				A9D19FE82250C5B30043CFBE /* BTImageInfo.m */,
 				A9B35CE02281CF380041CE4C /* BTPost.h */,
 				A9B35CE12281CF380041CE4C /* BTPost.m */,
 			);
@@ -565,6 +565,7 @@
 				A9D19FF22250CF370043CFBE /* BTDashboardCollectionCell.m in Sources */,
 				A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */,
 				A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */,
+				C3D44741228706F600E21E0C /* BTPostGallaryViewController.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
@@ -573,7 +574,6 @@
 				A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */,
 				A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */,
 				A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */,
-				A9D19FE92250C5B30043CFBE /* BTImageInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

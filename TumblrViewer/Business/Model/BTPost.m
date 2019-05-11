@@ -8,6 +8,18 @@
 
 #import "BTPost.h"
 
+@implementation BTResInfo
+
+@end
+
+@implementation BTImageInfo
+
+@end
+
+@implementation BTVideoInfo
+
+@end
+
 @implementation BTPost
 
 @end
