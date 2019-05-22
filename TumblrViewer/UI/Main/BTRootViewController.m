@@ -151,14 +151,16 @@
             
         } else if ([type isEqualToString:@"photo"]) {
             
-            NSArray *postImages = [postDic objectForKey:@"photos"];
+//            NSArray *postImages = [postDic objectForKey:@"photos"];
+//            NSArray *imgURLs = [self getImageURLsFromPhotos:postImages];
             
-            NSArray *imgURLs = [self getImageURLsFromPhotos:postImages];
+            NSArray *imageInfos = [self translateImageFromDic:postDic];
             
-            if (imgURLs) {
+            if (imageInfos && imageInfos.count > 0) {
                 BTPost *post = [BTPost new];
                 post.type = DBPhoto;
-                post.imgURLs = imgURLs;
+//                post.imgURLs = imgURLs;
+                post.imageInfos = imageInfos;
                 
                 [posts addObject:post];
             }
@@ -175,6 +177,61 @@
     
     self.dashboardArr = [self.dashboardArr arrayByAddingObjectsFromArray:posts];
 //    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:posts];
+}
+
+- (NSArray*)translateImageFromDic:(NSDictionary*)postDic
+{
+    
+    NSArray *postImages = [postDic objectForKey:@"photos"];
+    
+    if (postImages.count > 0) {
+        
+        NSMutableArray<BTImageInfo*> *imageInfos = [NSMutableArray new];
+        
+        for (NSDictionary *photoDic in postImages) {
+            
+            BTImageInfo *imageInfo = [BTImageInfo new];
+            
+            BTResInfo *originRes = [BTResInfo new];
+            
+            NSDictionary *originSizeDic = [postDic objectForKey:@"original_size"];
+            
+            originRes.resUrl = [NSURL URLWithString:[originSizeDic objectForKey:@"url"]];
+            originRes.size = CGSizeMake([[originSizeDic objectForKey:@"width"] floatValue], [[originSizeDic objectForKey:@"height"] floatValue]);
+            
+            imageInfo.originResInfo = originRes;
+            
+            NSMutableArray<BTResInfo*> *imageResArr = [NSMutableArray new];
+            
+            NSArray *alt_sizes = [photoDic objectForKey:@"alt_sizes"];
+            
+            for (NSDictionary *sizeDic in alt_sizes) {
+                BTResInfo *resInfo = [BTResInfo new];
+                resInfo.resUrl = [NSURL URLWithString:[sizeDic objectForKey:@"url"]];
+                resInfo.size = CGSizeMake([[sizeDic objectForKey:@"width"] floatValue], [[sizeDic objectForKey:@"height"] floatValue]);
+                [imageResArr addObject:resInfo];
+            }
+
+            //By default, the image resolutaion array is sort by Descending, suppose no need to sort again.
+//            [imageResArr sortUsingComparator:^NSComparisonResult(BTResInfo* info1, BTResInfo* info2){
+//
+//                if (info1.size.width > info2.size.width) {
+//                    return NSOrderedAscending;
+//                } else {
+//                    return NSOrderedDescending;
+//                }
+//
+//            }];
+            
+            imageInfo.imageResArr = [imageResArr copy];
+            
+            [imageInfos addObject:imageInfo];
+        }
+        
+        return imageInfos;
+    }
+    
+    return nil;
 }
 
 - (NSArray*)getImageURLsFromPhotos:(NSArray *)photos
@@ -248,7 +305,7 @@
     }
     
     if (resInfoArray.count > 0) {
-        
+        //By default, the video resolutaion array is sort by Descending, suppose no need to sort again.
 //        [resInfoArray sortUsingComparator:^NSComparisonResult(BTResInfo* info1, BTResInfo* info2){
 //            
 //            if (info1.size.width > info2.size.width) {
@@ -273,7 +330,7 @@
 - (BTPost*)translatePostDic:(NSDictionary*)postDic
 {
     NSError *error = nil;
-    NSMutableArray *imgURLs = [NSMutableArray new];
+    NSMutableArray<BTImageInfo*> *imageInfos = [NSMutableArray new];
     NSString *content = @"";
     
     NSString *body = [postDic objectForKey:@"body"];
@@ -301,14 +358,13 @@
     if (imgNodes.count > 0) {
         
         for (HTMLNode *imgNode in imgNodes) {
-//            NSString *imgURL = [imgNode getAttributeNamed:@"src"];
-//            long imgHeight  = [[imgNode getAttributeNamed:@"data-orig-height"] longLongValue];
-//            long imgWidth   = [[imgNode getAttributeNamed:@"data-orig-width"] longLongValue];
-//
-//            NSDictionary *imgDic = @{@"url":imgURL,@"width":[NSNumber numberWithLong:imgWidth],@"height":[NSNumber numberWithLong:imgHeight]};
             
-            NSDictionary *imgDic = [self translateImgDicByHTMLNode:imgNode];
-            [imgURLs addObject:imgDic];
+//            NSDictionary *imgDic = [self translateImgDicByHTMLNode:imgNode];
+//            [imgURLs addObject:imgDic];
+            BTImageInfo *imageInfo = [self translateImgDicByHTMLNode:imgNode];
+            if (imageInfo) {
+                [imageInfos addObject:imageInfo];
+            }
         }
         
     } else if (imgNodes.count == 0) {
@@ -316,14 +372,13 @@
         NSArray *imageNodes = [bodyNode findChildTags:@"image"];
         
         for (HTMLNode *imgNode in imageNodes) {
-//            NSString *imgURL = [imgNode getAttributeNamed:@"src"];
-//            long imgHeight  = [[imgNode getAttributeNamed:@"data-orig-height"] longLongValue];
-//            long imgWidth   = [[imgNode getAttributeNamed:@"data-orig-width"] longLongValue];
-//
-//            NSDictionary *imgDic = @{@"url":imgURL,@"width":[NSNumber numberWithLong:imgWidth],@"height":[NSNumber numberWithLong:imgHeight]};
 
-            NSDictionary *imgDic = [self translateImgDicByHTMLNode:imgNode];
-            [imgURLs addObject:imgDic];
+//            NSDictionary *imgDic = [self translateImgDicByHTMLNode:imgNode];
+//            [imgURLs addObject:imgDic];
+            BTImageInfo *imageInfo = [self translateImgDicByHTMLNode:imgNode];
+            if (imageInfo) {
+                [imageInfos addObject:imageInfo];
+            }
         }
         
         if (imageNodes.count == 0) {
@@ -340,9 +395,10 @@
     
     BTPost *post = [BTPost new];
     post.contentBody = body;
-    if (imgURLs && imgURLs.count > 0) {
+    if (imageInfos && imageInfos.count > 0) {
         post.type = DBPhoto;
-        post.imgURLs = imgURLs;
+//        post.imgURLs = imgURLs;
+        post.imageInfos = [imageInfos copy];
     } else {
         post.type = DBText;
         post.text = content;
@@ -351,18 +407,38 @@
     return post;
 }
 
-- (NSDictionary *)translateImgDicByHTMLNode:(HTMLNode*)htmlNode
+//- (NSDictionary *)translateImgDicByHTMLNode:(HTMLNode*)htmlNode
+//{
+//    NSString *imgURL = [htmlNode getAttributeNamed:@"src"];
+//    long imgHeight  = [[htmlNode getAttributeNamed:@"data-orig-height"] longLongValue];
+//    long imgWidth   = [[htmlNode getAttributeNamed:@"data-orig-width"] longLongValue];
+//
+//    //translate the size to 100 to show in dashboard
+//    imgHeight = 100 * imgHeight/imgWidth;
+//    imgWidth = 100;
+//
+//    NSDictionary *imgDic = @{@"url":imgURL,@"width":[NSNumber numberWithLong:imgWidth],@"height":[NSNumber numberWithLong:imgHeight]};
+//    return imgDic;
+//}
+
+- (BTImageInfo *)translateImgDicByHTMLNode:(HTMLNode*)htmlNode
 {
     NSString *imgURL = [htmlNode getAttributeNamed:@"src"];
     long imgHeight  = [[htmlNode getAttributeNamed:@"data-orig-height"] longLongValue];
     long imgWidth   = [[htmlNode getAttributeNamed:@"data-orig-width"] longLongValue];
     
-    //translate the size to 100 to show in dashboard
-    imgHeight = 100 * imgHeight/imgWidth;
-    imgWidth = 100;
+    if (![BTUtils isStringEmpty:imgURL]) {
+        BTImageInfo *imageInfo = [BTImageInfo new];
+        BTResInfo *oriResInfo = [BTResInfo new];
+        
+        oriResInfo.resUrl = [NSURL URLWithString:imgURL];
+        oriResInfo.size = CGSizeMake(imgWidth, imgHeight);
+        
+        imageInfo.originResInfo = oriResInfo;
+        return imageInfo;
+    }
     
-    NSDictionary *imgDic = @{@"url":imgURL,@"width":[NSNumber numberWithLong:imgWidth],@"height":[NSNumber numberWithLong:imgHeight]};
-    return imgDic;
+    return nil;
 }
     
 
@@ -521,21 +597,47 @@
         case DBPhoto:
         {
            
-            long height = 0;
+            CGFloat height = 0;
             
-            for (NSDictionary *imgDic in post.imgURLs) {
-                long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
-                long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+            NSInteger resIndex = 0;
+            
+            CGFloat originWidth = 0, originHeight = 0;
+            
+            for (BTImageInfo *imageInfo in post.imageInfos) {
+                if (imageInfo.imageResArr && imageInfo.imageResArr.count > 0) {
+                    resIndex = imageInfo.imageResArr.count - 2;
+                    //get the last - 1 res for list view to display
+                    BTResInfo *resInfo = [imageInfo.imageResArr objectAtIndex:resIndex];
+                    originWidth = resInfo.size.width;
+                    originHeight = resInfo.size.height;
+                } else {
+                    BTResInfo *resInfo = imageInfo.originResInfo;
+                    originWidth = resInfo.size.width;
+                    originHeight = resInfo.size.height;
+                }
                 
-                long adjustHeight = originHeight * width/originWidth;
+                CGFloat adjustHeight = originHeight * width/originWidth;
                 
                 if (adjustHeight > SCREEN_HEIGHT) {
                     adjustHeight = SCREEN_HEIGHT;
                 }
                 
                 height += adjustHeight;
-                
             }
+            
+//            for (NSDictionary *imgDic in post.imgURLs) {
+//                long originWidth = [(NSNumber*)[imgDic objectForKey:@"width"] longValue];
+//                long originHeight = [(NSNumber*)[imgDic objectForKey:@"height"] longValue];
+//
+//                long adjustHeight = originHeight * width/originWidth;
+//
+//                if (adjustHeight > SCREEN_HEIGHT) {
+//                    adjustHeight = SCREEN_HEIGHT;
+//                }
+//
+//                height += adjustHeight;
+//
+//            }
             
             return CGSizeMake(width, height);
         }

@@ -60,7 +60,8 @@
     }
     
     if (post.type == DBPhoto) {
-        [self setImgDicArr:post.imgURLs];
+//        [self setImgDicArr:post.imgURLs];
+        [self setImageArr:post.imageInfos];
     }else if (post.type == DBText) {
         [self setContentText:post.text];
     }else if (post.type == DBVideo) {
@@ -110,41 +111,56 @@
     [self.contentView addSubview:content];
 }
 
-- (void)setImgDicArr:(NSArray *)imgDicArr
+- (void)setImageArr:(NSArray*)imageArr
 {
-    
-//    BTWeakSelf(weakSelf);
+    //    BTWeakSelf(weakSelf);
     long y = 0;
-    for (int i = 0; i < imgDicArr.count; i++) {
-        NSDictionary *imageDic = [imgDicArr objectAtIndex:i];
+    for (int i = 0; i < imageArr.count; i++) {
         
-//        UIImageView *imgView = [[UIImageView alloc] init];
-//        imgView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        BTImageInfo *imageInfo = [imageArr objectAtIndex:i];
         FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc]init];
         imgView.contentMode = UIViewContentModeScaleAspectFill;
-//        imgView.clipsToBounds = YES;
-//        imgView.layer.masksToBounds = YES;
         
-        NSString *imgURL = [imageDic objectForKey:@"url"];
-        NSNumber *width = [imageDic objectForKey:@"width"];
-        NSNumber *height = [imageDic objectForKey:@"height"];
+        NSURL *imgURL = nil;
+        CGFloat width = 0 , height = 0;
         
-        long viewHeight = [height longValue] * CGRectGetWidth(self.contentView.frame) / [width longValue] ;
-    
+        NSInteger resIndex = -1;
+        
+        if (imageInfo.imageResArr && imageInfo.imageResArr.count > 0) {
+            resIndex = imageInfo.imageResArr.count - 2;
+            //get the last - 1 res for list view to display
+            BTResInfo *resInfo = [imageInfo.imageResArr objectAtIndex:resIndex];
+            imgURL = resInfo.resUrl;
+            width = resInfo.size.width;
+            height = resInfo.size.height;
+        } else {
+            BTResInfo *resInfo = imageInfo.originResInfo;
+            imgURL = resInfo.resUrl;
+            width = resInfo.size.width;
+            height = resInfo.size.height;
+        }
+        
+        CGFloat viewHeight = height * CGRectGetWidth(self.contentView.frame) / width;
+        
         if (viewHeight > SCREEN_HEIGHT) {
             viewHeight = SCREEN_HEIGHT;
         }
         
         imgView.backgroundColor = [UIColor lightGrayColor];
-//        imgView.backgroundColor = [UIColor colorWithRed:0.3 green:i/imgDicArr.count blue:0.5 alpha:1];
+        //        imgView.backgroundColor = [UIColor colorWithRed:0.3 green:i/imgDicArr.count blue:0.5 alpha:1];
         
-//        if (![[NSURL URLWithString:imgURL].lastPathComponent.lowercaseString isEqualToString:@"gif"]) {
-//            [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
-//        }else{
+        //        if (![[NSURL URLWithString:imgURL].lastPathComponent.lowercaseString isEqualToString:@"gif"]) {
+        //            [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
+        //        }else{
+        //
+        //        }
+        
+        
+//        [imgView sd_setImageWithURL:imgURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
 //
-//        }
-        
-        [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
+//        }];
+#warning todo extend sdwebimage to support change url after retry
+        [imgView sd_setImageWithURL:imgURL];
         [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight)];
         
         y += viewHeight;
@@ -152,6 +168,44 @@
         [self.contentView addSubview:imgView];
     }
 }
+
+//- (void)setImgDicArr:(NSArray *)imgDicArr
+//{
+//    
+////    BTWeakSelf(weakSelf);
+//    long y = 0;
+//    for (int i = 0; i < imgDicArr.count; i++) {
+//        NSDictionary *imageDic = [imgDicArr objectAtIndex:i];
+//        FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc]init];
+//        imgView.contentMode = UIViewContentModeScaleAspectFill;
+//        
+//        NSString *imgURL = [imageDic objectForKey:@"url"];
+//        NSNumber *width = [imageDic objectForKey:@"width"];
+//        NSNumber *height = [imageDic objectForKey:@"height"];
+//        
+//        long viewHeight = [height longValue] * CGRectGetWidth(self.contentView.frame) / [width longValue] ;
+//    
+//        if (viewHeight > SCREEN_HEIGHT) {
+//            viewHeight = SCREEN_HEIGHT;
+//        }
+//        
+//        imgView.backgroundColor = [UIColor lightGrayColor];
+////        imgView.backgroundColor = [UIColor colorWithRed:0.3 green:i/imgDicArr.count blue:0.5 alpha:1];
+//        
+////        if (![[NSURL URLWithString:imgURL].lastPathComponent.lowercaseString isEqualToString:@"gif"]) {
+////            [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
+////        }else{
+////
+////        }
+//        
+//        [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
+//        [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight)];
+//        
+//        y += viewHeight;
+//        
+//        [self.contentView addSubview:imgView];
+//    }
+//}
 
 
 @end

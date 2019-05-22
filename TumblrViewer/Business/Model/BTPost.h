@@ -24,7 +24,7 @@
 ////image
 //#define IMAGE_HEIGHT @"height"
 //#define IMAGE_WIDTH @"width"
-//#define ALT_SIZES @"alt_sizes"
+//#define ALT_SIZE00S @"alt_sizes"
 //#define ORI_SIZES @"original_size"
 
 typedef enum
@@ -71,7 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) Dashboad_Type type;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) BTImageInfo *imageInfo;
+//@property (nonatomic, strong) BTImageInfo *imageInfo;
+@property (nonatomic, strong) NSArray<BTImageInfo*> *imageInfos;
 @property (nonatomic, strong) BTVideoInfo *videoInfo;
 
 //test
