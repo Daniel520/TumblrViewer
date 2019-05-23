@@ -15,6 +15,7 @@
 		A99CC704224CCC03007B22C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */; };
 		A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */; };
 		A9B35CE22281CF380041CE4C /* BTPost.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B35CE12281CF380041CE4C /* BTPost.m */; };
+		A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B40EEA2295924A006A3762 /* BTPostGallaryViewController.m */; };
 		A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB61224BBCFD00B2FAFD /* Assets.xcassets */; };
 		A9B5CB65224BBCFD00B2FAFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5CB63224BBCFD00B2FAFD /* LaunchScreen.storyboard */; };
 		A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CB67224BBCFD00B2FAFD /* main.m */; };
@@ -33,7 +34,6 @@
 		A9D1A003225208A80043CFBE /* cat3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FFF225208A80043CFBE /* cat3.jpg */; };
 		A9D1A004225208A80043CFBE /* cat4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A000225208A80043CFBE /* cat4.jpg */; };
 		A9D1A005225208A80043CFBE /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A001225208A80043CFBE /* cat1.jpg */; };
-		C3D44741228706F600E21E0C /* BTPostGallaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +69,8 @@
 		A99CC708224CCCF6007B22C9 /* APIAccessHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIAccessHelper.h; sourceTree = "<group>"; };
 		A9B35CE02281CF380041CE4C /* BTPost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTPost.h; sourceTree = "<group>"; };
 		A9B35CE12281CF380041CE4C /* BTPost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTPost.m; sourceTree = "<group>"; };
+		A9B40EE92295924A006A3762 /* BTPostGallaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTPostGallaryViewController.h; sourceTree = "<group>"; };
+		A9B40EEA2295924A006A3762 /* BTPostGallaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTPostGallaryViewController.m; sourceTree = "<group>"; };
 		A9B5CB55224BBCFC00B2FAFD /* TumblrViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B5CB61224BBCFD00B2FAFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9B5CB64224BBCFD00B2FAFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -102,8 +104,6 @@
 		A9D19FFF225208A80043CFBE /* cat3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat3.jpg; sourceTree = "<group>"; };
 		A9D1A000225208A80043CFBE /* cat4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat4.jpg; sourceTree = "<group>"; };
 		A9D1A001225208A80043CFBE /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
-		C3D4473F228706F600E21E0C /* BTPostGallaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTPostGallaryViewController.h; sourceTree = "<group>"; };
-		C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTPostGallaryViewController.m; sourceTree = "<group>"; };
 		D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -168,6 +168,7 @@
 		A99CC6F9224CC5FE007B22C9 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				A9B40EED22959465006A3762 /* LogicService */,
 				A9D19FE62250C59C0043CFBE /* Model */,
 				A99CC700224CC915007B22C9 /* APIAccess */,
 			);
@@ -181,6 +182,13 @@
 				A99CC707224CCCF6007B22C9 /* APIAccessHelper.m */,
 			);
 			path = APIAccess;
+			sourceTree = "<group>";
+		};
+		A9B40EED22959465006A3762 /* LogicService */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LogicService;
 			sourceTree = "<group>";
 		};
 		A9B5CB4C224BBCFC00B2FAFD = {
@@ -258,8 +266,6 @@
 				A9B5CB9B224BC08800B2FAFD /* BTMainTabViewController.m */,
 				A960E6ED224CBFF7007A9F2E /* BTRootViewController.h */,
 				A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */,
-				C3D4473F228706F600E21E0C /* BTPostGallaryViewController.h */,
-				C3D44740228706F600E21E0C /* BTPostGallaryViewController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -269,6 +275,8 @@
 			children = (
 				A9B5CB9F224BC0C400B2FAFD /* LoginViewController.h */,
 				A9B5CBA0224BC0C400B2FAFD /* LoginViewController.m */,
+				A9B40EE92295924A006A3762 /* BTPostGallaryViewController.h */,
+				A9B40EEA2295924A006A3762 /* BTPostGallaryViewController.m */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -565,7 +573,7 @@
 				A9D19FF22250CF370043CFBE /* BTDashboardCollectionCell.m in Sources */,
 				A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */,
 				A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */,
-				C3D44741228706F600E21E0C /* BTPostGallaryViewController.m in Sources */,
+				A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
