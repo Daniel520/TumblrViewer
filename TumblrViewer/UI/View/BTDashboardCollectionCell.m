@@ -113,13 +113,13 @@
 
 - (void)setImageArr:(NSArray*)imageArr
 {
-    //    BTWeakSelf(weakSelf);
+    BTWeakSelf(weakSelf);
     long y = 0;
     for (int i = 0; i < imageArr.count; i++) {
         
         BTImageInfo *imageInfo = [imageArr objectAtIndex:i];
         FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc]init];
-        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.contentMode = UIViewContentModeScaleAspectFit;
         
         NSURL *imgURL = nil;
         CGFloat width = 0 , height = 0;
@@ -140,7 +140,8 @@
             height = resInfo.size.height;
         }
         
-        CGFloat viewHeight = height * CGRectGetWidth(self.contentView.frame) / width;
+        CGFloat viewWidth = CGRectGetWidth(self.contentView.frame);
+        CGFloat viewHeight = height * viewWidth / width;
         
         if (viewHeight > SCREEN_HEIGHT) {
             viewHeight = SCREEN_HEIGHT;
@@ -160,6 +161,17 @@
 //
 //        }];
 #warning todo extend sdwebimage to support change url after retry
+//        [imgView sd_setImageWithURL:imgURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
+//            CGFloat imageRate = image.size.height / image.size.width;
+//            CGFloat imageViewRate = viewHeight / viewWidth;
+//
+//            if (fabs(imageRate - imageViewRate) > 0.03) {
+//                [imgView setFrame:CGRectMake(imgView.frame.origin.x, imgView.frame.origin.y, viewWidth, viewHeight)];
+//
+//                imgView.contentMode = UIViewContentModeScaleAspectFit;
+//            }
+//
+//        }];
         [imgView sd_setImageWithURL:imgURL];
         [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight)];
         

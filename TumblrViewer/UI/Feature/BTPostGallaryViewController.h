@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BTPostGallaryViewController : UIViewController
 
 - (instancetype)initWithPost:(BTPost*)post;
+- (instancetype)initWithPosts:(NSArray<BTPost*>*)posts withRange:(NSRange)range underType:(int)type;
 
 @end
 

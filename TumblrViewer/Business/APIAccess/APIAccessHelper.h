@@ -38,6 +38,8 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 - (void)authenticate:(BTAuthenticationCallback)callback;
 //- (void)getBlogBaseInfo:(NSString*)blogID;
 
+- (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
+
 @end
 
 NS_ASSUME_NONNULL_END

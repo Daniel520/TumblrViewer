@@ -7,13 +7,10 @@
 //
 
 #import "BTPostGallaryViewController.h"
-#import <AVKit/AVKit.h>
-//#import <AVFoundation/AVFoundation.h>
 
 @interface BTPostGallaryViewController ()
 
 @property (nonatomic, strong) BTPost *post;
-@property (nonatomic, strong) AVPlayerViewController *playerController;
 
 @end
 
@@ -31,24 +28,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[self.post.videoInfo.resolutionInfo lastObject].resUrl];
-    
-    self.playerController = [[AVPlayerViewController alloc] init];
-    self.playerController.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-    self.playerController.videoGravity = AVLayerVideoGravityResizeAspect;
-    self.playerController.showsPlaybackControls = YES;
+//    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[self.post.videoInfo.resolutionInfo lastObject].resUrl];
+//
+//    self.playerController = [[AVPlayerViewController alloc] init];
+//    self.playerController.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+//    self.playerController.videoGravity = AVLayerVideoGravityResizeAspect;
+//    self.playerController.showsPlaybackControls = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
-    self.playerController.view.frame = self.view.bounds;
-    [self addChildViewController:self.playerController];
-    [self.view addSubview:self.playerController.view];
-//    [self addObserverForPlayer];
-    [self.playerController.player play];
     
 }
 

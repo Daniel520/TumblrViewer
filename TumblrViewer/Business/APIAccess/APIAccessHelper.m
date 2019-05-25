@@ -135,6 +135,24 @@ static APIAccessHelper *instance = nil;
     return config;
 }
 
+- (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = nil;
+    
+    task = [apiClient dashboardRequest:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+        
+        
+        if (error) {
+            NSLog(@"error info:%@",error);
+        }
+        callback(response, error);
+    }];
+    
+    [task resume];
+}
+
 //- (void)getBlogBaseInfo:(NSString*)blogID
 //{
 //    NSString *accessURI = [[API_HEADER stringByAppendingString:API_VERSION] stringByAppendingString:BLOG_INFO];
