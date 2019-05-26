@@ -77,7 +77,6 @@
         if ([type isEqualToString:@"text"]) {
             //            NSString *body = [postDic objectForKey:@"body"];
             BTPost *post = [self translatePostDic:postDic];
-            
             if (post) {
                 [posts addObject:post];
             }
@@ -237,7 +236,6 @@
             //            }];
             
             imageInfo.imageResArr = [imageResArr copy];
-            
             [imageInfos addObject:imageInfo];
         }
         
