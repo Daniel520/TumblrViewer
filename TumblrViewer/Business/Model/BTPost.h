@@ -76,14 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) BTVideoInfo *videoInfo;
 
 //test
-@property (nonatomic, strong) NSArray *imgURLs;
-@property (nonatomic, strong) NSArray *videoURLs;
+//@property (nonatomic, strong) NSArray *imgURLs;
+//@property (nonatomic, strong) NSArray *videoURLs;
 
 //HTML body source
 @property (nonatomic, strong) NSString *contentBody;
 
-#warning todo implement translate logic
-+ (BTPost*)translatePostDic:(NSDictionary*)postDic;
+//#warning todo implement translate logic
+//+ (BTPost*)translatePostDic:(NSDictionary*)postDic;
 
 @end
 

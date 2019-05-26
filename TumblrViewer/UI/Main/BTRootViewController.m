@@ -167,7 +167,6 @@
     BTPost *post = [self.postDataCenter.posts objectAtIndex:indexPath.item];
     [cell setPost:post];
     
-//    cell.imgDicArr = [self.dashboardImgArr objectAtIndex:indexPath.item];
     return cell;
 }
 
