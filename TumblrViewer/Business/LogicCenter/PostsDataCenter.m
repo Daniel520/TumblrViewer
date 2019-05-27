@@ -45,8 +45,12 @@
         case Type_Dashboard:{
             [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
                 
+                if (error) {
+                    NSLog(@"error info:%@",error);
+                }
                 
-                weakSelf.currentOffset += weakSelf.postArr.count;
+//                weakSelf.currentOffset += weakSelf.postArr.count;
+//                weakSelf.currentOffset += PAGELEN;
                 NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
                 
                 [weakSelf.postArr addObjectsFromArray:returnPosts];
@@ -67,6 +71,8 @@
 - (NSArray *)translteDashboardData:(NSDictionary*)dashboardDic
 {
     NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
+    
+    self.currentOffset += tmPosts.count;
     
     NSMutableArray *posts = [NSMutableArray new];
     
@@ -294,6 +300,11 @@
             
             HTMLNode *bodyNode = [parser body];
             
+            NSArray *videoNodes = [bodyNode findChildTags:@"video"];
+            if (videoNodes.count == 0) {
+#warning todo, to support order third party video link, like youtube
+                continue;
+            }
             HTMLNode *videoNode = [bodyNode findChildTags:@"video"][0];
             CGFloat width = [[videoNode getAttributeNamed:@"width"] floatValue];
             CGFloat height = [[videoNode getAttributeNamed:@"height"] floatValue];
