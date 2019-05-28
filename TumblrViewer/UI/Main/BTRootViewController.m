@@ -112,40 +112,42 @@
 
 - (void)initDashboardCollectView
 {
-    BTWeakSelf(weakSelf);
-    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
-
-    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    layout.headerHeight = 0;
-    layout.footerHeight = 0;
-    layout.minimumColumnSpacing = 5;
-    layout.minimumInteritemSpacing = 0;
-    layout.columnCount = 4;
-//    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight;
-    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
-    
-    self.mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height - self.navigationController.navigationBar.frame.size.height - 20) collectionViewLayout:layout];
-    self.mainCollectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.mainCollectionView.dataSource = self;
-    self.mainCollectionView.delegate = self;
-    self.mainCollectionView.backgroundColor = [UIColor whiteColor];
-    [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
-            forCellWithReuseIdentifier:CELL_IDENTIFIER];
-    [self.view addSubview:self.mainCollectionView];
-    //    [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]
-    //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
-    //               withReuseIdentifier:HEADER_IDENTIFIER];
-    //    [_collectionView registerClass:[CHTCollectionViewWaterfallFooter class]
-    //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionFooter
-    //               withReuseIdentifier:FOOTER_IDENTIFIER];
-    
-    self.mainCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [weakSelf loadData:NO];
-    }];
-    
-    self.mainCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        [weakSelf loadData:YES];
-    }];
+    if(!self.mainCollectionView){
+        BTWeakSelf(weakSelf);
+        CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+        
+        layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        layout.headerHeight = 0;
+        layout.footerHeight = 0;
+        layout.minimumColumnSpacing = 5;
+        layout.minimumInteritemSpacing = 0;
+        layout.columnCount = 4;
+        //    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight;
+        layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
+        
+        self.mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height + 20, self.view.bounds.size.width, self.view.bounds.size.height - self.navigationController.navigationBar.frame.size.height - 20) collectionViewLayout:layout];
+        self.mainCollectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        self.mainCollectionView.dataSource = self;
+        self.mainCollectionView.delegate = self;
+        self.mainCollectionView.backgroundColor = [UIColor whiteColor];
+        [self.mainCollectionView registerClass:[BTDashboardCollectionCell class]
+                    forCellWithReuseIdentifier:CELL_IDENTIFIER];
+        [self.view addSubview:self.mainCollectionView];
+        //    [_collectionView registerClass:[CHTCollectionViewWaterfallHeader class]
+        //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
+        //               withReuseIdentifier:HEADER_IDENTIFIER];
+        //    [_collectionView registerClass:[CHTCollectionViewWaterfallFooter class]
+        //        forSupplementaryViewOfKind:CHTCollectionElementKindSectionFooter
+        //               withReuseIdentifier:FOOTER_IDENTIFIER];
+        
+        self.mainCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            [weakSelf loadData:NO];
+        }];
+        
+        self.mainCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            [weakSelf loadData:YES];
+        }];
+    }
     
 }
 
