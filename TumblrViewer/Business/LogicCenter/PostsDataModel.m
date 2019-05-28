@@ -6,21 +6,29 @@
 //  Copyright © 2019 jingda yu. All rights reserved.
 //
 
-#import "PostsDataCenter.h"
+#import "PostsDataModel.h"
 #import "APIAccessHelper.h"
 #import "HTMLParser.h"
 
 #define PAGELEN 20
 
 
-@interface PostsDataCenter()
+@interface PostsDataModel()
 
 @property (nonatomic, strong) NSMutableArray *postArr;
 @property (nonatomic, assign) NSInteger currentOffset;
 
 @end
 
-@implementation PostsDataCenter
+@implementation PostsDataModel
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    PostsDataModel *postDataModel = [[[self class] allocWithZone:zone] init];
+    postDataModel.postArr = [self.postArr mutableCopy];
+    postDataModel.currentOffset = self.currentOffset;
+    return postDataModel;
+}
 
 - (NSArray*)posts
 {

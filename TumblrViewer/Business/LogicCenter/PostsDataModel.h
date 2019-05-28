@@ -18,7 +18,7 @@ typedef enum {
 
 typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * _Nullable error);
 
-@interface PostsDataCenter : NSObject
+@interface PostsDataModel : NSObject <NSCopying>
 
 @property (nonatomic, strong, readonly) NSArray *posts;
 

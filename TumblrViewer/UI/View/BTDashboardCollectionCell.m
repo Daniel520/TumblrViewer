@@ -22,36 +22,11 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-//        self.contentView.backgroundColor = [UIColor lightGrayColor];
-//        self.contentView.layer.cornerRadius = 5;
-//        self.cats = @[@"cat1.jpg", @"cat2.jpg", @"cat3.jpg", @"cat4.jpg"];
+        
     }
     return self;
 }
 
-
-//- (instancetype)initWithImageInfo:(BTImageInfo *)imageInfo
-//{
-//    return  [self initWithImageInfos:@[imageInfo]];
-//}
-//
-//- (instancetype)initWithImageInfos:(NSArray *)imageInfoArr
-//{
-//    if (self = [super init]) {
-//
-//    }
-//
-//    return self;
-//}
-//
-//- (instancetype)initWithImageURLs:(NSArray*)imgeURLs
-//{
-//    if (self = [super init]) {
-//
-//    }
-//
-//    return self;
-//}
 
 - (void)setPost:(BTPost *)post
 {
@@ -96,7 +71,12 @@
     [playImgView setImage:[UIImage imageNamed:@"video_play"]];
 //    [playBtn setImage:[UIImage imageNamed:@"video_play"] forState:UIControlStateNormal];
     playImgView.frame = CGRectMake(0, 0, playImgView.image.size.width, playImgView.image.size.height);
+    playImgView.tag = 0;
     playImgView.center = imgView.center;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    [imgView addGestureRecognizer:tapGesture];
+    imgView.userInteractionEnabled = YES;
     
     [self.contentView addSubview:playImgView];
     
@@ -107,18 +87,23 @@
     UILabel *content = [[UILabel alloc] initWithFrame:self.bounds];
     content.text = text;
     content.numberOfLines = 0;
-//    content.clipsToBounds = YES;
+    content.tag = 0;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    [content addGestureRecognizer:tapGesture];
+
     [self.contentView addSubview:content];
 }
 
 - (void)setImageArr:(NSArray*)imageArr
 {
-    BTWeakSelf(weakSelf);
+//    BTWeakSelf(weakSelf);
     long y = 0;
     for (int i = 0; i < imageArr.count; i++) {
         
         BTImageInfo *imageInfo = [imageArr objectAtIndex:i];
         FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc]init];
+        imgView.tag = i;
         imgView.contentMode = UIViewContentModeScaleAspectFit;
         
         NSURL *imgURL = nil;
@@ -175,9 +160,22 @@
         [imgView sd_setImageWithURL:imgURL];
         [imgView setFrame:CGRectMake(0, y, CGRectGetWidth(self.contentView.frame), viewHeight)];
         
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+        [imgView addGestureRecognizer:tapGesture];
+        imgView.userInteractionEnabled = YES;
+        
         y += viewHeight;
         
         [self.contentView addSubview:imgView];
+    }
+}
+
+- (void)tapClick:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(tapInCell:Type:withIndex:)]) {
+        UITapGestureRecognizer *tapGesture = (UITapGestureRecognizer*)sender;
+        NSInteger index = tapGesture.view.tag;
+        [self.delegate tapInCell:self Type:self.post.type withIndex:index];
     }
 }
 

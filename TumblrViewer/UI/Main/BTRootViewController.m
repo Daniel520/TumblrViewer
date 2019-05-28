@@ -12,7 +12,7 @@
 #import "BTPostGallaryViewController.h"
 #import "BTVideoPlayViewController.h"
 
-#import "PostsDataCenter.h"
+#import "PostsDataModel.h"
 #import <MJRefresh.h>
 
 #import <CHTCollectionViewWaterfallLayout.h>
@@ -21,11 +21,11 @@
 
 
 
-@interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout>
+@interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,BTPostContentActionDelegate>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
-@property (nonatomic, strong) PostsDataCenter *postDataCenter;
+@property (nonatomic, strong) PostsDataModel *postDataModel;
 
 @end
 
@@ -38,7 +38,7 @@
 //    self.view.backgroundColor = [UIColor grayColor];
 //    self.currentOffset = 0;
     self.title = @"Dashboard";
-    self.postDataCenter = [PostsDataCenter new];
+    self.postDataModel = [PostsDataModel new];
     [self loadData:NO];
 }
 
@@ -77,7 +77,7 @@
         [self showLoading];
     }
     
-    [self.postDataCenter loadData:isLoadMore withType:Type_Dashboard callback:^(NSArray<BTPost*> *posts, NSError * error){
+    [self.postDataModel loadData:isLoadMore withType:Type_Dashboard callback:^(NSArray<BTPost*> *posts, NSError * error){
 
         if (error) {
             NSLog(@"error info:%@",error);
@@ -155,7 +155,7 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.postDataCenter.posts.count;
+    return self.postDataModel.posts.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -166,50 +166,39 @@
     BTDashboardCollectionCell *cell =
     (BTDashboardCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
                                                                                 forIndexPath:indexPath];
-    BTPost *post = [self.postDataCenter.posts objectAtIndex:indexPath.item];
+    BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
+    cell.delegate = self;
     [cell setPost:post];
+    
     
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    BTPost *post = [self.postDataCenter.posts objectAtIndex:indexPath.item];
-    
-    switch (post.type) {
-        case DBVideo:
-            {
-                BTVideoPlayViewController *vc = [[BTVideoPlayViewController alloc] initWithPost:post];
-//                BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPost:post];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-//    UICollectionReusableView *reusableView = nil;
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
 //
-//    if ([kind isEqualToString:CHTCollectionElementKindSectionHeader]) {
-//        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-//                                                          withReuseIdentifier:HEADER_IDENTIFIER
-//                                                                 forIndexPath:indexPath];
-//    } else if ([kind isEqualToString:CHTCollectionElementKindSectionFooter]) {
-//        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-//                                                          withReuseIdentifier:FOOTER_IDENTIFIER
-//                                                                 forIndexPath:indexPath];
+//    switch (post.type) {
+//        case DBVideo:
+//        {
+//            BTVideoPlayViewController *vc = [[BTVideoPlayViewController alloc] initWithPost:post];
+//            //                BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPost:post];
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }
+//            break;
+//        case DBPhoto:{
+//
+//            break;
+//        }
+//        default:
+//            break;
 //    }
-//
-//    return reusableView;
 //}
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    BTPost *post = [self.postDataCenter.posts objectAtIndex:indexPath.item];
+    BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
     
     //now use 100 width to show, then the height should sum all the photos/text/video's height
     long width = 100;
@@ -283,6 +272,34 @@
     }
     
     return CGSizeMake(0, 0);
+}
+
+#pragma mark BTPostContentActionDelegate
+
+- (void)tapInCell:(BTDashboardCollectionCell *)cell Type:(BTPostType)type withIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.mainCollectionView indexPathForCell:cell];
+    BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
+    
+    switch (type) {
+        case DBVideo:
+        {
+            BTVideoPlayViewController *vc = [[BTVideoPlayViewController alloc] initWithPost:post];
+            //                BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPost:post];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case DBPhoto:{
+#warning todo complete the photo browser logic
+            //indexPath.item is for the image index of this post, section is for the post's index of this dashboard data.
+            NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
+            BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 /*

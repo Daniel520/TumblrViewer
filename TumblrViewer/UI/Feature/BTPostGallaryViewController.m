@@ -7,14 +7,30 @@
 //
 
 #import "BTPostGallaryViewController.h"
+#import <UIImageView+WebCache.h>
+#import <UIImage+GIF.h>
+#import <FLAnimatedImageView.h>
+#import <FLAnimatedImageView+WebCache.h>
 
 @interface BTPostGallaryViewController ()
 
 @property (nonatomic, strong) BTPost *post;
+@property (nonatomic, strong) PostsDataModel *postDataModel;
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
 
 @end
 
 @implementation BTPostGallaryViewController
+
+- (instancetype)initWithPostsDataCenter:(PostsDataModel *)dataModel atIndexPath:(NSIndexPath *)indexPath
+{
+    self = [super init];
+    if (self) {
+        self.postDataModel = dataModel;
+        self.currentIndexPath = indexPath;
+    }
+    return self;
+}
 
 - (instancetype)initWithPost:(BTPost*)post
 {
@@ -28,19 +44,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[self.post.videoInfo.resolutionInfo lastObject].resUrl];
-//
-//    self.playerController = [[AVPlayerViewController alloc] init];
-//    self.playerController.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-//    self.playerController.videoGravity = AVLayerVideoGravityResizeAspect;
-//    self.playerController.showsPlaybackControls = YES;
+    self.view.backgroundColor = [UIColor blackColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc] initWithFrame:self.view.bounds];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
     
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
     
+    BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:self.currentIndexPath.item];
+    
+    NSURL *imgURL = nil;
+    if (imageInfo.originResInfo.resUrl) {
+        BTResInfo *resInfo = imageInfo.originResInfo;
+        imgURL = resInfo.resUrl;
+    }else{
+        BTResInfo *resInfo = [imageInfo.imageResArr objectAtIndex:0];
+        imgURL = resInfo.resUrl;
+    }
+    
+    [imgView sd_setImageWithURL:imgURL];
+    
+    [self.view addSubview:imgView];
 }
 
 //- (void)addObserverForPlayer

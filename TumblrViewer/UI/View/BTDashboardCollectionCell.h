@@ -10,12 +10,20 @@
 #import "BTPost.h"
 
 #define CELL_IDENTIFIER @"DashboardCell"
+@class BTDashboardCollectionCell;
+
+@protocol BTPostContentActionDelegate <NSObject>
+
+- (void)tapInCell:(BTDashboardCollectionCell* _Nullable)cell Type:(BTPostType)type withIndex:(NSInteger)index;
+
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BTDashboardCollectionCell : UICollectionViewCell
 
 @property (nonatomic, strong) BTPost *post;
+@property (nonatomic, weak) id<BTPostContentActionDelegate> delegate;
 //@property (nonatomic, strong) NSArray *imgDicArr;
 
 //- (instancetype)initWithImageInfo:(BTImageInfo*)imageInfo;

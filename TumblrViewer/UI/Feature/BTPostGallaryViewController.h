@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PostsDataCenter.h"
+#import "PostsDataModel.h"
 #import "BTPost.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BTPostGallaryViewController : UIViewController
 
 - (instancetype)initWithPost:(BTPost*)post;
-- (instancetype)initWithPostsDataCenter:(PostsDataCenter*)postDataCenter atIndexPath:(NSIndexPath*)indexPath;
+- (instancetype)initWithPostsDataCenter:(PostsDataModel*)dataModel atIndexPath:(NSIndexPath*)indexPath;
 
 @end
 

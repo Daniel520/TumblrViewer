@@ -32,7 +32,7 @@ typedef enum
     DBPhoto = 0,
     DBText,
     DBVideo
-} Dashboad_Type;
+} BTPostType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BTPost : NSObject
 
-@property (nonatomic, assign) Dashboad_Type type;
+@property (nonatomic, assign) BTPostType type;
 @property (nonatomic, strong) NSString *text;
 //@property (nonatomic, strong) BTImageInfo *imageInfo;
 @property (nonatomic, strong) NSArray<BTImageInfo*> *imageInfos;

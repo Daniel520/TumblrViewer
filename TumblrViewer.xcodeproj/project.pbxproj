@@ -35,7 +35,7 @@
 		A9D1A004225208A80043CFBE /* cat4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A000225208A80043CFBE /* cat4.jpg */; };
 		A9D1A005225208A80043CFBE /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A001225208A80043CFBE /* cat1.jpg */; };
 		C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */; };
-		C355BD282299443500A12C41 /* PostsDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataCenter.m */; };
+		C355BD282299443500A12C41 /* PostsDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,8 +108,8 @@
 		A9D1A001225208A80043CFBE /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
 		C355BD22229940D200A12C41 /* BTVideoPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTVideoPlayViewController.h; sourceTree = "<group>"; };
 		C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTVideoPlayViewController.m; sourceTree = "<group>"; };
-		C355BD262299443500A12C41 /* PostsDataCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostsDataCenter.h; sourceTree = "<group>"; };
-		C355BD272299443500A12C41 /* PostsDataCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostsDataCenter.m; sourceTree = "<group>"; };
+		C355BD262299443500A12C41 /* PostsDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostsDataModel.h; sourceTree = "<group>"; };
+		C355BD272299443500A12C41 /* PostsDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostsDataModel.m; sourceTree = "<group>"; };
 		D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -225,6 +225,7 @@
 				A9B5CB66224BBCFD00B2FAFD /* Info.plist */,
 				A9D19FDA224DEC860043CFBE /* BT_Prefix.pch */,
 				A9B5CB67224BBCFD00B2FAFD /* main.m */,
+				A9CFF2D3229D8B6E00D424C0 /* ThirdParty */,
 				A9D19FFD2252086F0043CFBE /* Resource */,
 			);
 			path = TumblrViewer;
@@ -292,6 +293,13 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		A9CFF2D3229D8B6E00D424C0 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
 		A9D19FD4224DDB170043CFBE /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,8 +353,8 @@
 		C355BD252299441A00A12C41 /* LogicCenter */ = {
 			isa = PBXGroup;
 			children = (
-				C355BD262299443500A12C41 /* PostsDataCenter.h */,
-				C355BD272299443500A12C41 /* PostsDataCenter.m */,
+				C355BD262299443500A12C41 /* PostsDataModel.h */,
+				C355BD272299443500A12C41 /* PostsDataModel.m */,
 			);
 			path = LogicCenter;
 			sourceTree = "<group>";
@@ -592,7 +600,7 @@
 				A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */,
 				C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */,
 				A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */,
-				C355BD282299443500A12C41 /* PostsDataCenter.m in Sources */,
+				C355BD282299443500A12C41 /* PostsDataModel.m in Sources */,
 				A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
