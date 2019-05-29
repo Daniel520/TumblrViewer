@@ -12,11 +12,13 @@
 #import <FLAnimatedImageView.h>
 #import <FLAnimatedImageView+WebCache.h>
 
-@interface BTPostGallaryViewController ()
+@interface BTPostGallaryViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) BTPost *post;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
 @property (nonatomic, strong) NSIndexPath *currentIndexPath;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) NSMutableArray *imageViewsArr;
 
 @end
 
@@ -50,12 +52,66 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc] initWithFrame:self.view.bounds];
-    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    [self setupScrollView];
+    [self setupImageViews];
+//    FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc] initWithFrame:self.view.bounds];
+//    imgView.contentMode = UIViewContentModeScaleAspectFit;
+//
+//    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+//
+//    BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:self.currentIndexPath.item];
+//
+//    NSURL *imgURL = nil;
+//    if (imageInfo.originResInfo.resUrl) {
+//        BTResInfo *resInfo = imageInfo.originResInfo;
+//        imgURL = resInfo.resUrl;
+//    }else{
+//        BTResInfo *resInfo = [imageInfo.imageResArr objectAtIndex:0];
+//        imgURL = resInfo.resUrl;
+//    }
+//
+//    [imgView sd_setImageWithURL:imgURL];
     
+//    [self.view addSubview:imgView];
+}
+
+- (void)setupImageViews
+{
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    NSMutableArray *imageViewArr = [NSMutableArray new];
     
-    BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:self.currentIndexPath.item];
+    for (int i = 0; i < post.imageInfos.count; i++) {
+        CGRect frame = CGRectMake(i * CGRectGetWidth(self.scrollView.bounds), self.scrollView.bounds.origin.y, CGRectGetWidth(self.scrollView.bounds), CGRectGetHeight(self.scrollView.bounds));
+        FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc] initWithFrame:frame];
+        imgView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        [self.scrollView addSubview:imgView];
+        
+        [imageViewArr addObject:imgView];
+    }
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.subviews.count * self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    self.imageViewsArr = imageViewArr;
+
+    
+    [self loadImageAtIndexPath:self.currentIndexPath withImageViewArr:imageViewArr];
+    
+    NSIndexPath *preIndexPath = [NSIndexPath indexPathForItem:self.currentIndexPath.item - 1 inSection:self.currentIndexPath.section];
+    [self loadImageAtIndexPath:preIndexPath withImageViewArr:imageViewArr];
+    
+    NSIndexPath *afterIndexPath = [NSIndexPath indexPathForItem:self.currentIndexPath.item + 1 inSection:self.currentIndexPath.section];
+    [self loadImageAtIndexPath:afterIndexPath withImageViewArr:imageViewArr];
+    
+    [self scrollToPageIndex:self.currentIndexPath.item];
+}
+
+- (void)loadImageAtIndexPath:(NSIndexPath*)indexPath withImageViewArr:(NSArray*)imageViewArr
+{
+    if (indexPath.item < 0 || indexPath.item >= imageViewArr.count) {
+        return;
+    }
+    
+    BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.section];
+    BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:indexPath.item];
     
     NSURL *imgURL = nil;
     if (imageInfo.originResInfo.resUrl) {
@@ -66,9 +122,48 @@
         imgURL = resInfo.resUrl;
     }
     
-    [imgView sd_setImageWithURL:imgURL];
+    FLAnimatedImageView *imgView = [imageViewArr objectAtIndex:indexPath.item];
     
-    [self.view addSubview:imgView];
+    [imgView sd_setImageWithURL:imgURL];
+}
+
+- (void)setupScrollView
+{
+    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.delegate = self;
+    
+    [self.view addSubview:self.scrollView];
+}
+
+- (void)scrollToPageIndex:(NSInteger)index
+{
+    CGFloat pageWidth = self.scrollView.frame.size.width;
+    CGPoint position = CGPointMake(index * pageWidth, 0);
+    [self.scrollView setContentOffset:position animated:YES];
+}
+
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSInteger index = (scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width;
+    NSLog(@"%ld",(long)index);
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:self.currentIndexPath.section];
+    [self loadImageAtIndexPath:indexPath withImageViewArr:self.imageViewsArr];
+//    _indexLabel.text = [NSString stringWithFormat:@"%ld/%ld", index + 1, self.imageCount];
+    //预加载 前3张 后3张
+//    NSInteger left = index - 3;
+//    NSInteger right = index + 3;
+//    left = left>0?left : 0;
+//    right = right>self.imageCount?self.imageCount:right;
+    
+//    for (NSInteger i = left; i < right; i++) {
+//        [self setupImageOfImageViewForIndex:i];
+//    }
 }
 
 //- (void)addObserverForPlayer
