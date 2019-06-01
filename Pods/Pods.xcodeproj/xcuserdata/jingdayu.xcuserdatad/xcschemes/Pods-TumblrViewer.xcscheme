@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "009091865D3471BC0C081D6DE0A7CED8"
+               BlueprintIdentifier = "8176FD4449B3D91AA41DBAF93C21AF75"
                BuildableName = "libPods-TumblrViewer.a"
                BlueprintName = "Pods-TumblrViewer"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -172,10 +172,10 @@
 
 - (void)tapClick:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(tapInCell:Type:withIndex:)]) {
+    if ([self.delegate respondsToSelector:@selector(tapInCell:withIndex:)]) {
         UITapGestureRecognizer *tapGesture = (UITapGestureRecognizer*)sender;
         NSInteger index = tapGesture.view.tag;
-        [self.delegate tapInCell:self Type:self.post.type withIndex:index];
+        [self.delegate tapInCell:self withIndex:index];
     }
 }
 

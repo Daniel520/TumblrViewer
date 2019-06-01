@@ -24,7 +24,7 @@
 @interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,BTPostContentActionDelegate>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
-@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
+//@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
 
 @end
@@ -35,8 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationItem setHidesBackButton:TRUE animated:NO];
-//    self.view.backgroundColor = [UIColor grayColor];
-//    self.currentOffset = 0;
+    self.view.backgroundColor = [UIColor blackColor];
     self.title = @"Dashboard";
     self.postDataModel = [PostsDataModel new];
     [self loadData:NO];
@@ -50,24 +49,24 @@
     
 }
 
-- (void)showLoading
-{
-    if (!self.loadingView) {
-        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        self.loadingView = loadingView;
-    }
-    
-    self.loadingView.center = self.view.center;
-    self.loadingView.color = UIColor.grayColor;
-    [self.view addSubview:self.loadingView];
-    [self.loadingView startAnimating];
-}
-
-- (void)hideLoading
-{
-    [self.loadingView stopAnimating];
-    [self.loadingView removeFromSuperview];
-}
+//- (void)showLoading
+//{
+//    if (!self.loadingView) {
+//        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        self.loadingView = loadingView;
+//    }
+//
+//    self.loadingView.center = self.view.center;
+//    self.loadingView.color = UIColor.grayColor;
+//    [self.view addSubview:self.loadingView];
+//    [self.loadingView startAnimating];
+//}
+//
+//- (void)hideLoading
+//{
+//    [self.loadingView stopAnimating];
+//    [self.loadingView removeFromSuperview];
+//}
 
 - (void)loadData:(BOOL)isLoadMore
 {
@@ -276,12 +275,12 @@
 
 #pragma mark BTPostContentActionDelegate
 
-- (void)tapInCell:(BTDashboardCollectionCell *)cell Type:(BTPostType)type withIndex:(NSInteger)index
+- (void)tapInCell:(BTDashboardCollectionCell *)cell withIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.mainCollectionView indexPathForCell:cell];
     BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
     
-    switch (type) {
+    switch (post.type) {
         case DBVideo:
         {
             BTVideoPlayViewController *vc = [[BTVideoPlayViewController alloc] initWithPost:post];
@@ -295,6 +294,12 @@
             NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
             BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
             [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case DBText:{
+//            NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
+//            BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
+//            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         default:

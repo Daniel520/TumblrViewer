@@ -107,6 +107,7 @@ static APIAccessHelper *instance = nil;
             if (networkingError) {
                 //                self.authResultsTextView.text = [NSString stringWithFormat:@"Error: %@", networkingError.localizedDescription];
                 NSLog(@"login fail:%@",networkingError.localizedDescription);
+                callback(networkingError);
             }
             else {
                 weakSelf.tmToken = creds.token;

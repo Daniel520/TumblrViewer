@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BTBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BTRootViewController : UIViewController
+@interface BTRootViewController : BTBaseViewController
+
+- (void)loadData:(BOOL)isLoadMore;
 
 @end
 

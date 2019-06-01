@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BTBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : BTBaseViewController
 
 @end
 

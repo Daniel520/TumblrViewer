@@ -14,7 +14,7 @@
 
 @protocol BTPostContentActionDelegate <NSObject>
 
-- (void)tapInCell:(BTDashboardCollectionCell* _Nullable)cell Type:(BTPostType)type withIndex:(NSInteger)index;
+- (void)tapInCell:(BTDashboardCollectionCell* _Nullable)cell withIndex:(NSInteger)index;
 
 @end
 

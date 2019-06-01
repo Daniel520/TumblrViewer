@@ -47,33 +47,49 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
+//    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self setupScrollView];
-    [self setupImageViews];
-//    FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc] initWithFrame:self.view.bounds];
-//    imgView.contentMode = UIViewContentModeScaleAspectFit;
-//
-//    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
-//
-//    BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:self.currentIndexPath.item];
-//
-//    NSURL *imgURL = nil;
-//    if (imageInfo.originResInfo.resUrl) {
-//        BTResInfo *resInfo = imageInfo.originResInfo;
-//        imgURL = resInfo.resUrl;
-//    }else{
-//        BTResInfo *resInfo = [imageInfo.imageResArr objectAtIndex:0];
-//        imgURL = resInfo.resUrl;
-//    }
-//
-//    [imgView sd_setImageWithURL:imgURL];
-    
-//    [self.view addSubview:imgView];
+//    [self setupImageViews];
+    [self setupContentView];
 }
+
+- (void)setupContentView
+{
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    switch (post.type) {
+        case DBPhoto:
+            {
+                [self setupImageViews];
+                break;
+            }
+        case DBText:{
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+//- (void)setupControlView
+//{
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//    backBtn.frame = CGRectMake(10, 30, 50, 40);
+//    [backBtn setTitle:@"Back" forState:UIControlStateNormal];
+//    [backBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [self.view addSubview:backBtn];
+//}
+//
+//- (void)backClick
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 - (void)setupImageViews
 {
@@ -89,7 +105,7 @@
         
         [imageViewArr addObject:imgView];
     }
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.subviews.count * self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.subviews.count * CGRectGetWidth(self.scrollView.bounds), CGRectGetHeight(self.scrollView.bounds));
     self.imageViewsArr = imageViewArr;
 
     
@@ -134,6 +150,11 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.delegate = self;
+    if (@available(iOS 11.0, *)) {
+        self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
     
     [self.view addSubview:self.scrollView];
 }

@@ -24,6 +24,7 @@
 		A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CB9B224BC08800B2FAFD /* BTMainTabViewController.m */; };
 		A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA0224BC0C400B2FAFD /* LoginViewController.m */; };
 		A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */; };
+		A9CFF35322A2680900D424C0 /* icon1024.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CFF34922A2680900D424C0 /* icon1024.png */; };
 		A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FD6224DDB350043CFBE /* BTUtils.m */; };
 		A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FDD224E2BE30043CFBE /* Storyboard.storyboard */; };
 		A9D19FF22250CF370043CFBE /* BTDashboardCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF12250CF370043CFBE /* BTDashboardCollectionCell.m */; };
@@ -34,6 +35,7 @@
 		A9D1A003225208A80043CFBE /* cat3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FFF225208A80043CFBE /* cat3.jpg */; };
 		A9D1A004225208A80043CFBE /* cat4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A000225208A80043CFBE /* cat4.jpg */; };
 		A9D1A005225208A80043CFBE /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A001225208A80043CFBE /* cat1.jpg */; };
+		A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */; };
 		C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */; };
 		C355BD282299443500A12C41 /* PostsDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataModel.m */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,7 @@
 		A9B5CBA3224BC10000B2FAFD /* BTMainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTMainAppDelegate.h; sourceTree = "<group>"; };
 		A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTMainAppDelegate.m; sourceTree = "<group>"; };
 		A9B5CBA6224C8F3700B2FAFD /* CommonConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonConstants.h; sourceTree = "<group>"; };
+		A9CFF34922A2680900D424C0 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
 		A9D19FD5224DDB350043CFBE /* BTUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTUtils.h; sourceTree = "<group>"; };
 		A9D19FD6224DDB350043CFBE /* BTUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUtils.m; sourceTree = "<group>"; };
 		A9D19FDA224DEC860043CFBE /* BT_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BT_Prefix.pch; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		A9D19FFF225208A80043CFBE /* cat3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat3.jpg; sourceTree = "<group>"; };
 		A9D1A000225208A80043CFBE /* cat4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat4.jpg; sourceTree = "<group>"; };
 		A9D1A001225208A80043CFBE /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
+		A9FAB6D022A2865000BEDACF /* BTBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTBaseViewController.h; sourceTree = "<group>"; };
+		A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBaseViewController.m; sourceTree = "<group>"; };
 		C355BD22229940D200A12C41 /* BTVideoPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTVideoPlayViewController.h; sourceTree = "<group>"; };
 		C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTVideoPlayViewController.m; sourceTree = "<group>"; };
 		C355BD262299443500A12C41 /* PostsDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostsDataModel.h; sourceTree = "<group>"; };
@@ -289,6 +294,8 @@
 				A9B5CBA3224BC10000B2FAFD /* BTMainAppDelegate.h */,
 				A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */,
 				A9B5CBA6224C8F3700B2FAFD /* CommonConstants.h */,
+				A9FAB6D022A2865000BEDACF /* BTBaseViewController.h */,
+				A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -298,6 +305,14 @@
 			children = (
 			);
 			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		A9CFF34722A2680900D424C0 /* icon */ = {
+			isa = PBXGroup;
+			children = (
+				A9CFF34922A2680900D424C0 /* icon1024.png */,
+			);
+			path = icon;
 			sourceTree = "<group>";
 		};
 		A9D19FD4224DDB170043CFBE /* Component */ = {
@@ -342,6 +357,7 @@
 		A9D19FFD2252086F0043CFBE /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				A9CFF34722A2680900D424C0 /* icon */,
 				A9D1A001225208A80043CFBE /* cat1.jpg */,
 				A9D19FFE225208A80043CFBE /* cat2.jpg */,
 				A9D19FFF225208A80043CFBE /* cat3.jpg */,
@@ -430,6 +446,11 @@
 				TargetAttributes = {
 					A9B5CB54224BBCFC00B2FAFD = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					A9B5CB6C224BBCFD00B2FAFD = {
 						CreatedOnToolsVersion = 10.2;
@@ -469,6 +490,7 @@
 				A9B5CB65224BBCFD00B2FAFD /* LaunchScreen.storyboard in Resources */,
 				A9D1A004225208A80043CFBE /* cat4.jpg in Resources */,
 				A9D1A003225208A80043CFBE /* cat3.jpg in Resources */,
+				A9CFF35322A2680900D424C0 /* icon1024.png in Resources */,
 				A9D1A005225208A80043CFBE /* cat1.jpg in Resources */,
 				A9D1A002225208A80043CFBE /* cat2.jpg in Resources */,
 				A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */,
@@ -594,6 +616,7 @@
 				A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
+				A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,
 				A9B35CE22281CF380041CE4C /* BTPost.m in Sources */,
