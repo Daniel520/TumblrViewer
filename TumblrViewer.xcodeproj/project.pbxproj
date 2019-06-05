@@ -32,10 +32,6 @@
 		A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF62250EEE60043CFBE /* HTMLParser.m */; };
 		A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF82250EEE70043CFBE /* HTMLNode.m */; };
 		A9D19FFC2250EF2A0043CFBE /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D19FFB2250EF2A0043CFBE /* libxml2.tbd */; };
-		A9D1A002225208A80043CFBE /* cat2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FFE225208A80043CFBE /* cat2.jpg */; };
-		A9D1A003225208A80043CFBE /* cat3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FFF225208A80043CFBE /* cat3.jpg */; };
-		A9D1A004225208A80043CFBE /* cat4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A000225208A80043CFBE /* cat4.jpg */; };
-		A9D1A005225208A80043CFBE /* cat1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D1A001225208A80043CFBE /* cat1.jpg */; };
 		A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */; };
 		C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */; };
 		C355BD282299443500A12C41 /* PostsDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataModel.m */; };
@@ -107,10 +103,6 @@
 		A9D19FF72250EEE70043CFBE /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		A9D19FF82250EEE70043CFBE /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		A9D19FFB2250EF2A0043CFBE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		A9D19FFE225208A80043CFBE /* cat2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat2.jpg; sourceTree = "<group>"; };
-		A9D19FFF225208A80043CFBE /* cat3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat3.jpg; sourceTree = "<group>"; };
-		A9D1A000225208A80043CFBE /* cat4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat4.jpg; sourceTree = "<group>"; };
-		A9D1A001225208A80043CFBE /* cat1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat1.jpg; sourceTree = "<group>"; };
 		A9FAB6D022A2865000BEDACF /* BTBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTBaseViewController.h; sourceTree = "<group>"; };
 		A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBaseViewController.m; sourceTree = "<group>"; };
 		C355BD22229940D200A12C41 /* BTVideoPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTVideoPlayViewController.h; sourceTree = "<group>"; };
@@ -360,10 +352,6 @@
 			isa = PBXGroup;
 			children = (
 				A9CFF34722A2680900D424C0 /* icon */,
-				A9D1A001225208A80043CFBE /* cat1.jpg */,
-				A9D19FFE225208A80043CFBE /* cat2.jpg */,
-				A9D19FFF225208A80043CFBE /* cat3.jpg */,
-				A9D1A000225208A80043CFBE /* cat4.jpg */,
 				A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */,
 			);
 			path = Resource;
@@ -491,12 +479,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B5CB65224BBCFD00B2FAFD /* LaunchScreen.storyboard in Resources */,
-				A9D1A004225208A80043CFBE /* cat4.jpg in Resources */,
-				A9D1A003225208A80043CFBE /* cat3.jpg in Resources */,
 				A9CFF35322A2680900D424C0 /* icon1024.png in Resources */,
-				A9D1A005225208A80043CFBE /* cat1.jpg in Resources */,
 				A9CEEC3B22A82F3B0079B88C /* htmlHeader.txt in Resources */,
-				A9D1A002225208A80043CFBE /* cat2.jpg in Resources */,
 				A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */,
 				A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */,
 			);
