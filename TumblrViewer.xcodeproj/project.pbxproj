@@ -24,6 +24,7 @@
 		A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CB9B224BC08800B2FAFD /* BTMainTabViewController.m */; };
 		A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA0224BC0C400B2FAFD /* LoginViewController.m */; };
 		A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */; };
+		A9CEEC3B22A82F3B0079B88C /* htmlHeader.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */; };
 		A9CFF35322A2680900D424C0 /* icon1024.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CFF34922A2680900D424C0 /* icon1024.png */; };
 		A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FD6224DDB350043CFBE /* BTUtils.m */; };
 		A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FDD224E2BE30043CFBE /* Storyboard.storyboard */; };
@@ -93,6 +94,7 @@
 		A9B5CBA3224BC10000B2FAFD /* BTMainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTMainAppDelegate.h; sourceTree = "<group>"; };
 		A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTMainAppDelegate.m; sourceTree = "<group>"; };
 		A9B5CBA6224C8F3700B2FAFD /* CommonConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonConstants.h; sourceTree = "<group>"; };
+		A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = htmlHeader.txt; sourceTree = "<group>"; };
 		A9CFF34922A2680900D424C0 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
 		A9D19FD5224DDB350043CFBE /* BTUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTUtils.h; sourceTree = "<group>"; };
 		A9D19FD6224DDB350043CFBE /* BTUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUtils.m; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				A9D19FFE225208A80043CFBE /* cat2.jpg */,
 				A9D19FFF225208A80043CFBE /* cat3.jpg */,
 				A9D1A000225208A80043CFBE /* cat4.jpg */,
+				A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				A9D1A003225208A80043CFBE /* cat3.jpg in Resources */,
 				A9CFF35322A2680900D424C0 /* icon1024.png in Resources */,
 				A9D1A005225208A80043CFBE /* cat1.jpg in Resources */,
+				A9CEEC3B22A82F3B0079B88C /* htmlHeader.txt in Resources */,
 				A9D1A002225208A80043CFBE /* cat2.jpg in Resources */,
 				A9B5CB62224BBCFD00B2FAFD /* Assets.xcassets in Resources */,
 				A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */,

@@ -34,12 +34,12 @@
         [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     
-    if (post.type == DBPhoto) {
+    if (post.type == BTPhoto || post.type == BTPhotoText) {
 //        [self setImgDicArr:post.imgURLs];
         [self setImageArr:post.imageInfos];
-    }else if (post.type == DBText) {
+    }else if (post.type == BTText) {
         [self setContentText:post.text];
-    }else if (post.type == DBVideo) {
+    }else if (post.type == BTVideo) {
         [self setVideoInfo:post.videoInfo];
     }
 }
@@ -88,6 +88,7 @@
     content.text = text;
     content.numberOfLines = 0;
     content.tag = 0;
+    content.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
     [content addGestureRecognizer:tapGesture];

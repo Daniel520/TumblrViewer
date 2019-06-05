@@ -203,7 +203,8 @@
     long width = 100;
     
     switch (post.type) {
-        case DBPhoto:
+        case BTPhoto:
+        case BTPhotoText:
         {
            
             CGFloat height = 0;
@@ -251,13 +252,13 @@
             return CGSizeMake(width, height);
         }
             break;
-        case DBText:
+        case BTText:
         {
             //now use 100 width to show, text height hardcode now to 150;
             return CGSizeMake(width, 150);
         }
             break;
-        case DBVideo:{
+        case BTVideo:{
             CGFloat originWidth = post.videoInfo.resolutionInfo[0].size.width;
             CGFloat originHeight = post.videoInfo.resolutionInfo[0].size.height;
             
@@ -281,25 +282,22 @@
     BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
     
     switch (post.type) {
-        case DBVideo:
+        case BTVideo:
         {
             BTVideoPlayViewController *vc = [[BTVideoPlayViewController alloc] initWithPost:post];
             //                BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPost:post];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        case DBPhoto:{
+        case BTPhoto:
+        case BTPhotoText:
+        case BTText:
+        {
 #warning todo complete the photo browser logic
             //indexPath.item is for the image index of this post, section is for the post's index of this dashboard data.
             NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
             BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
             [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case DBText:{
-//            NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
-//            BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
-//            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         default:

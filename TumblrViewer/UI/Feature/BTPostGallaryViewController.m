@@ -11,6 +11,7 @@
 #import <UIImage+GIF.h>
 #import <FLAnimatedImageView.h>
 #import <FLAnimatedImageView+WebCache.h>
+#import <WebKit/WebKit.h>
 
 @interface BTPostGallaryViewController () <UIScrollViewDelegate>
 
@@ -62,18 +63,33 @@
 {
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
     switch (post.type) {
-        case DBPhoto:
+        case BTPhoto:
             {
                 [self setupImageViews];
                 break;
             }
-        case DBText:{
-            
+        case BTPhotoText:
+        case BTText:
+        {
+            [self setupWebview];
             break;
         }
         default:
             break;
     }
+}
+
+- (void)setupWebview
+{
+    WKWebView *webview = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
+//    NSString *htmlString = @"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"/>";
+    htmlString = [htmlString stringByAppendingString:post.contentBody];
+    
+    [webview loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
+    [self.view addSubview:webview];
 }
 
 //- (void)setupControlView

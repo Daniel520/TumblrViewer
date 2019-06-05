@@ -29,9 +29,10 @@
 
 typedef enum
 {
-    DBPhoto = 0,
-    DBText,
-    DBVideo
+    BTPhoto = 0,
+    BTPhotoText,
+    BTText,
+    BTVideo
 } BTPostType;
 
 NS_ASSUME_NONNULL_BEGIN

@@ -104,7 +104,7 @@
             
             if (imageInfos && imageInfos.count > 0) {
                 BTPost *post = [BTPost new];
-                post.type = DBPhoto;
+                post.type = BTPhoto;
                 //                post.imgURLs = imgURLs;
                 post.imageInfos = imageInfos;
                 
@@ -136,7 +136,7 @@
     if ([BTUtils isStringEmpty:body]) {
         content = [postDic objectForKey:@"title"];
         BTPost *post = [BTPost new];
-        post.type = DBText;
+        post.type = BTText;
         post.text = content;
         
         return post;
@@ -194,11 +194,11 @@
     BTPost *post = [BTPost new];
     post.contentBody = body;
     if (imageInfos && imageInfos.count > 0) {
-        post.type = DBPhoto;
+        post.type = BTPhotoText;
         //        post.imgURLs = imgURLs;
         post.imageInfos = [imageInfos copy];
     } else {
-        post.type = DBText;
+        post.type = BTText;
         post.text = content;
     }
     
@@ -352,7 +352,7 @@
         
         post = [BTPost new];
         post.videoInfo = videoInfo;
-        post.type = DBVideo;
+        post.type = BTVideo;
     }
     
     return post;
