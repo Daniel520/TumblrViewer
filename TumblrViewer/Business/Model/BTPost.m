@@ -55,10 +55,20 @@
 
 @implementation BTPost
 
+- (void)setTitle:(NSString *)title
+{
+    if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+        _title = NULL;
+    }else{
+        _title = title;
+    }
+}
+
 - (NSString*)description
 {
     NSDictionary *postDic = @{
                               @"type":@(self.type),
+                              @"title":self.title,
                               @"text":self.text ? self.text : [NSNull null],
                               @"photos":self.imageInfos ? self.imageInfos : [NSNull null],
                               @"videoInfo":self.videoInfo ? self.videoInfo : [NSNull null]

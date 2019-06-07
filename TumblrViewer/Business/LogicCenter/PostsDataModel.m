@@ -105,6 +105,12 @@
             if (imageInfos && imageInfos.count > 0) {
                 BTPost *post = [BTPost new];
                 post.type = BTPhoto;
+                NSString *title = [postDic objectForKey:@"title"];
+                if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+                    post.title = [postDic objectForKey:@"blog_name"];
+                }else{
+                    post.title = title;
+                }
                 //                post.imgURLs = imgURLs;
                 post.imageInfos = imageInfos;
                 
@@ -137,6 +143,12 @@
         content = [postDic objectForKey:@"title"];
         BTPost *post = [BTPost new];
         post.type = BTText;
+        NSString *title = [postDic objectForKey:@"title"];
+        if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+            post.title = [postDic objectForKey:@"blog_name"];
+        }else{
+            post.title = title;
+        }
         post.text = content;
         
         return post;
@@ -193,6 +205,13 @@
     
     BTPost *post = [BTPost new];
     post.contentBody = body;
+    NSString *title = [postDic objectForKey:@"title"];
+    if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+        post.title = [postDic objectForKey:@"blog_name"];
+    }else{
+        post.title = title;
+    }
+    
     if (imageInfos && imageInfos.count > 0) {
         post.type = BTPhotoText;
         //        post.imgURLs = imgURLs;
@@ -352,6 +371,14 @@
         
         post = [BTPost new];
         post.videoInfo = videoInfo;
+        
+        NSString *title = [postDic objectForKey:@"title"];
+        if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+            post.title = [postDic objectForKey:@"blog_name"];
+        }else{
+            post.title = title;
+        }
+        
         post.type = BTVideo;
     }
     

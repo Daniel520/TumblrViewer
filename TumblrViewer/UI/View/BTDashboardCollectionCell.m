@@ -105,7 +105,9 @@
         BTImageInfo *imageInfo = [imageArr objectAtIndex:i];
         FLAnimatedImageView *imgView = [[FLAnimatedImageView alloc]init];
         imgView.tag = i;
-        imgView.contentMode = UIViewContentModeScaleAspectFit;
+//        imgView.contentMode = UIViewContentModeScaleAspectFit;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
         
         NSURL *imgURL = nil;
         CGFloat width = 0 , height = 0;

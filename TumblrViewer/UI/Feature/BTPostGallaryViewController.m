@@ -62,6 +62,8 @@
 - (void)setupContentView
 {
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    self.title = post.title;
+    
     switch (post.type) {
         case BTPhoto:
             {
@@ -190,6 +192,14 @@
     NSLog(@"%ld",(long)index);
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:self.currentIndexPath.section];
+    
+    if (index != self.currentIndexPath.item) {
+        self.currentIndexPath = [NSIndexPath indexPathForItem:index inSection:self.currentIndexPath.section];
+        BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+        self.title = post.title;
+    }
+    
+    
     [self loadImageAtIndexPath:indexPath withImageViewArr:self.imageViewsArr];
 //    _indexLabel.text = [NSString stringWithFormat:@"%ld/%ld", index + 1, self.imageCount];
     //预加载 前3张 后3张
