@@ -170,6 +170,12 @@
         y += viewHeight;
         
         [self.contentView addSubview:imgView];
+        
+        
+//        if (y > SCREEN_HEIGHT) {
+//        //To enhance user experience, forbide the cell height less than screen height
+//            break;
+//        }
     }
 }
 

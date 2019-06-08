@@ -102,6 +102,13 @@
             
             NSArray *imageInfos = [self translateImageFromDic:postDic];
             
+            NSDictionary *reblogDic = [postDic objectForKey:@"reblog"];
+            NSString *reblogContent = [reblogDic objectForKey:@"tree_html"];
+            
+            NSArray *reblogImageInfos = [self extractImageFromHtml:reblogContent];
+            
+            imageInfos = [imageInfos arrayByAddingObjectsFromArray:reblogImageInfos];
+            
             if (imageInfos && imageInfos.count > 0) {
                 BTPost *post = [BTPost new];
                 post.type = BTPhoto;
@@ -131,30 +138,10 @@
     //    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:posts];
 }
 
-- (BTPost*)translatePostDic:(NSDictionary*)postDic
+- (NSArray *)extractImageFromHtml:(NSString*)bodyString
 {
     NSError *error = nil;
-    NSMutableArray<BTImageInfo*> *imageInfos = [NSMutableArray new];
-    NSString *content = @"";
-    
-    NSString *body = [postDic objectForKey:@"body"];
-    
-    if ([BTUtils isStringEmpty:body]) {
-        content = [postDic objectForKey:@"title"];
-        BTPost *post = [BTPost new];
-        post.type = BTText;
-        NSString *title = [postDic objectForKey:@"title"];
-        if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
-            post.title = [postDic objectForKey:@"blog_name"];
-        }else{
-            post.title = title;
-        }
-        post.text = content;
-        
-        return post;
-    }
-    
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:bodyString error:&error];
     
     if (error) {
         NSLog(@"Error: %@", error);
@@ -162,6 +149,8 @@
     }
     
     HTMLNode *bodyNode = [parser body];
+    
+    NSMutableArray<BTImageInfo*> *imageInfos = [NSMutableArray new];
     
     NSArray *imgNodes = [bodyNode findChildTags:@"img"];
     
@@ -191,16 +180,60 @@
             }
         }
         
-        if (imageNodes.count == 0) {
-            content = [bodyNode allContents];
-            //            NSArray *textNodes = [bodyNode findChildTags:@"p"];
-            //
-            //            for (HTMLNode *textNode in textNodes) {
-            //                content = [[content stringByAppendingString:[textNode contents]] stringByAppendingString:@"\n"];
-            //
-            //            }
+    }
+    
+    if (imageInfos.count > 0) {
+        return imageInfos;
+    }
+    
+    return nil;
+}
+
+- (BTPost*)translatePostDic:(NSDictionary*)postDic
+{
+    NSError *error = nil;
+//    NSMutableArray<BTImageInfo*> *imageInfos = [NSMutableArray new];
+    NSString *content = @"";
+    
+    NSString *body = [postDic objectForKey:@"body"];
+    
+    if ([BTUtils isStringEmpty:body]) {
+        content = [postDic objectForKey:@"title"];
+        BTPost *post = [BTPost new];
+        post.type = BTText;
+        NSString *title = [postDic objectForKey:@"title"];
+        if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
+            post.title = [postDic objectForKey:@"blog_name"];
+        }else{
+            post.title = title;
+        }
+        post.text = content;
+        
+        return post;
+    }
+    
+//    HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
+//
+//    if (error) {
+//        NSLog(@"Error: %@", error);
+//        return nil;
+//    }
+//
+//    HTMLNode *bodyNode = [parser body];
+    
+    NSArray *imageInfos = [self extractImageFromHtml:body];
+    
+    if (imageInfos.count == 0) {
+        HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
+        
+        if (error) {
+            NSLog(@"Error: %@", error);
+            return nil;
         }
         
+        HTMLNode *bodyNode = [parser body];
+        
+        content = [bodyNode allContents];
     }
     
     BTPost *post = [BTPost new];
