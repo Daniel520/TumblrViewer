@@ -136,18 +136,7 @@
         }
         
         imgView.backgroundColor = [UIColor lightGrayColor];
-        //        imgView.backgroundColor = [UIColor colorWithRed:0.3 green:i/imgDicArr.count blue:0.5 alpha:1];
-        
-        //        if (![[NSURL URLWithString:imgURL].lastPathComponent.lowercaseString isEqualToString:@"gif"]) {
-        //            [imgView sd_setImageWithURL:[NSURL URLWithString:imgURL]];
-        //        }else{
-        //
-        //        }
-        
-        
-//        [imgView sd_setImageWithURL:imgURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
-//
-//        }];
+
 #warning todo extend sdwebimage to support change url after retry
 //        [imgView sd_setImageWithURL:imgURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
 //            CGFloat imageRate = image.size.height / image.size.width;

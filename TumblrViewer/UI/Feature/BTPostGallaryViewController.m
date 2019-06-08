@@ -13,6 +13,9 @@
 #import <FLAnimatedImageView+WebCache.h>
 #import <WebKit/WebKit.h>
 
+#import "BTURLCacheProtocol.h"
+#import "BTWebview.h"
+
 @interface BTPostGallaryViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) BTPost *post;
@@ -83,12 +86,21 @@
 
 - (void)setupWebview
 {
-    WKWebView *webview = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    [NSURLProtocol registerClass:[BTURLCacheProtocol class]];
+    
+    [BTWebview registerScheme:@"http"];
+    [BTWebview registerScheme:@"https"];
+    
+    BTWebview *webview = [[BTWebview alloc] initWithFrame:self.view.bounds];
     
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    
+    NSString *bodyString = [post.contentBody substringFromIndex:[post.contentBody rangeOfString:@"<blockquote>"].location];
+    
+    
     NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
 //    NSString *htmlString = @"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"/>";
-    htmlString = [htmlString stringByAppendingString:post.contentBody];
+    htmlString = [htmlString stringByAppendingString:bodyString];
     
     [webview loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
     [self.view addSubview:webview];
@@ -182,6 +194,13 @@
     CGFloat pageWidth = self.scrollView.frame.size.width;
     CGPoint position = CGPointMake(index * pageWidth, 0);
     [self.scrollView setContentOffset:position animated:YES];
+}
+
+- (void)dealloc
+{
+    [NSURLProtocol unregisterClass:[BTURLCacheProtocol class]];
+    [BTWebview unregisterScheme:@"http"];
+    [BTWebview unregisterScheme:@"https"];
 }
 
 #pragma mark UIScrollViewDelegate
