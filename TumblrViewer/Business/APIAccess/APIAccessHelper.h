@@ -13,6 +13,8 @@
 #import <TMTumblrSDK/TMOAuthAuthenticator.h>
 #import <TMTumblrSDK/TMBasicBaseURLDeterminer.h>
 
+@class BTUserInfo;
+@class BTPost;
 NS_ASSUME_NONNULL_BEGIN
 
 // Alias for callbacks on network requests that return user credentials
@@ -29,7 +31,9 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 - (TMAPIClient*)generateApiClient;
 - (BOOL)isNeedLogin;
 - (void)authenticate;
-
+- (void)fetchUserInfo;
+- (BTUserInfo*)getUserInfo;
+- (void)forwardPost:(BTPost*)post;
 /**
  Authenticate for Tumblr.
  

@@ -91,6 +91,9 @@
         if ([type isEqualToString:@"text"]) {
             //            NSString *body = [postDic objectForKey:@"body"];
             BTPost *post = [self translatePostDic:postDic];
+            post.postid = [[postDic objectForKey:@"id"] integerValue];
+            post.reblogKey = [postDic objectForKey:@"reblog_key"];
+            
             if (post) {
                 [posts addObject:post];
             }
@@ -120,12 +123,16 @@
                 }
                 //                post.imgURLs = imgURLs;
                 post.imageInfos = imageInfos;
+                post.postid = [[postDic objectForKey:@"id"] integerValue];
+                post.reblogKey = [postDic objectForKey:@"reblog_key"];
                 
                 [posts addObject:post];
             }
         } else if ([type isEqualToString:@"video"]) {
             
             BTPost *post = [self translateVideoPostDic:postDic];
+            post.postid = [[postDic objectForKey:@"id"] integerValue];
+            post.reblogKey = [postDic objectForKey:@"reblog_key"];
             
             if (post) {
                 [posts addObject:post];
@@ -144,7 +151,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:bodyString error:&error];
     
     if (error) {
-        NSLog(@"Error: %@", error);
+        NSLog(@"Error: %@ withbody:%@", error, bodyString);
         return nil;
     }
     

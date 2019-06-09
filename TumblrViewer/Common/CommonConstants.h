@@ -17,6 +17,9 @@ NSString * const API_KEY = @"F767mxg0z6h2vPxOboi7bkrSM0wjz1otu46PDybj5P9hsfJYHe"
 NSString * const SECRET_KEY = @"dhu6fBM6rN1HZAXnHyTLFLdVCBLlPquiO0TxeIDIr9mOW9gUR7";
 NSString * const TOKEN_KEY = @"TOKEN_KEY";
 NSString * const TOKEN_SECRET_KEY = @"TOKEN_SECRET_KEY";
+NSString * const USERINFO_KEY = @"BT_USERINFO_KEY";
+
+NSString * const TUMBLR_BLOG_SUFFIX = @".tumblr.com";
 
 #pragma mark Tumblr API
 

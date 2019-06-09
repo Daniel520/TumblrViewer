@@ -76,6 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray<BTImageInfo*> *imageInfos;
 @property (nonatomic, strong) BTVideoInfo *videoInfo;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, assign) NSInteger postid;
+@property (nonatomic, strong) NSString *reblogKey;
 
 //test
 //@property (nonatomic, strong) NSArray *imgURLs;

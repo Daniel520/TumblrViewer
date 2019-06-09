@@ -39,6 +39,10 @@
     if ([self.apiHelper isNeedLogin]) {
          navVC = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
     }else{
+        if (![[APIAccessHelper shareApiAccessHelper] getUserInfo]) {
+            [[APIAccessHelper shareApiAccessHelper] fetchUserInfo];
+        }
+        
         BTRootViewController *rootVC = [[BTRootViewController alloc] init];
         navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     }

@@ -15,6 +15,7 @@
 
 #import "BTURLCacheProtocol.h"
 #import "BTWebview.h"
+#import "APIAccessHelper.h"
 
 @interface BTPostGallaryViewController () <UIScrollViewDelegate>
 
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) NSIndexPath *currentIndexPath;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *imageViewsArr;
+@property (nonatomic, strong) UIView *controlView;
 
 @end
 
@@ -60,6 +62,38 @@
     [self setupScrollView];
 //    [self setupImageViews];
     [self setupContentView];
+    [self initControlBar];
+}
+
+- (void)initControlBar
+{
+    CGFloat viewHeight = 40;// * ADJUST_VIEW_RADIO;
+    
+    BTWeakSelf(weakSelf);
+    UIView *view = [[UIView alloc] init];
+    [self.view addSubview:view];
+    self.controlView = view;
+    
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(weakSelf.view);
+        make.height.mas_equalTo(viewHeight + WINDOW_SAFE_AREA_INSETS.bottom);
+    }];
+    
+    UIButton *forwardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [forwardBtn setTitle:@"forward" forState:UIControlStateNormal];
+    [forwardBtn addTarget:self action:@selector(forward:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:forwardBtn];
+    
+    [forwardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view).with.offset(-20);
+    }];
+}
+
+- (IBAction)forward:(id)sender
+{
+    NSLog(@"forward button add");
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    [[APIAccessHelper shareApiAccessHelper] forwardPost:post];
 }
 
 - (void)setupContentView

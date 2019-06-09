@@ -13,10 +13,12 @@
 #import "APIAccessHelper.h"
 #import "CommonConstants.h"
 #import "BTUtils.h"
+#import "BTUserInfo.h"
+#import "BTPost.h"
 
 //#import <AFNetworking.h>
 
-
+#define APIProfileName @"BTTumblrViewer"
 
 @interface APIAccessHelper() <TMOAuthAuthenticatorDelegate>
 
@@ -87,6 +89,15 @@ static APIAccessHelper *instance = nil;
     return NO;
 }
 
+- (BTUserInfo*)getUserInfo
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSData *data = (NSData*)[userDefault objectForKey:USERINFO_KEY];
+    
+    BTUserInfo *userInfo = (BTUserInfo*)[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return userInfo;
+}
+
 - (TMAPIClient*)generateApiClient
 {
     TMRequestFactory *requestFactory = [[TMRequestFactory alloc] initWithBaseURLDeterminer:[[TMBasicBaseURLDeterminer alloc] init]];
@@ -102,7 +113,7 @@ static APIAccessHelper *instance = nil;
 - (void)authenticate:(BTAuthenticationCallback)callback
 {
     BTWeakSelf(weakSelf);
-    [self.authenticator authenticate:@"BTTumblrViewer" callback:^(TMAPIUserCredentials *creds, NSError *networkingError) {
+    [self.authenticator authenticate:APIProfileName callback:^(TMAPIUserCredentials *creds, NSError *networkingError) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (networkingError) {
                 //                self.authResultsTextView.text = [NSString stringWithFormat:@"Error: %@", networkingError.localizedDescription];
@@ -121,10 +132,54 @@ static APIAccessHelper *instance = nil;
                 [userDefault setObject:creds.tokenSecret forKey:TOKEN_SECRET_KEY];
                 [userDefault synchronize];
                 
+                [weakSelf fetchUserInfo];
+                
                 callback(networkingError);
             }
         });
     }];
+}
+
+- (void)fetchUserInfo
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = [apiClient userInfoDataTaskWithCallback:^( id _Nullable response, NSError * _Nullable error){
+        
+        if (error != nil) {
+            NSLog(@"get user info fail with error:%@",error);
+            return;
+        }
+        
+        BTUserInfo *userInfo = [BTUserInfo new];
+        NSDictionary *userInfoDic = [(NSDictionary*)response objectForKey:@"user"];
+        userInfo.name = [userInfoDic objectForKey:@"name"];
+        userInfo.likes = [[userInfoDic objectForKey:@"likes"] integerValue];
+        userInfo.follows = [[userInfoDic objectForKey:@"follows"] integerValue];
+        
+        NSMutableArray *blogList = [NSMutableArray new];
+        
+        for (NSDictionary *blogDic in [userInfoDic objectForKey:@"blogs"]) {
+            BTBlogInfo *blog = [BTBlogInfo new];
+            blog.followers = [[blogDic objectForKey:@"followers"] integerValue];
+            blog.isAdmin = [[blogDic objectForKey:@"admin"] boolValue];
+            blog.isNsfw = [[blogDic objectForKey:@"is_nsfw"] boolValue];
+            blog.blogUrl = [blogDic objectForKey:@"url"];
+            blog.uuid = [blogDic objectForKey:@"uuid"];
+            blog.isBlockedFromPrimary = [blogDic objectForKey:@"is_blocked_from_primary"];
+            [blogList addObject:blog];
+        }
+        
+        userInfo.blogList = blogList;
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+        
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setObject:data forKey:USERINFO_KEY];
+        [userDefault synchronize];
+    }];
+    
+    [task resume];
 }
 
 - (NSURLSessionConfiguration*)getNetworkConfiguration
@@ -149,6 +204,32 @@ static APIAccessHelper *instance = nil;
             NSLog(@"error info:%@",error);
         }
         callback(response, error);
+    }];
+    
+    [task resume];
+}
+
+- (void)forwardPost:(BTPost*)post
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    BTUserInfo *userInfo = [[APIAccessHelper shareApiAccessHelper] getUserInfo];
+    
+    if (!userInfo) {
+        NSLog(@"No UserInfo, please wait or try login again");
+    }
+    
+    NSURLSessionTask *task = nil;
+    
+    id <TMRequest> request = [apiClient.requestFactory reblogPostRequestWithBlogName:[userInfo.name stringByAppendingString:TUMBLR_BLOG_SUFFIX] parameters:@{ @"id" : @(post.postid) , @"reblog_key" : post.reblogKey } ];
+
+    task = [apiClient taskWithRequest:request callback:^( id _Nullable response, NSError * _Nullable error){
+#warning todo show toast
+        if (error != nil) {
+            NSLog(@"reblog error:%@",error);
+        }
+        
+        NSLog(@"reblog sucess");
     }];
     
     [task resume];

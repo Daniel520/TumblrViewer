@@ -68,6 +68,7 @@
 {
     NSDictionary *postDic = @{
                               @"type":@(self.type),
+                              @"id":@(self.postid),
                               @"title":self.title,
                               @"text":self.text ? self.text : [NSNull null],
                               @"photos":self.imageInfos ? self.imageInfos : [NSNull null],

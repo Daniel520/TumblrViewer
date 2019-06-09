@@ -11,6 +11,26 @@
 #import "BTUtils.h"
 #import "Masonry.h"
 
+static inline UIEdgeInsets iOS11SafeAreaInsets()
+{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_10_3
+    if (@available(iOS 11.0, *)) {
+        return [UIApplication sharedApplication].keyWindow.safeAreaInsets;
+    }
+#endif
+    return UIEdgeInsetsZero;
+}
+
+//判断iphone X XS XR XS-MAX
+//#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(375, 812),[UIScreen mainScreen].bounds.size): NO)
+
+// window 的安全区域
+#ifdef __IPHONE_11_0
+#define WINDOW_SAFE_AREA_INSETS iOS11SafeAreaInsets()
+#else
+#define WINDOW_SAFE_AREA_INSETS UIEdgeInsetsZero
+#endif
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #define BTWeakSelf(weakSelf) __weak typeof(self) weakSelf = self

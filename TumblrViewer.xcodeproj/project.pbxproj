@@ -38,6 +38,7 @@
 		C3E5C37F22AB9FF9004C68FC /* BTURLCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C37E22AB9FF9004C68FC /* BTURLCacheProtocol.m */; };
 		C3E5C38222ABA104004C68FC /* BTWebview.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C38122ABA104004C68FC /* BTWebview.m */; };
 		C3E5C38722ABAD48004C68FC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C38522ABAD48004C68FC /* NSData+Base64.m */; };
+		C3E5C38A22ACDE17004C68FC /* BTUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C38922ACDE17004C68FC /* BTUserInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,8 @@
 		C3E5C38122ABA104004C68FC /* BTWebview.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTWebview.m; sourceTree = "<group>"; };
 		C3E5C38522ABAD48004C68FC /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		C3E5C38622ABAD48004C68FC /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		C3E5C38822ACDE17004C68FC /* BTUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTUserInfo.h; sourceTree = "<group>"; };
+		C3E5C38922ACDE17004C68FC /* BTUserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUserInfo.m; sourceTree = "<group>"; };
 		D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -345,6 +348,8 @@
 			children = (
 				A9B35CE02281CF380041CE4C /* BTPost.h */,
 				A9B35CE12281CF380041CE4C /* BTPost.m */,
+				C3E5C38822ACDE17004C68FC /* BTUserInfo.h */,
+				C3E5C38922ACDE17004C68FC /* BTUserInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -631,6 +636,7 @@
 				A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,
+				C3E5C38A22ACDE17004C68FC /* BTUserInfo.m in Sources */,
 				A9B35CE22281CF380041CE4C /* BTPost.m in Sources */,
 				A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */,
 				C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */,
