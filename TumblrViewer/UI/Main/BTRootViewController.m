@@ -9,7 +9,8 @@
 #import "BTRootViewController.h"
 #import "BTDashboardCollectionCell.h"
 #import "BTPost.h"
-#import "BTPostGallaryViewController.h"
+//#import "BTPostGallaryViewController.h"
+#import "BTPostDetailViewController.h"
 #import "BTVideoPlayViewController.h"
 
 #import "PostsDataModel.h"
@@ -296,7 +297,7 @@
 #warning todo complete the photo browser logic
             //indexPath.item is for the image index of this post, section is for the post's index of this dashboard data.
             NSIndexPath *photoIndexPath = [NSIndexPath indexPathForItem:index inSection:indexPath.item];
-            BTPostGallaryViewController *vc = [[BTPostGallaryViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
+            BTPostDetailViewController *vc = [[BTPostDetailViewController alloc] initWithPostsDataCenter:[self.postDataModel copy] atIndexPath:photoIndexPath];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

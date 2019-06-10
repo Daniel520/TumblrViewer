@@ -52,7 +52,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 //    self.navigationController.navigationBar.hidden = YES;
 }
 
@@ -80,12 +80,14 @@
     }];
     
     UIButton *forwardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [forwardBtn setTitle:@"forward" forState:UIControlStateNormal];
+//    [forwardBtn setTitle:@"forward" forState:UIControlStateNormal];
+    [forwardBtn setImage:[UIImage imageNamed:@"forward"] forState:UIControlStateNormal];
     [forwardBtn addTarget:self action:@selector(forward:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:forwardBtn];
     
     [forwardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(view).with.offset(-20);
+        make.height.width.mas_equalTo(30);
     }];
 }
 
@@ -204,8 +206,20 @@
     
     FLAnimatedImageView *imgView = [imageViewArr objectAtIndex:indexPath.item];
     
+//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
+//    doubleTap.numberOfTapsRequired = 2;
+//    [imgView addGestureRecognizer:doubleTap];
+    
     [imgView sd_setImageWithURL:imgURL];
 }
+
+//- (void)didDoubleTap:(UITapGestureRecognizer *)tap {
+//    CGPoint point = [tap locationInView:tap.view];
+//    if (!CGRectContainsPoint(tap.view.bounds, point)) {
+//        return;
+//    }
+//    [self.scrollView handleDoubleTap:point];
+//}
 
 - (void)setupScrollView
 {
