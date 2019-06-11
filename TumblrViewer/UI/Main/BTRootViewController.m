@@ -121,7 +121,13 @@
         layout.footerHeight = 0;
         layout.minimumColumnSpacing = 5;
         layout.minimumInteritemSpacing = 0;
-        layout.columnCount = 4;
+        
+        if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+            layout.columnCount = 4;
+        }else{
+            layout.columnCount = 5;
+        }
+    
         //    layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight;
         layout.itemRenderDirection = CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst;
         
@@ -151,6 +157,16 @@
     
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    CHTCollectionViewWaterfallLayout *layout =
+    (CHTCollectionViewWaterfallLayout *)self.mainCollectionView.collectionViewLayout;
+//    [self.mainCollectionView reloadData];
+    layout.columnCount = size.width > size.height ? 5 : 4;
+//    [self.mainCollectionView reloadData];
+//    layout.columnCount = 4;
+}
 
 #pragma mark - UICollectionViewDataSource
 

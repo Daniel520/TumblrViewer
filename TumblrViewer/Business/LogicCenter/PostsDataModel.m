@@ -9,6 +9,7 @@
 #import "PostsDataModel.h"
 #import "APIAccessHelper.h"
 #import "HTMLParser.h"
+#import "BTToastManager.h"
 
 #define PAGELEN 20
 
@@ -54,6 +55,7 @@
             [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
                 
                 if (error) {
+                    [BTToastManager showToastWithText:@"Network Error, please try again"];
                     NSLog(@"error info:%@",error);
                 }
                 
