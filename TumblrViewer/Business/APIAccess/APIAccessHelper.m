@@ -15,6 +15,7 @@
 #import "BTUtils.h"
 #import "BTUserInfo.h"
 #import "BTPost.h"
+#import "BTToastManager.h"
 
 //#import <AFNetworking.h>
 
@@ -229,6 +230,7 @@ static APIAccessHelper *instance = nil;
             NSLog(@"reblog error:%@",error);
         }
         
+        [BTToastManager  showToastWithText:@"Forward Successed"];
         NSLog(@"reblog sucess");
     }];
     

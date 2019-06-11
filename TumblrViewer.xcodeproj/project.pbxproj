@@ -76,6 +76,12 @@
 		A9CEECA022AEA59B0079B88C /* glasses.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC6E22AEA59B0079B88C /* glasses.png */; };
 		A9CEECA222AEA5E40079B88C /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CEECA122AEA5E40079B88C /* forward.png */; };
 		A9CEECA522AEB0540079B88C /* BTPostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECA422AEB0540079B88C /* BTPostDetailViewController.m */; };
+		A9CEECB522AEC4180079B88C /* BTToastManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECAA22AEC4180079B88C /* BTToastManager.m */; };
+		A9CEECB622AEC4180079B88C /* BTToastInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECAB22AEC4180079B88C /* BTToastInfo.m */; };
+		A9CEECB722AEC4180079B88C /* BRToastWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECAF22AEC4180079B88C /* BRToastWindow.m */; };
+		A9CEECB822AEC4180079B88C /* BTToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECB022AEC4180079B88C /* BTToastViewController.m */; };
+		A9CEECB922AEC4180079B88C /* BTToastViewControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECB122AEC4180079B88C /* BTToastViewControllerContainerView.m */; };
+		A9CEECBA22AEC4180079B88C /* BTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CEECB422AEC4180079B88C /* BTToastView.m */; };
 		A9CFF35322A2680900D424C0 /* icon1024.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CFF34922A2680900D424C0 /* icon1024.png */; };
 		A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FD6224DDB350043CFBE /* BTUtils.m */; };
 		A9D19FDE224E2BE30043CFBE /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D19FDD224E2BE30043CFBE /* Storyboard.storyboard */; };
@@ -198,6 +204,18 @@
 		A9CEECA122AEA5E40079B88C /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		A9CEECA322AEB0540079B88C /* BTPostDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTPostDetailViewController.h; sourceTree = "<group>"; };
 		A9CEECA422AEB0540079B88C /* BTPostDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTPostDetailViewController.m; sourceTree = "<group>"; };
+		A9CEECA922AEC4180079B88C /* BTToastWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastWindow.h; sourceTree = "<group>"; };
+		A9CEECAA22AEC4180079B88C /* BTToastManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTToastManager.m; sourceTree = "<group>"; };
+		A9CEECAB22AEC4180079B88C /* BTToastInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTToastInfo.m; sourceTree = "<group>"; };
+		A9CEECAC22AEC4180079B88C /* BTToastViewControllerContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastViewControllerContainerView.h; sourceTree = "<group>"; };
+		A9CEECAD22AEC4180079B88C /* BTToastViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastViewController.h; sourceTree = "<group>"; };
+		A9CEECAE22AEC4180079B88C /* BTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastView.h; sourceTree = "<group>"; };
+		A9CEECAF22AEC4180079B88C /* BRToastWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRToastWindow.m; sourceTree = "<group>"; };
+		A9CEECB022AEC4180079B88C /* BTToastViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTToastViewController.m; sourceTree = "<group>"; };
+		A9CEECB122AEC4180079B88C /* BTToastViewControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTToastViewControllerContainerView.m; sourceTree = "<group>"; };
+		A9CEECB222AEC4180079B88C /* BTToastInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastInfo.h; sourceTree = "<group>"; };
+		A9CEECB322AEC4180079B88C /* BTToastManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTToastManager.h; sourceTree = "<group>"; };
+		A9CEECB422AEC4180079B88C /* BTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTToastView.m; sourceTree = "<group>"; };
 		A9CFF34922A2680900D424C0 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
 		A9D19FD5224DDB350043CFBE /* BTUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTUtils.h; sourceTree = "<group>"; };
 		A9D19FD6224DDB350043CFBE /* BTUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUtils.m; sourceTree = "<group>"; };
@@ -469,6 +487,25 @@
 			path = png;
 			sourceTree = "<group>";
 		};
+		A9CEECA822AEC4180079B88C /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				A9CEECA922AEC4180079B88C /* BTToastWindow.h */,
+				A9CEECAF22AEC4180079B88C /* BRToastWindow.m */,
+				A9CEECB322AEC4180079B88C /* BTToastManager.h */,
+				A9CEECAA22AEC4180079B88C /* BTToastManager.m */,
+				A9CEECAD22AEC4180079B88C /* BTToastViewController.h */,
+				A9CEECB022AEC4180079B88C /* BTToastViewController.m */,
+				A9CEECAE22AEC4180079B88C /* BTToastView.h */,
+				A9CEECAB22AEC4180079B88C /* BTToastInfo.m */,
+				A9CEECAC22AEC4180079B88C /* BTToastViewControllerContainerView.h */,
+				A9CEECB122AEC4180079B88C /* BTToastViewControllerContainerView.m */,
+				A9CEECB222AEC4180079B88C /* BTToastInfo.h */,
+				A9CEECB422AEC4180079B88C /* BTToastView.m */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		A9CFF2D3229D8B6E00D424C0 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +524,7 @@
 		A9D19FD4224DDB170043CFBE /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				A9CEECA822AEC4180079B88C /* Toast */,
 				A9D19FF32250EEDA0043CFBE /* HTMLParser */,
 				A9D19FD5224DDB350043CFBE /* BTUtils.h */,
 				A9D19FD6224DDB350043CFBE /* BTUtils.m */,
@@ -844,9 +882,13 @@
 				A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */,
 				A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */,
 				A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */,
+				A9CEECB722AEC4180079B88C /* BRToastWindow.m in Sources */,
 				A9CEECA522AEB0540079B88C /* BTPostDetailViewController.m in Sources */,
+				A9CEECB922AEC4180079B88C /* BTToastViewControllerContainerView.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,
+				A9CEECB522AEC4180079B88C /* BTToastManager.m in Sources */,
+				A9CEECB622AEC4180079B88C /* BTToastInfo.m in Sources */,
 				A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,
@@ -858,6 +900,8 @@
 				C355BD282299443500A12C41 /* PostsDataModel.m in Sources */,
 				C3E5C37F22AB9FF9004C68FC /* BTURLCacheProtocol.m in Sources */,
 				A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */,
+				A9CEECB822AEC4180079B88C /* BTToastViewController.m in Sources */,
+				A9CEECBA22AEC4180079B88C /* BTToastView.m in Sources */,
 				C3E5C38722ABAD48004C68FC /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
