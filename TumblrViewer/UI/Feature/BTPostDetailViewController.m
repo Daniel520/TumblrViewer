@@ -18,7 +18,7 @@
 #import "APIAccessHelper.h"
 #import "BTPostGallaryViewController.h"
 
-@interface BTPostDetailViewController () <UIScrollViewDelegate>
+@interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate>
 
 @property (nonatomic, strong) BTPost *post;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
@@ -31,6 +31,7 @@
  */
 @property (nonatomic, strong) NSMutableArray *imagePositionsArr;
 @property (nonatomic, strong) UIView *controlView;
+//@property (nonatomic, strong) BTWebview *webview;
 
 @end
 
@@ -139,6 +140,7 @@
     [BTWebview registerScheme:@"https"];
     
     BTWebview *webview = [[BTWebview alloc] init];
+    webview.navigationDelegate = self;
     
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
     
@@ -152,13 +154,11 @@
     }
     
     
-    
-    
     NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
-    //    NSString *htmlString = @"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"/>";
     htmlString = [htmlString stringByAppendingString:bodyString];
     
     [webview loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
+    
     [self.view addSubview:webview];
     
     [webview mas_makeConstraints:^(MASConstraintMaker *make){
@@ -289,11 +289,11 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = YES;
     self.scrollView.delegate = self;
-        if (@available(iOS 11.0, *)) {
-            self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        } else {
-            // Fallback on earlier versions
-        }
+//        if (@available(iOS 11.0, *)) {
+//            self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//        } else {
+//            // Fallback on earlier versions
+//        }
     
     [self.view addSubview:self.scrollView];
     
@@ -353,6 +353,22 @@
         
     }
     
+}
+
+#pragma mark WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    NSString *jsFormat = @"var offset = document.getElementsByTagName(\"img\")[%ld].offsetTop;document.getElementsByTagName(\"body\")[0].scrollTop = offset;";
+    NSString *js = [NSString stringWithFormat:jsFormat,self.currentIndexPath.item];
+    
+    [webView evaluateJavaScript:js completionHandler:^(id value, NSError *error){
+        if (error) {
+            NSLog(@"js error:%@",error);
+        }
+        
+        NSLog(@"value:%@",value);
+    }];
 }
 
 //- (void)addObserverForPlayer
