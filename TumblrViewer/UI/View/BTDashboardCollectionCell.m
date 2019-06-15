@@ -89,6 +89,9 @@
     content.numberOfLines = 0;
     content.tag = 0;
     content.userInteractionEnabled = YES;
+    content.font = [UIFont systemFontOfSize:12];
+//    content.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0];
+    content.backgroundColor = [UIColor colorWithRed:1 green:0.92 blue:0.84 alpha:1];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
     [content addGestureRecognizer:tapGesture];

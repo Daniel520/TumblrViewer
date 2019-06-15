@@ -254,7 +254,14 @@
         
         HTMLNode *bodyNode = [parser body];
         
-        content = [bodyNode allContents];
+        NSArray *videoNodes = [bodyNode findChildTags:@"video"];
+        
+        if (videoNodes.count > 0) {
+#warning todo translate video wording
+            content = [@"video:\n" stringByAppendingString:[bodyNode allContents]];
+        }else{
+            content = [bodyNode allContents];
+        }
     }
     
     BTPost *post = [BTPost new];

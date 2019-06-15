@@ -276,8 +276,24 @@
             break;
         case BTText:
         {
-            //now use 100 width to show, text height hardcode now to 150;
-            return CGSizeMake(width, 150);
+            NSDictionary *attrs = @{NSFontAttributeName :[UIFont systemFontOfSize:12]};
+            CGSize maxSize = CGSizeMake(width, MAXFLOAT);
+            
+            NSStringDrawingOptions options = NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
+            
+            // 计算文字占据的宽高
+            CGSize size = [post.text boundingRectWithSize:maxSize options:options attributes:attrs context:nil].size;
+            
+            //the max height is 150
+            if (size.height > 150) {
+                size.height = 150;
+            } else {
+                size.height += 40;
+            }
+            
+            return size;
+//            //now use 100 width to show, text height hardcode now to 150;
+//            return CGSizeMake(width, 150);
         }
             break;
         case BTVideo:{
