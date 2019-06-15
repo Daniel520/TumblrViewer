@@ -24,7 +24,7 @@
 		A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CB9B224BC08800B2FAFD /* BTMainTabViewController.m */; };
 		A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA0224BC0C400B2FAFD /* LoginViewController.m */; };
 		A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */; };
-		A9CEEC3B22A82F3B0079B88C /* htmlHeader.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */; };
+		A9CEEC3B22A82F3B0079B88C /* htmlHeader.html in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3A22A82F3B0079B88C /* htmlHeader.html */; };
 		A9CEEC6F22AEA59B0079B88C /* settings-1.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3D22AEA59B0079B88C /* settings-1.png */; };
 		A9CEEC7022AEA59B0079B88C /* headphones.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3E22AEA59B0079B88C /* headphones.png */; };
 		A9CEEC7122AEA59B0079B88C /* pie-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CEEC3F22AEA59B0079B88C /* pie-chart.png */; };
@@ -151,7 +151,7 @@
 		A9B5CBA3224BC10000B2FAFD /* BTMainAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTMainAppDelegate.h; sourceTree = "<group>"; };
 		A9B5CBA4224BC10000B2FAFD /* BTMainAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTMainAppDelegate.m; sourceTree = "<group>"; };
 		A9B5CBA6224C8F3700B2FAFD /* CommonConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonConstants.h; sourceTree = "<group>"; };
-		A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = htmlHeader.txt; sourceTree = "<group>"; };
+		A9CEEC3A22A82F3B0079B88C /* htmlHeader.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = htmlHeader.html; sourceTree = "<group>"; };
 		A9CEEC3D22AEA59B0079B88C /* settings-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-1.png"; sourceTree = "<group>"; };
 		A9CEEC3E22AEA59B0079B88C /* headphones.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headphones.png; sourceTree = "<group>"; };
 		A9CEEC3F22AEA59B0079B88C /* pie-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pie-chart.png"; sourceTree = "<group>"; };
@@ -570,7 +570,7 @@
 			children = (
 				A9CEEC3C22AEA59B0079B88C /* png */,
 				A9CFF34722A2680900D424C0 /* icon */,
-				A9CEEC3A22A82F3B0079B88C /* htmlHeader.txt */,
+				A9CEEC3A22A82F3B0079B88C /* htmlHeader.html */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -727,7 +727,7 @@
 				A9CEEC9B22AEA59B0079B88C /* paper-plane.png in Resources */,
 				A9CEEC8222AEA59B0079B88C /* like.png in Resources */,
 				A9CEECA022AEA59B0079B88C /* glasses.png in Resources */,
-				A9CEEC3B22A82F3B0079B88C /* htmlHeader.txt in Resources */,
+				A9CEEC3B22A82F3B0079B88C /* htmlHeader.html in Resources */,
 				A9CEEC8B22AEA59B0079B88C /* shopping-cart.png in Resources */,
 				A9CEEC7F22AEA59B0079B88C /* logout.png in Resources */,
 				A9CEEC7622AEA59B0079B88C /* envelope.png in Resources */,

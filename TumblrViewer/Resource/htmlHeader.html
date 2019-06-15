@@ -1,0 +1,39 @@
+<html>
+<head>
+<title></title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<style>
+html,body,blockquote,figure {
+margin:0;
+padding:0;
+overflow: hidden;
+}
+
+img,image{
+width: 100%;
+}
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+function addClictEvent(){
+    var imgs = document.getElementsByTagName("img");
+    for(var i = 0; i < imgs.length; i++){
+        (function(i){
+            imgs[i].onclick = function(){
+                window.webkit.messageHandlers.ClickImage.postMessage({index:i});
+            }
+        })(i);
+    }
+};
+
+window.onload = function(){
+    addClictEvent();
+}
+
+</script>
+</body>
+</html>
+

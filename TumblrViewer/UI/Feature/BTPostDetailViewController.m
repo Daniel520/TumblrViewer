@@ -18,7 +18,7 @@
 #import "APIAccessHelper.h"
 #import "BTPostGallaryViewController.h"
 
-@interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate>
+@interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) BTPost *post;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
@@ -136,10 +136,23 @@
     BTWeakSelf(weakSelf);
     [NSURLProtocol registerClass:[BTURLCacheProtocol class]];
     
+    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+    
+    [userContentController addScriptMessageHandler:self name:@"ClickImage"];
+//    [userContentController addScriptMessageHandler:self name:@"Camera"];
+    configuration.userContentController = userContentController;
+    
+    WKPreferences *preferences = [WKPreferences new];
+    preferences.javaScriptCanOpenWindowsAutomatically = YES;
+//    preferences.minimumFontSize = 40.0;
+    configuration.preferences = preferences;
+    
+    
     [BTWebview registerScheme:@"http"];
     [BTWebview registerScheme:@"https"];
     
-    BTWebview *webview = [[BTWebview alloc] init];
+    BTWebview *webview = [[BTWebview alloc] initWithFrame:CGRectZero configuration:configuration];
     webview.navigationDelegate = self;
     
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
@@ -153,9 +166,18 @@
         bodyString = post.contentBody;
     }
     
+    NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
     
-    NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
-    htmlString = [htmlString stringByAppendingString:bodyString];
+    NSRange bodyRange = [htmlString rangeOfString:@"<body>"];
+    if (bodyRange.location != NSNotFound) {
+        NSMutableString *mutableString = [[NSMutableString alloc] initWithString:htmlString];
+        [mutableString insertString:bodyString atIndex:bodyRange.location + bodyRange.length];
+        htmlString = [mutableString copy];
+    }else{
+        
+        htmlString = [htmlString stringByAppendingString:bodyString];
+    }
+    
     
     [webview loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
     
@@ -369,8 +391,35 @@
         
         NSLog(@"value:%@",value);
     }];
+    
+//    js = @"function imageClick(index){window.webkit.messageHandlers.ClickImage.postMessage({index:index});}function addClictEvent(){var imgs = document.getElementsByTagName(\"img\");for(var i = 0; i < imgs.length; i++){}}addClictEvent()";
+//    js = @"function addClictEvent1(){var imgs = document.getElementsByTagName(\"img\");for(var i = 0; i < imgs.length; i++){imgs.onClick = function(){window.webkit.messageHandlers.ClickImage.postMessage({index:i});}}};addClictEvent1()";
+//    [webView evaluateJavaScript:js completionHandler:^(id value, NSError *error){
+//        if (error) {
+//            NSLog(@"js error:%@",error);
+//        }
+//        
+//        NSLog(@"value:%@",value);
+//    }];
 }
 
+#pragma mark WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
+{
+    //JS call OC method
+    //message.boby is the parameter from JS
+    NSLog(@"body:%@",message.body);
+    
+    if ([message.name isEqualToString:@"ClickImage"]) {
+//        [self ShareWithInformation:message.body];
+        if (![message.body isKindOfClass:[NSDictionary class]]) {
+            return;
+        }
+        NSNumber *index = [message.body objectForKey:@"index"];
+        
+        [self tapImage:index];
+    }
+}
 //- (void)addObserverForPlayer
 //{
 //    [self addObserver:self.playerController.player.currentItem forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];

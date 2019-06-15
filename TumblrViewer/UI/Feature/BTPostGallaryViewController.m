@@ -102,22 +102,23 @@
 {
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
     self.title = post.title;
+    [self setupImageViews];
     
-    switch (post.type) {
-        case BTPhoto:
-            {
-                [self setupImageViews];
-                break;
-            }
-        case BTPhotoText:
-        case BTText:
-        {
-            [self setupWebview];
-            break;
-        }
-        default:
-            break;
-    }
+//    switch (post.type) {
+//        case BTPhoto:
+//            {
+//                [self setupImageViews];
+//                break;
+//            }
+//        case BTPhotoText:
+//        case BTText:
+//        {
+//            [self setupWebview];
+//            break;
+//        }
+//        default:
+//            break;
+//    }
 }
 
 - (void)setupWebview
@@ -135,8 +136,16 @@
     
     
     NSString *htmlString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"htmlHeader" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
-//    NSString *htmlString = @"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"/>";
-    htmlString = [htmlString stringByAppendingString:bodyString];
+    NSRange bodyRange = [htmlString rangeOfString:@"<body>"];
+    if (bodyRange.location != NSNotFound) {
+        NSMutableString *mutableString = [[NSMutableString alloc] initWithString:htmlString];
+        [mutableString insertString:bodyString atIndex:bodyRange.location + bodyRange.length];
+        htmlString = [mutableString copy];
+    }else{
+        
+        //    NSString *htmlString = @"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"/>";
+        htmlString = [htmlString stringByAppendingString:bodyString];
+    }
     
     [webview loadHTMLString:htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
     [self.view addSubview:webview];
