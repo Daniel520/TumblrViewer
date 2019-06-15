@@ -131,7 +131,7 @@
         [self.blogNameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(weakSelf.avatarBtn.mas_right).with.offset(5);
             make.height.mas_equalTo(30);
-            make.width.mas_lessThanOrEqualTo(100);
+            make.width.mas_lessThanOrEqualTo(150);
         }];
     }
     
@@ -148,7 +148,7 @@
 
 - (void)avatarClick:(UIButton*)btn
 {
-    BTPost *post = [btn.layer valueForKey:@"post"];
+    BTPost *post = [self.avatarBtn.layer valueForKey:@"post"];
     BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
     [self.navigationController pushViewController:vc animated:YES];
 }

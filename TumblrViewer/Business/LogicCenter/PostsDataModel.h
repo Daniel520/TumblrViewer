@@ -31,7 +31,7 @@ typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * 
  @param isLoadMore A BOOL value, is perform load more action, YES is load more
  @param callback  perform after load data return value, the callback param "posts" of callback is for this time return data, to get the whole posts data can use the "posts" property of PostDataCenter.
  */
-- (void)loadData:(BOOL)isLoadMore withType:(PostsType)type callback:(nonnull PostsDataCallback)callback;
+- (void)loadData:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 
 - (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 @end

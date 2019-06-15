@@ -103,7 +103,7 @@
     
     switch (self.type) {
         case Type_Dashboard:{
-            [self.postDataModel loadData:isLoadMore withType:self.type callback:^(NSArray<BTPost*> *posts, NSError * error){
+            [self.postDataModel loadData:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
                 
                 if (error) {
                     weakSelf.dataFailCount++;

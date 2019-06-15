@@ -37,11 +37,11 @@
     return [self.postArr copy];
 }
 
-- (void)loadData:(BOOL)isLoadMore withType:(PostsType)type callback:(nonnull PostsDataCallback)callback;
+- (void)loadData:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 {
     self.isLoadingPosts = YES;
     BTWeakSelf(weakSelf);
-
+    
     if (!isLoadMore) {
         
         //refresh current offset
@@ -52,36 +52,36 @@
         self.postArr = [NSMutableArray new];
     }
     
-    switch (type) {
-        case Type_Dashboard:{
-            [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
-                
-                if (error) {
-                    [BTToastManager showToastWithText:@"Network Error, please try again"];
-                    NSLog(@"error info:%@",error);
-                }
-                
-                //                weakSelf.currentOffset += weakSelf.postArr.count;
-                //                weakSelf.currentOffset += PAGELEN;
-                NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
-                
-                [weakSelf.postArr addObjectsFromArray:returnPosts];
-                
-                callback(returnPosts, error);
-                
-                weakSelf.isLoadingPosts = NO;
-            }];
-            break;
+    //    switch (type) {
+    //        case Type_Dashboard:{
+    [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+        
+        if (error) {
+            [BTToastManager showToastWithText:@"Network Error, please try again"];
+            NSLog(@"error info:%@",error);
         }
-        case Type_BlogPost:{
-//            [APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:<#(nonnull NSString *)#> type:<#(nonnull NSString *)#> Start:<#(NSInteger)#> count:<#(NSInteger)#> callback:<#^(NSDictionary * _Nonnull dashboardDic, NSError * _Nonnull error)callback#>
-        }
-            
-            break;
-            
-        default:
-            break;
-    }
+        
+        //                weakSelf.currentOffset += weakSelf.postArr.count;
+        //                weakSelf.currentOffset += PAGELEN;
+        NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+        
+        [weakSelf.postArr addObjectsFromArray:returnPosts];
+        
+        callback(returnPosts, error);
+        
+        weakSelf.isLoadingPosts = NO;
+    }];
+//    break;
+//}
+//        case Type_BlogPost:{
+////            [APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:<#(nonnull NSString *)#> type:<#(nonnull NSString *)#> Start:<#(NSInteger)#> count:<#(NSInteger)#> callback:<#^(NSDictionary * _Nonnull dashboardDic, NSError * _Nonnull error)callback#>
+//        }
+//
+//            break;
+//
+//        default:
+//            break;
+//    }
 }
 
 - (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
