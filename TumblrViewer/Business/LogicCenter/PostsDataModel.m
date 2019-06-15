@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSMutableArray *postArr;
 @property (nonatomic, assign) NSInteger currentOffset;
+@property (nonatomic, assign, readwrite) BOOL isLoadingPosts;
 
 @end
 
@@ -38,6 +39,7 @@
 
 - (void)loadData:(BOOL)isLoadMore withType:(PostsType)type callback:(nonnull PostsDataCallback)callback;
 {
+    self.isLoadingPosts = YES;
     BTWeakSelf(weakSelf);
 
     if (!isLoadMore) {
@@ -66,6 +68,8 @@
                 [weakSelf.postArr addObjectsFromArray:returnPosts];
                 
                 callback(returnPosts, error);
+                
+                weakSelf.isLoadingPosts = NO;
             }];
             break;
         }
@@ -231,6 +235,14 @@
 //    HTMLNode *bodyNode = [parser body];
     
     NSArray *imageInfos = [self extractImageFromHtml:body];
+    
+//    //load html reblog image. but find it's duplicate with the main post images, so comment first
+//    NSDictionary *reblogDic = [postDic objectForKey:@"reblog"];
+//    NSString *reblogContent = [reblogDic objectForKey:@"tree_html"];
+//
+//    NSArray *reblogImageInfos = [self extractImageFromHtml:reblogContent];
+//
+//    imageInfos = [imageInfos arrayByAddingObjectsFromArray:reblogImageInfos];
     
     if (imageInfos.count == 0) {
         HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];

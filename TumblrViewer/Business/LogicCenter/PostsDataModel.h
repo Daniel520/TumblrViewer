@@ -22,6 +22,8 @@ typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * 
 
 @property (nonatomic, strong, readonly) NSArray *posts;
 
+@property (nonatomic, assign, readonly) BOOL isLoadingPosts;
+
 
 /**
  Load Post Data

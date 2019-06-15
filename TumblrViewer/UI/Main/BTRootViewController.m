@@ -12,6 +12,7 @@
 //#import "BTPostGallaryViewController.h"
 #import "BTPostDetailViewController.h"
 #import "BTVideoPlayViewController.h"
+#import "BTCollectionViewWaterfallLayout.h"
 
 #import "PostsDataModel.h"
 #import <MJRefresh.h>
@@ -22,11 +23,12 @@
 
 
 
-@interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,BTPostContentActionDelegate>
+@interface BTRootViewController () <UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,BTPostContentActionDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
 //@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
+@property (nonatomic, assign) NSInteger dataFailCount;
 
 @end
 
@@ -38,6 +40,7 @@
     [self.navigationItem setHidesBackButton:TRUE animated:NO];
     self.view.backgroundColor = [UIColor blackColor];
     self.title = @"Dashboard";
+    self.dataFailCount = 0;
     self.postDataModel = [PostsDataModel new];
     [self loadData:NO];
 }
@@ -80,9 +83,11 @@
     [self.postDataModel loadData:isLoadMore withType:Type_Dashboard callback:^(NSArray<BTPost*> *posts, NSError * error){
 
         if (error) {
+            weakSelf.dataFailCount++;
             NSLog(@"error info:%@",error);
         }
         
+        weakSelf.dataFailCount = 0;
         [weakSelf hideLoading];
         
         [weakSelf updateDashboard];
@@ -114,13 +119,13 @@
 {
     if(!self.mainCollectionView){
         BTWeakSelf(weakSelf);
-        CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+        BTCollectionViewWaterfallLayout *layout = [[BTCollectionViewWaterfallLayout alloc] init];
         
         layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
         layout.headerHeight = 0;
         layout.footerHeight = 0;
         layout.minimumColumnSpacing = 5;
-        layout.minimumInteritemSpacing = 0;
+        layout.minimumInteritemSpacing = 2;
         
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
             layout.columnCount = 4;
@@ -160,8 +165,8 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    CHTCollectionViewWaterfallLayout *layout =
-    (CHTCollectionViewWaterfallLayout *)self.mainCollectionView.collectionViewLayout;
+    BTCollectionViewWaterfallLayout *layout =
+    (BTCollectionViewWaterfallLayout *)self.mainCollectionView.collectionViewLayout;
 //    [self.mainCollectionView reloadData];
     layout.columnCount = size.width > size.height ? 5 : 4;
 //    [self.mainCollectionView reloadData];
@@ -320,6 +325,29 @@
         default:
             break;
     }
+}
+
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    BTWeakSelf(weakSelf);
+    BTCollectionViewWaterfallLayout *layout =
+    (BTCollectionViewWaterfallLayout *)self.mainCollectionView.collectionViewLayout;
+    
+    
+    CGFloat yOffset = [layout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
+    
+    //if data fail more than 3, then stop auto load more data. if need more data, user can do it manaully
+    if (scrollView.contentOffset.y > yOffset/3 && !self.postDataModel.isLoadingPosts && self.dataFailCount < 3) {
+        //            self performSelector:<#(nonnull SEL)#> withObject:<#(nullable id)#> afterDelay:<#(NSTimeInterval)#> inModes:<#(nonnull NSArray<NSRunLoopMode> *)#>
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf loadData:YES];
+        });
+        
+    }
+    
+    
 }
 
 /*
