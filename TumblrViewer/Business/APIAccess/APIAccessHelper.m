@@ -152,26 +152,28 @@ static APIAccessHelper *instance = nil;
             return;
         }
         
-        BTUserInfo *userInfo = [BTUserInfo new];
         NSDictionary *userInfoDic = [(NSDictionary*)response objectForKey:@"user"];
-        userInfo.name = [userInfoDic objectForKey:@"name"];
-        userInfo.likes = [[userInfoDic objectForKey:@"likes"] integerValue];
-        userInfo.follows = [[userInfoDic objectForKey:@"follows"] integerValue];
+        BTUserInfo *userInfo = [BTUserInfo createUserInfoByDic:userInfoDic];
+//        BTUserInfo *userInfo = [BTUserInfo new];
         
-        NSMutableArray *blogList = [NSMutableArray new];
-        
-        for (NSDictionary *blogDic in [userInfoDic objectForKey:@"blogs"]) {
-            BTBlogInfo *blog = [BTBlogInfo new];
-            blog.followers = [[blogDic objectForKey:@"followers"] integerValue];
-            blog.isAdmin = [[blogDic objectForKey:@"admin"] boolValue];
-            blog.isNsfw = [[blogDic objectForKey:@"is_nsfw"] boolValue];
-            blog.blogUrl = [blogDic objectForKey:@"url"];
-            blog.uuid = [blogDic objectForKey:@"uuid"];
-            blog.isBlockedFromPrimary = [blogDic objectForKey:@"is_blocked_from_primary"];
-            [blogList addObject:blog];
-        }
-        
-        userInfo.blogList = blogList;
+//        userInfo.name = [userInfoDic objectForKey:@"name"];
+//        userInfo.likes = [[userInfoDic objectForKey:@"likes"] integerValue];
+//        userInfo.follows = [[userInfoDic objectForKey:@"follows"] integerValue];
+//
+//        NSMutableArray *blogList = [NSMutableArray new];
+//
+//        for (NSDictionary *blogDic in [userInfoDic objectForKey:@"blogs"]) {
+//            BTBlogInfo *blog = [BTBlogInfo new];
+//            blog.followers = [[blogDic objectForKey:@"followers"] integerValue];
+//            blog.isAdmin = [[blogDic objectForKey:@"admin"] boolValue];
+//            blog.isNsfw = [[blogDic objectForKey:@"is_nsfw"] boolValue];
+//            blog.blogUrl = [blogDic objectForKey:@"url"];
+//            blog.uuid = [blogDic objectForKey:@"uuid"];
+//            blog.isBlockedFromPrimary = [blogDic objectForKey:@"is_blocked_from_primary"];
+//            [blogList addObject:blog];
+//        }
+//
+//        userInfo.blogList = blogList;
         
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
         
@@ -199,6 +201,24 @@ static APIAccessHelper *instance = nil;
     NSURLSessionTask *task = nil;
     
     task = [apiClient dashboardRequest:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+        
+        
+        if (error) {
+            NSLog(@"error info:%@",error);
+        }
+        callback(response, error);
+    }];
+    
+    [task resume];
+}
+
+- (void)requestPostFromBlogId:(NSString*)blogId type:(NSString*)type Start:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = nil;
+    
+    task = [apiClient postsTask:blogId type:type queryParameters:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
         
         
         if (error) {

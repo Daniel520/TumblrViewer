@@ -33,7 +33,7 @@ typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * 
  */
 - (void)loadData:(BOOL)isLoadMore withType:(PostsType)type callback:(nonnull PostsDataCallback)callback;
 
-
+- (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 @end
 
 NS_ASSUME_NONNULL_END

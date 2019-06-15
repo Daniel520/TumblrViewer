@@ -173,7 +173,8 @@
 {
     self.navigationController.navigationBar.hidden = NO;
     
-    BTRootViewController *rootVC = [BTRootViewController new];
+    BTBlogInfo *blog = [[[APIAccessHelper shareApiAccessHelper] getUserInfo].blogList objectAtIndex:0];
+    BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog WithDataType:Type_Dashboard];
     [self.navigationController pushViewController:rootVC animated:NO];
 }
 

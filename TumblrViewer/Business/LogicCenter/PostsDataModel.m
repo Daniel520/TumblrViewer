@@ -61,8 +61,8 @@
                     NSLog(@"error info:%@",error);
                 }
                 
-//                weakSelf.currentOffset += weakSelf.postArr.count;
-//                weakSelf.currentOffset += PAGELEN;
+                //                weakSelf.currentOffset += weakSelf.postArr.count;
+                //                weakSelf.currentOffset += PAGELEN;
                 NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
                 
                 [weakSelf.postArr addObjectsFromArray:returnPosts];
@@ -73,13 +73,49 @@
             }];
             break;
         }
-            case Type_BlogPost:
+        case Type_BlogPost:{
+//            [APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:<#(nonnull NSString *)#> type:<#(nonnull NSString *)#> Start:<#(NSInteger)#> count:<#(NSInteger)#> callback:<#^(NSDictionary * _Nonnull dashboardDic, NSError * _Nonnull error)callback#>
+        }
             
             break;
             
         default:
             break;
     }
+}
+
+- (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
+{
+    self.isLoadingPosts = YES;
+    BTWeakSelf(weakSelf);
+    
+    if (!isLoadMore) {
+        
+        //refresh current offset
+        self.currentOffset = 0;
+        
+        // clear data to refresh
+        //        self.dashboardImgArr = [NSArray new];
+        self.postArr = [NSMutableArray new];
+    }
+    
+    [[APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:blogId type:nil Start:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+        
+        if (error) {
+            [BTToastManager showToastWithText:@"Network Error, please try again"];
+            NSLog(@"error info:%@",error);
+        }
+        
+        //                weakSelf.currentOffset += weakSelf.postArr.count;
+        //                weakSelf.currentOffset += PAGELEN;
+        NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+        
+        [weakSelf.postArr addObjectsFromArray:returnPosts];
+        
+        callback(returnPosts, error);
+        
+        weakSelf.isLoadingPosts = NO;
+    }];
 }
 
 - (NSArray *)translteDashboardData:(NSDictionary*)dashboardDic
@@ -94,15 +130,17 @@
         NSString *type = [postDic objectForKey:@"type"];
         //        BTPost *post = [BTPost new];
         
+        BTBlogInfo *blog = [BTBlogInfo createBlogInfoByDic:[postDic objectForKey:@"blog"]];
+        BTPost *post = nil;
         if ([type isEqualToString:@"text"]) {
             //            NSString *body = [postDic objectForKey:@"body"];
-            BTPost *post = [self translatePostDic:postDic];
+            post = [self translatePostDic:postDic];
             post.postid = [[postDic objectForKey:@"id"] integerValue];
             post.reblogKey = [postDic objectForKey:@"reblog_key"];
             
-            if (post) {
-                [posts addObject:post];
-            }
+//            if (post) {
+//                [posts addObject:post];
+//            }
             
         } else if ([type isEqualToString:@"photo"]) {
             
@@ -119,7 +157,7 @@
             imageInfos = [imageInfos arrayByAddingObjectsFromArray:reblogImageInfos];
             
             if (imageInfos && imageInfos.count > 0) {
-                BTPost *post = [BTPost new];
+                post = [BTPost new];
                 post.type = BTPhoto;
                 NSString *title = [postDic objectForKey:@"title"];
                 if ([title isKindOfClass:[NSNull class]] || [title isEqualToString:@"<null>"]) {
@@ -132,17 +170,22 @@
                 post.postid = [[postDic objectForKey:@"id"] integerValue];
                 post.reblogKey = [postDic objectForKey:@"reblog_key"];
                 
-                [posts addObject:post];
+//                [posts addObject:post];
             }
         } else if ([type isEqualToString:@"video"]) {
             
-            BTPost *post = [self translateVideoPostDic:postDic];
+            post = [self translateVideoPostDic:postDic];
             post.postid = [[postDic objectForKey:@"id"] integerValue];
             post.reblogKey = [postDic objectForKey:@"reblog_key"];
             
-            if (post) {
-                [posts addObject:post];
-            }
+//            if (post) {
+//                [posts addObject:post];
+//            }
+        }
+        
+        if (post) {
+            post.blogInfo = blog;
+            [posts addObject:post];
         }
     }
     

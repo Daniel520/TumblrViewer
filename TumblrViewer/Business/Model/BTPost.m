@@ -70,6 +70,7 @@
                               @"type":@(self.type),
                               @"id":@(self.postid),
                               @"title":self.title,
+                              @"blog":self.blogInfo.name,
                               @"text":self.text ? self.text : [NSNull null],
                               @"photos":self.imageInfos ? self.imageInfos : [NSNull null],
                               @"videoInfo":self.videoInfo ? self.videoInfo : [NSNull null]

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "BTUserInfo.h"
 
 //post common
 //#define INFO_URL @"url"
@@ -78,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) NSInteger postid;
 @property (nonatomic, strong) NSString *reblogKey;
+@property (nonatomic, strong) BTBlogInfo *blogInfo;
 
 //test
 //@property (nonatomic, strong) NSArray *imgURLs;

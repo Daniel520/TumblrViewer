@@ -12,11 +12,13 @@
 #import <FLAnimatedImageView.h>
 #import <FLAnimatedImageView+WebCache.h>
 #import <WebKit/WebKit.h>
+#import <UIButton+WebCache.h>
 
 #import "BTURLCacheProtocol.h"
 #import "BTWebview.h"
 #import "APIAccessHelper.h"
 #import "BTPostGallaryViewController.h"
+#import "BTRootViewController.h"
 
 @interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 
@@ -31,6 +33,8 @@
  */
 @property (nonatomic, strong) NSMutableArray *imagePositionsArr;
 @property (nonatomic, strong) UIView *controlView;
+@property (nonatomic, strong) UIButton *avatarBtn;
+@property (nonatomic, strong) UIButton *blogNameBtn;
 //@property (nonatomic, strong) BTWebview *webview;
 
 @end
@@ -78,6 +82,8 @@
 
 - (void)initControlBar
 {
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    
     CGFloat viewHeight = 40;// * ADJUST_VIEW_RADIO;
     
     BTWeakSelf(weakSelf);
@@ -100,6 +106,51 @@
         make.right.equalTo(view).with.offset(-20);
         make.height.width.mas_equalTo(30);
     }];
+    
+    [self setupAvatar:post];
+    
+}
+
+- (void)setupAvatar:(BTPost*)post
+{
+    BTWeakSelf(weakSelf);
+    if (!self.avatarBtn && self.controlView) {
+        self.avatarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.avatarBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.controlView addSubview:self.avatarBtn];
+        [self.avatarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(weakSelf.controlView).with.offset(20);
+            make.height.width.mas_equalTo(30);
+        }];
+        
+        self.blogNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.blogNameBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.blogNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.controlView addSubview:self.blogNameBtn];
+        [self.blogNameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(weakSelf.avatarBtn.mas_right).with.offset(5);
+            make.height.mas_equalTo(30);
+            make.width.mas_lessThanOrEqualTo(100);
+        }];
+    }
+    
+#warning todo set image placeholder
+    [self.avatarBtn sd_setImageWithURL:[NSURL URLWithString:post.blogInfo.avatarPath] forState:UIControlStateNormal];
+    [self.avatarBtn.layer setValue:post forKey:@"post"];
+    
+    
+    [self.blogNameBtn setTitle:post.blogInfo.name forState:UIControlStateNormal];
+    
+    
+    
+}
+
+- (void)avatarClick:(UIButton*)btn
+{
+    BTPost *post = [btn.layer valueForKey:@"post"];
+    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)forward:(id)sender
@@ -230,6 +281,14 @@
         }else{
             resInfo = [imageInfo.imageResArr objectAtIndex:0];
             imgURL = resInfo.resUrl;
+            
+            // it should be a bug for tumblr, for gif the max size photo of gif just have one frame, but the last 3 is ok
+            NSInteger index = imageInfo.imageResArr.count - 3;
+            if ([imgURL.pathExtension.lowercaseString isEqualToString:@"gif"] && index >= 0) {
+                
+                resInfo = [imageInfo.imageResArr objectAtIndex:index];
+                imgURL = resInfo.resUrl;
+            }
         }
         
         CGFloat imgHeight = SCREEN_WIDTH/resInfo.size.width * resInfo.size.height;
@@ -243,7 +302,9 @@
         imgView.userInteractionEnabled = YES;
         imgView.tag = i;
         [imgView sd_setImageWithURL:imgURL];
-        
+//        [imgView sd_setImageWithURL:imgURL placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
+//            [imgView startAnimating];
+//        }];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] init];
         [tapGes addTarget:self action:@selector(tapImage:)];
         [imgView addGestureRecognizer:tapGes];
@@ -367,7 +428,7 @@
         
         BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
         self.title = post.title;
-        
+        [self setupAvatar:post];
 #warning todo calculate current item and section to set currentIndexPath
 //        NSInteger *item = 0;
 //        

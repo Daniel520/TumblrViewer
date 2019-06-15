@@ -15,6 +15,7 @@
 @protocol BTPostContentActionDelegate <NSObject>
 
 - (void)tapInCell:(BTDashboardCollectionCell* _Nullable)cell withIndex:(NSInteger)index;
+//- (void)tapAvatarWithPost:(BTPost*)post;
 
 @end
 

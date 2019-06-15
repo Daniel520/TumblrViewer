@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger follows;
 @property (nonatomic, strong) NSArray *blogList;
 
++ (BTUserInfo*)createUserInfoByDic:(NSDictionary*)userInfoDic;
+
 @end
 
 @interface BTBlogInfo : NSObject <NSCoding>
@@ -24,10 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, assign) NSInteger followers;
 @property (nonatomic, strong) NSString *blogUrl;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, assign) BOOL isNsfw;
 @property (nonatomic, assign) BOOL isBlockedFromPrimary;
+@property (nonatomic, strong, readonly) NSString *avatarPath;
+@property (nonatomic, strong, readonly) NSString *blogId;
 
++ (BTBlogInfo*)createBlogInfoByDic:(NSDictionary*)blogDic;
 @end
 
 NS_ASSUME_NONNULL_END

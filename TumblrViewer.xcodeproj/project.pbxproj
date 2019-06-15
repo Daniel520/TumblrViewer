@@ -11,6 +11,7 @@
 		12E573343849C6A82D328A2D /* libPods-TumblrViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */; };
 		A8BA40DC700BE4B569F57F36 /* libPods-TumblrViewerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */; };
 		A923A75622B4DA08002340B5 /* BTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A923A75522B4DA08002340B5 /* BTCollectionViewWaterfallLayout.m */; };
+		A923A75B22B4FF56002340B5 /* UIImage+AddCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = A923A75A22B4FF56002340B5 /* UIImage+AddCorner.m */; };
 		A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */; };
 		A99CC702224CCBFB007B22C9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC701224CCBFB007B22C9 /* SystemConfiguration.framework */; };
 		A99CC704224CCC03007B22C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99CC703224CCC03007B22C9 /* MobileCoreServices.framework */; };
@@ -126,6 +127,8 @@
 		A007F1D8F2C5BB62DE2511B0 /* libPods-TumblrViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TumblrViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A923A75422B4DA08002340B5 /* BTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		A923A75522B4DA08002340B5 /* BTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
+		A923A75922B4FF56002340B5 /* UIImage+AddCorner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+AddCorner.h"; sourceTree = "<group>"; };
+		A923A75A22B4FF56002340B5 /* UIImage+AddCorner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AddCorner.m"; sourceTree = "<group>"; };
 		A960E6ED224CBFF7007A9F2E /* BTRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTRootViewController.h; sourceTree = "<group>"; };
 		A960E6EE224CBFF7007A9F2E /* BTRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTRootViewController.m; sourceTree = "<group>"; };
 		A99CC701224CCBFB007B22C9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -541,6 +544,8 @@
 				A9D19FF32250EEDA0043CFBE /* HTMLParser */,
 				A9D19FD5224DDB350043CFBE /* BTUtils.h */,
 				A9D19FD6224DDB350043CFBE /* BTUtils.m */,
+				A923A75922B4FF56002340B5 /* UIImage+AddCorner.h */,
+				A923A75A22B4FF56002340B5 /* UIImage+AddCorner.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -898,6 +903,7 @@
 				A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */,
 				A9CEECB722AEC4180079B88C /* BRToastWindow.m in Sources */,
 				A9CEECA522AEB0540079B88C /* BTPostDetailViewController.m in Sources */,
+				A923A75B22B4FF56002340B5 /* UIImage+AddCorner.m in Sources */,
 				A9CEECB922AEC4180079B88C /* BTToastViewControllerContainerView.m in Sources */,
 				A960E6EF224CBFF7007A9F2E /* BTRootViewController.m in Sources */,
 				A9D19FD7224DDB350043CFBE /* BTUtils.m in Sources */,

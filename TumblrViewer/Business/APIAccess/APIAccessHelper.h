@@ -33,7 +33,6 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 - (void)authenticate;
 - (void)fetchUserInfo;
 - (BTUserInfo*)getUserInfo;
-- (void)forwardPost:(BTPost*)post;
 /**
  Authenticate for Tumblr.
  
@@ -42,8 +41,36 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 - (void)authenticate:(BTAuthenticationCallback)callback;
 //- (void)getBlogBaseInfo:(NSString*)blogID;
 
+
+/**
+ <#Description#>
+
+ @param offset <#offset description#>
+ @param count <#count description#>
+ @param callback <#callback description#>
+ */
 - (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
 
+
+
+/**
+ <#Description#>
+
+ @param blogId <#blogId description#>
+ @param type <#type description#>
+ @param offset <#offset description#>
+ @param count <#count description#>
+ @param callback <#callback description#>
+ */
+- (void)requestPostFromBlogId:(NSString*)blogId type:(NSString*)type Start:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
+
+
+/**
+ <#Description#>
+
+ @param post <#post description#>
+ */
+- (void)forwardPost:(BTPost*)post;
 @end
 
 NS_ASSUME_NONNULL_END

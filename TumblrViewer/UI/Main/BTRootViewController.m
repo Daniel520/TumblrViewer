@@ -29,17 +29,38 @@
 //@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic, strong) PostsDataModel *postDataModel;
 @property (nonatomic, assign) NSInteger dataFailCount;
+@property (nonatomic, assign) PostsType type;
+@property (nonatomic, strong) BTBlogInfo *blogInfo;
 
 @end
 
 @implementation BTRootViewController
 
+- (instancetype)initWithBlog:(BTBlogInfo*)blog WithDataType:(PostsType)type
+{
+    self = [super init];
+    if (self) {
+        
+        if (blog) {
+            self.title = blog.name;
+        }else{
+            self.title = @"Dashboard";
+        }
+        self.blogInfo = blog;
+        self.type = type;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.navigationItem setHidesBackButton:TRUE animated:NO];
+    if (self.navigationController.viewControllers.count <= 2 && [self isEqual:self.navigationController.topViewController]) {
+        [self.navigationItem setHidesBackButton:TRUE animated:NO];
+    }
+    
     self.view.backgroundColor = [UIColor blackColor];
-    self.title = @"Dashboard";
+//    self.title = @"Dashboard";
     self.dataFailCount = 0;
     self.postDataModel = [PostsDataModel new];
     [self loadData:NO];
@@ -80,18 +101,44 @@
         [self showLoading];
     }
     
-    [self.postDataModel loadData:isLoadMore withType:Type_Dashboard callback:^(NSArray<BTPost*> *posts, NSError * error){
-
-        if (error) {
-            weakSelf.dataFailCount++;
-            NSLog(@"error info:%@",error);
+    switch (self.type) {
+        case Type_Dashboard:{
+            [self.postDataModel loadData:isLoadMore withType:self.type callback:^(NSArray<BTPost*> *posts, NSError * error){
+                
+                if (error) {
+                    weakSelf.dataFailCount++;
+                    NSLog(@"error info:%@",error);
+                }
+                
+                weakSelf.dataFailCount = 0;
+                [weakSelf hideLoading];
+                
+                [weakSelf updateDashboard];
+            }];
+            
         }
-        
-        weakSelf.dataFailCount = 0;
-        [weakSelf hideLoading];
-        
-        [weakSelf updateDashboard];
-    }];
+            break;
+        case Type_BlogPost:{
+            
+            [self.postDataModel loadDataFromBlog:self.blogInfo.blogId loadMore:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
+                
+                if (error) {
+                    weakSelf.dataFailCount++;
+                    NSLog(@"error info:%@",error);
+                }
+                
+                weakSelf.dataFailCount = 0;
+                [weakSelf hideLoading];
+                
+                [weakSelf updateDashboard];
+            }];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
 }
 
 - (void)updateDashboard
@@ -341,6 +388,11 @@
         default:
             break;
     }
+}
+
+- (void)tapAvatarWithPost:(BTPost *)post
+{
+    NSLog(@"tap post avatar:%@",post);
 }
 
 #pragma mark UIScrollViewDelegate

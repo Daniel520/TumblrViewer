@@ -42,7 +42,32 @@
     }else if (post.type == BTVideo) {
         [self setVideoInfo:post.videoInfo];
     }
+    
+//    [self addAvatar:post];
 }
+
+//- (void)addAvatar:(BTPost*)post
+//{
+//    NSString *avatarPath = post.blogInfo.avatarPath;
+//
+//    UIImageView *imgView = [[UIImageView alloc] init];
+//    imgView.backgroundColor = [UIColor lightGrayColor];
+//    imgView.layer.cornerRadius = 10;
+//    [imgView setFrame:CGRectMake(self.contentView.bounds.size.width - 30 - 5, self.contentView.bounds.size.height - 30 - 5, 30, 30)];
+//    imgView.userInteractionEnabled = YES;
+//    [imgView.layer setValue:post forKey:@"post"];
+//
+//    [imgView sd_setImageWithURL:[NSURL URLWithString:avatarPath] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
+//
+//    }];
+//
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarClick:)];
+//    [imgView addGestureRecognizer:tapGesture];
+//    imgView.userInteractionEnabled = YES;
+//
+//    [self.contentView addSubview:imgView];
+//
+//}
 
 - (void)setVideoInfo:(BTVideoInfo*)videoInfo{
     
@@ -179,6 +204,16 @@
         [self.delegate tapInCell:self withIndex:index];
     }
 }
+
+//- (void)avatarClick:(id)sender
+//{
+//    if ([self.delegate respondsToSelector:@selector(tapAvatarWithPost:)]) {
+//        UITapGestureRecognizer *tapGes = (UITapGestureRecognizer*)sender;
+//        BTPost *post = [tapGes.view.layer valueForKey:@"post"];
+//        [self.delegate tapAvatarWithPost:post];
+//    }
+//    NSLog(@"");
+//}
 
 //- (void)setImgDicArr:(NSArray *)imgDicArr
 //{

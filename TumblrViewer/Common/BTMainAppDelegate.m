@@ -39,11 +39,14 @@
     if ([self.apiHelper isNeedLogin]) {
          navVC = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
     }else{
-        if (![[APIAccessHelper shareApiAccessHelper] getUserInfo]) {
+        BTUserInfo *userInfo = [[APIAccessHelper shareApiAccessHelper] getUserInfo];
+        BTBlogInfo *blogInfo = [userInfo.blogList objectAtIndex:0];
+        if (!userInfo || !blogInfo || [BTUtils isStringEmpty:blogInfo.name]) {
             [[APIAccessHelper shareApiAccessHelper] fetchUserInfo];
         }
         
-        BTRootViewController *rootVC = [[BTRootViewController alloc] init];
+        BTBlogInfo *blog = [[[APIAccessHelper shareApiAccessHelper] getUserInfo].blogList objectAtIndex:0];
+        BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog WithDataType:Type_Dashboard];
         navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     }
 

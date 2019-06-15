@@ -50,4 +50,17 @@ NSString * const FOLLOWER_INFO = @"/blog/{blog-identifier}/followers";
 NSString * const POST_INFO = @"/blog/{blog-identifier}/posts[/type]?api_key={key}&[optional-params=]";
 
 NSString * const AVATAR_INFO = @"/blog/{blog-identifier}/avatar[/size]";
+//
+//NSString * const POST_TYPE_TEXT = @"text";
+//
+//NSString * const POST_TYPE_VIDEO = @"video";
+//
+//NSString * const POST_TYPE_PHOTO = @"photo";
+//
+//NSString * const POST_TYPE_LINT = @"link";
+//
+//NSString * const POST_TYPE_AUDIO = @"audio";
+//
+//NSString * const POST_TYPE_CHAT = @"chat";
+
 #endif /* CommonConstants_h */
