@@ -205,6 +205,19 @@
     BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:indexPath.item];
     
     NSURL *imgURL = nil;
+    
+    UIImage *placeholderImage = nil;
+    if (imageInfo.imageResArr.count > 0) {
+        NSInteger placeholderIndex = imageInfo.imageResArr.count - 2;
+        if (placeholderIndex > 0) {
+            NSURL *placeholderURL = [imageInfo.imageResArr objectAtIndex:placeholderIndex].resUrl;
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            NSString* key = [manager cacheKeyForURL:placeholderURL];
+            SDImageCache* cache = [SDImageCache sharedImageCache];
+            placeholderImage = [cache imageFromDiskCacheForKey:key];
+        }
+    }
+    
     if (imageInfo.originResInfo.resUrl) {
         BTResInfo *resInfo = imageInfo.originResInfo;
         imgURL = resInfo.resUrl;
@@ -219,7 +232,7 @@
 //    doubleTap.numberOfTapsRequired = 2;
 //    [imgView addGestureRecognizer:doubleTap];
     
-    [imgView sd_setImageWithURL:imgURL];
+    [imgView sd_setImageWithURL:imgURL placeholderImage:placeholderImage];
 }
 
 //- (void)didDoubleTap:(UITapGestureRecognizer *)tap {

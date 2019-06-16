@@ -274,10 +274,25 @@
         BTImageInfo *imageInfo = [post.imageInfos objectAtIndex:i];
         
         NSURL *imgURL = nil;
+//        NSURL *placeholderURL = nil;
+        UIImage *placeholderImage = nil;
         BTResInfo *resInfo = nil;
+        
+        if (imageInfo.imageResArr.count > 0) {
+            NSInteger placeholderIndex = imageInfo.imageResArr.count - 2;
+            if (placeholderIndex > 0) {
+                NSURL *placeholderURL = [imageInfo.imageResArr objectAtIndex:placeholderIndex].resUrl;
+                SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                NSString* key = [manager cacheKeyForURL:placeholderURL];
+                SDImageCache* cache = [SDImageCache sharedImageCache];
+                placeholderImage = [cache imageFromDiskCacheForKey:key];
+            }
+        }
+        
         if (imageInfo.originResInfo.resUrl) {
             resInfo = imageInfo.originResInfo;
             imgURL = resInfo.resUrl;
+            
         }else{
             resInfo = [imageInfo.imageResArr objectAtIndex:0];
             imgURL = resInfo.resUrl;
@@ -301,7 +316,7 @@
         imgView.contentMode = UIViewContentModeScaleAspectFit;
         imgView.userInteractionEnabled = YES;
         imgView.tag = i;
-        [imgView sd_setImageWithURL:imgURL];
+        [imgView sd_setImageWithURL:imgURL placeholderImage:placeholderImage];
 //        [imgView sd_setImageWithURL:imgURL placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL){
 //            [imgView startAnimating];
 //        }];
