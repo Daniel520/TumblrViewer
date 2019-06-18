@@ -46,7 +46,8 @@
         }
         
         BTBlogInfo *blog = [[[APIAccessHelper shareApiAccessHelper] getUserInfo].blogList objectAtIndex:0];
-        BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog WithDataType:Type_Dashboard];
+//        BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog WithDataType:Type_Dashboard];
+        BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog];
         navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     }
 

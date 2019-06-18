@@ -18,7 +18,8 @@
 #import "BTWebview.h"
 #import "APIAccessHelper.h"
 #import "BTPostGallaryViewController.h"
-#import "BTRootViewController.h"
+//#import "BTRootViewController.h"
+#import "BTPostListViewController.h"
 
 @interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 
@@ -149,7 +150,8 @@
 - (void)avatarClick:(UIButton*)btn
 {
     BTPost *post = [self.avatarBtn.layer valueForKey:@"post"];
-    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+//    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+    BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

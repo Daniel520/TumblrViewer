@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BTRootViewController : BTBaseViewController
 
-- (void)loadData:(BOOL)isLoadMore;
-- (instancetype)initWithBlog:(BTBlogInfo*)blog WithDataType:(PostsType)type;
+//- (void)loadData:(BOOL)isLoadMore;
+//- (instancetype)initWithBlog:(BTBlogInfo*)blog WithDataType:(PostsType)type;
+
+- (instancetype)initWithBlog:(BTBlogInfo*)blog;
 
 @end
 
