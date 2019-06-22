@@ -414,7 +414,8 @@
     for (NSDictionary *videoDic in videoInfos) {
         NSString *videoInfoString = [videoDic objectForKey:@"embed_code"];
         
-        if (![BTUtils isStringEmpty:videoInfoString]) {
+        //found there's chance the emded_code without any video info but just Bool Type NO. So add a kindOfClass condition to avoid crash
+        if ([videoInfoString isKindOfClass:[NSString class]] && ![BTUtils isStringEmpty:videoInfoString]) {
             
             
             if (error) {
