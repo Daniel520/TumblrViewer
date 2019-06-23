@@ -7,23 +7,15 @@
 //
 
 #import "BTRootViewController.h"
-//#import "BTDashboardCollectionCell.h"
-#import "BTPost.h"
-//#import "BTPostDetailViewController.h"
-//#import "BTVideoPlayViewController.h"
-//#import "BTCollectionViewWaterfallLayout.h"
-//
-//#import "PostsDataModel.h"
-//#import <MJRefresh.h>
-//
-//#import <CHTCollectionViewWaterfallLayout.h>
-//#import <AFNetworking.h>
-//#import <UIImageView+WebCache.h>
 #import "BTPostListViewController.h"
+#import "BTPost.h"
+
+#import <UIButton+WebCache.h>
+
+#import "XWSLeftView.h"
 
 
-
-@interface BTRootViewController ()
+@interface BTRootViewController () <XWSLeftViewDelegate>
 //<UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,BTPostContentActionDelegate, UIScrollViewDelegate>
 
 //@property (nonatomic, strong) UICollectionView *mainCollectionView;
@@ -32,6 +24,7 @@
 //@property (nonatomic, assign) NSInteger dataFailCount;
 //@property (nonatomic, assign) PostsType type;
 @property (nonatomic, strong) BTBlogInfo *blogInfo;
+@property (strong, nonatomic) XWSLeftView *leftMenuView;
 
 @end
 
@@ -60,6 +53,127 @@
     [self addChildViewController:vc];
     [self.view addSubview:vc.view];
     [vc didMoveToParentViewController:self];
+    
+    [self setUpLeftMenuView];
+}
+
+- (void)setUpLeftMenuView{
+    
+    UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal];
+    [profileBtn addTarget:self action:@selector(showLeftMenuView:) forControlEvents:UIControlEventTouchUpInside];
+//    profileBtn.frame = CGRectMake(0, 0, 25 , 25);
+    
+    //1.自定义navigationBar左边的按钮
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[@"account"] = self.blogInfo.name;
+    dic[@"icon"] = self.blogInfo.avatarPath;
+    
+    if (!self.leftMenuView) {
+        self.leftMenuView = [[XWSLeftView alloc] initWithFrame:CGRectZero withUserInfo:dic];
+        [UIApplication sharedApplication].keyWindow.backgroundColor = [UIColor clearColor];
+        
+        [[UIApplication sharedApplication].keyWindow addSubview:self.leftMenuView];
+        self.leftMenuView.delegate = self;
+        self.leftMenuView.hidden = YES;
+        [self.leftMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.top.mas_equalTo(0);
+            make.left.mas_equalTo(-SCREEN_WIDTH);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+        }];
+    }
+}
+
+- (IBAction)showLeftMenuView:(id)sender {
+    self.leftMenuView.hidden = NO;
+    [UIView animateWithDuration:0.35 animations:^{
+        [self.leftMenuView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(0);
+        }];
+        [[UIApplication sharedApplication].keyWindow layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
+    
+    //设置颜色渐变动画
+    [self.leftMenuView startCoverViewOpacityWithAlpha:0.5 withDuration:0.35];
+    
+}
+
+- (void)hideLeftMenuView{
+    [self.leftMenuView cancelCoverViewOpacity];
+    [UIView animateWithDuration:0.35 animations:^{
+        [self.leftMenuView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(-SCREEN_WIDTH);
+        }];
+        
+        [[UIApplication sharedApplication].keyWindow layoutIfNeeded];
+        
+    }completion:^(BOOL finished) {
+        self.leftMenuView.hidden = YES;
+    }];
+}
+
+#pragma mark - XWSLeftViewDelegate
+- (void)touchLeftView:(XWSLeftView *)leftView byType:(XWSTouchItem)type{
+    
+    [self hideLeftMenuView];
+    
+    UIViewController *vc = nil;
+    
+    switch (type) {
+        case XWSTouchItemUserInfo:
+        {
+            
+        }
+            break;
+        case XWSTouchItemDevicesList:
+        {
+            
+        }
+            break;
+        case XWSTouchItemAlarm:
+        {
+            
+        }
+            break;
+        case XWSTouchItemStatistics:
+        {
+            
+        }
+            break;
+        case XWSTouchItemFeedback:
+        {
+            
+        }
+            break;
+        case XWSTouchItemHelp:
+        {
+            
+        }
+            break;
+        case XWSTouchItemScan:
+        {
+            
+        }
+            break;
+        case XWSTouchItemSetting:
+        {
+            
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (vc == nil) {
+        return;
+    }
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 //- (instancetype)initWithBlog:(BTBlogInfo*)blog WithDataType:(PostsType)type
