@@ -200,7 +200,7 @@ static APIAccessHelper *instance = nil;
     
     NSURLSessionTask *task = nil;
     
-    task = [apiClient dashboardRequest:@{@"limit":@(count),@"since_id":@(sinceId),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
+    task = [apiClient dashboardRequest:@{@"limit":@(count),@"before_id":@(sinceId),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
         
         
         if (error) {

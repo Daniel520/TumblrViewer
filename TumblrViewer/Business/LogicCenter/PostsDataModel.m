@@ -64,7 +64,7 @@
     
 #warning todo try to use since_id as use offset we find it will return the same data
     NSLog(@"load dashboard data from offset:%d, length:%d",self.currentOffset, PAGELEN);
-//    if (self.currentOffset == 0) {
+    if (self.currentOffset == 0) {
         [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
             
             if (error) {
@@ -92,36 +92,36 @@
             
             weakSelf.isLoadingPosts = NO;
         }];
-//    } else {
-//        NSInteger sinceId  = [[self.posts lastObject] postid];
-//        [[APIAccessHelper shareApiAccessHelper] requestDashboardSince:sinceId count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
-//
-//            if (error) {
-//                [BTToastManager showToastWithText:@"Network Error, please try again"];
-//                NSLog(@"error info:%@",error);
-//            }
-//
-//            //        if ([self isPostDataEnd:dashboardDic]) {
-//            //            self.isNoMoreData = YES;
-//            //            callback(nil, error, Data_Status_End);
-//            //        }
-//            //
-//            //        if (dashboardDic != nil) {
-//            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
-//            //            weakSelf.lastDataDic = dashboardDic;
-//            //        }
-//
-//            //                weakSelf.currentOffset += weakSelf.postArr.count;
-//            //                weakSelf.currentOffset += PAGELEN;
-//            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
-//
-//            [weakSelf.postArr addObjectsFromArray:returnPosts];
-//
-//            callback(returnPosts, error, Data_Status_Normal);
-//
-//            weakSelf.isLoadingPosts = NO;
-//        }];
-//    }
+    } else {
+        NSInteger sinceId  = [[self.posts lastObject] postid];
+        [[APIAccessHelper shareApiAccessHelper] requestDashboardSince:sinceId count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+
+            if (error) {
+                [BTToastManager showToastWithText:@"Network Error, please try again"];
+                NSLog(@"error info:%@",error);
+            }
+
+            //        if ([self isPostDataEnd:dashboardDic]) {
+            //            self.isNoMoreData = YES;
+            //            callback(nil, error, Data_Status_End);
+            //        }
+            //
+            //        if (dashboardDic != nil) {
+            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+            //            weakSelf.lastDataDic = dashboardDic;
+            //        }
+
+            //                weakSelf.currentOffset += weakSelf.postArr.count;
+            //                weakSelf.currentOffset += PAGELEN;
+            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+
+            [weakSelf.postArr addObjectsFromArray:returnPosts];
+
+            callback(returnPosts, error, Data_Status_Normal);
+
+            weakSelf.isLoadingPosts = NO;
+        }];
+    }
     
 //    break;
 //}
