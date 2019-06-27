@@ -194,13 +194,31 @@ static APIAccessHelper *instance = nil;
     return config;
 }
 
+- (void)requestDashboardSince:(NSInteger)sinceId count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = nil;
+    
+    task = [apiClient dashboardRequest:@{@"limit":@(count),@"since_id":@(sinceId),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
+        
+        
+        if (error) {
+            NSLog(@"error info:%@",error);
+        }
+        callback(response, error);
+    }];
+    
+    [task resume];
+}
+
 - (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
 {
     TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
     
     NSURLSessionTask *task = nil;
     
-    task = [apiClient dashboardRequest:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+    task = [apiClient dashboardRequest:@{@"limit":@(count),@"offset":@(offset),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
         
         
         if (error) {

@@ -93,6 +93,7 @@
 		A9D19FFA2250EEE70043CFBE /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D19FF82250EEE70043CFBE /* HTMLNode.m */; };
 		A9D19FFC2250EF2A0043CFBE /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D19FFB2250EF2A0043CFBE /* libxml2.tbd */; };
 		A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */; };
+		C33843F622C1262F00BB71F0 /* avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33843F522C1262E00BB71F0 /* avatar@3x.png */; };
 		C3478ECE22BF17CD009A5416 /* XWSLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3478ECC22BF17CC009A5416 /* XWSLeftView.m */; };
 		C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */; };
 		C355BD282299443500A12C41 /* PostsDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataModel.m */; };
@@ -240,6 +241,7 @@
 		A9D19FFB2250EF2A0043CFBE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		A9FAB6D022A2865000BEDACF /* BTBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTBaseViewController.h; sourceTree = "<group>"; };
 		A9FAB6D122A2865000BEDACF /* BTBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBaseViewController.m; sourceTree = "<group>"; };
+		C33843F522C1262E00BB71F0 /* avatar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@3x.png"; sourceTree = "<group>"; };
 		C3478ECC22BF17CC009A5416 /* XWSLeftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWSLeftView.m; sourceTree = "<group>"; };
 		C3478ECD22BF17CC009A5416 /* XWSLeftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWSLeftView.h; sourceTree = "<group>"; };
 		C355BD22229940D200A12C41 /* BTVideoPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTVideoPlayViewController.h; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 		A9CEEC3C22AEA59B0079B88C /* png */ = {
 			isa = PBXGroup;
 			children = (
+				C33843F522C1262E00BB71F0 /* avatar@3x.png */,
 				A9CEEC3D22AEA59B0079B88C /* settings-1.png */,
 				A9CEEC3E22AEA59B0079B88C /* headphones.png */,
 				A9CEEC3F22AEA59B0079B88C /* pie-chart.png */,
@@ -745,6 +748,7 @@
 			files = (
 				A9CEEC8E22AEA59B0079B88C /* upload.png in Resources */,
 				A9CEEC8C22AEA59B0079B88C /* chat-1.png in Resources */,
+				C33843F622C1262F00BB71F0 /* avatar@3x.png in Resources */,
 				A9CEEC9C22AEA59B0079B88C /* back.png in Resources */,
 				A9CEEC8A22AEA59B0079B88C /* garbage.png in Resources */,
 				A9CEEC7022AEA59B0079B88C /* headphones.png in Resources */,

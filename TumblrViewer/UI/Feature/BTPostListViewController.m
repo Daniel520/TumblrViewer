@@ -101,37 +101,63 @@
         [self showLoading];
     }
     
+    if (![self.mainCollectionView.mj_header isRefreshing] && !isLoadMore) {
+        [self.mainCollectionView.mj_header beginRefreshing];
+    }else if (![self.mainCollectionView.mj_footer isRefreshing] && isLoadMore) {
+        [self.mainCollectionView.mj_footer beginRefreshing];
+    }
+    
+    PostsDataCallback dataCallback = ^(NSArray<BTPost*> *posts, NSError * error, PostDataStatus status){
+        if (error) {
+            weakSelf.dataFailCount++;
+            NSLog(@"error info:%@",error);
+        }
+        
+        if (status == Data_Status_End) {
+            //load all data
+            [self.mainCollectionView.mj_footer endRefreshing];
+            self.mainCollectionView.mj_footer.state = MJRefreshStateNoMoreData;
+//            [self.mainCollectionView.mj_footer resetNoMoreData];
+        }
+        
+        weakSelf.dataFailCount = 0;
+        [weakSelf hideLoading];
+        
+        [weakSelf updateDashboard];
+    };
+    
     switch (self.type) {
         case Type_Dashboard:{
-            [self.postDataModel loadData:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
-                
-                if (error) {
-                    weakSelf.dataFailCount++;
-                    NSLog(@"error info:%@",error);
-                }
-                
-                weakSelf.dataFailCount = 0;
-                [weakSelf hideLoading];
-                
-                [weakSelf updateDashboard];
-            }];
-            
+//            [self.postDataModel loadData:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
+//
+//                if (error) {
+//                    weakSelf.dataFailCount++;
+//                    NSLog(@"error info:%@",error);
+//                }
+//
+//                weakSelf.dataFailCount = 0;
+//                [weakSelf hideLoading];
+//
+//                [weakSelf updateDashboard];
+//            }];
+            [self.postDataModel loadData:isLoadMore callback:dataCallback];
         }
             break;
         case Type_BlogPost:{
             
-            [self.postDataModel loadDataFromBlog:self.blogInfo.blogId loadMore:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
-                
-                if (error) {
-                    weakSelf.dataFailCount++;
-                    NSLog(@"error info:%@",error);
-                }
-                
-                weakSelf.dataFailCount = 0;
-                [weakSelf hideLoading];
-                
-                [weakSelf updateDashboard];
-            }];
+//            [self.postDataModel loadDataFromBlog:self.blogInfo.blogId loadMore:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
+//
+//                if (error) {
+//                    weakSelf.dataFailCount++;
+//                    NSLog(@"error info:%@",error);
+//                }
+//
+//                weakSelf.dataFailCount = 0;
+//                [weakSelf hideLoading];
+//
+//                [weakSelf updateDashboard];
+//            }];
+            [self.postDataModel loadDataFromBlog:self.blogInfo.blogId loadMore:isLoadMore callback:dataCallback];
         }
             break;
         default:
@@ -223,6 +249,7 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    
     return self.postDataModel.posts.count;
 }
 
@@ -265,6 +292,17 @@
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.item == self.postDataModel.posts.count - 1) {
+        CGFloat shorestHeight = [(BTCollectionViewWaterfallLayout*)collectionView.collectionViewLayout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
+        
+        BTWeakSelf(weakSelf);
+        if (shorestHeight < SCREEN_HEIGHT * 1.5 && !self.postDataModel.isLoadingPosts) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf loadData:YES];
+            });
+        }
+    }
     
     BTPost *post = [self.postDataModel.posts objectAtIndex:indexPath.item];
     
@@ -407,8 +445,7 @@
     CGFloat yOffset = [layout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
     
     //if data fail more than 3, then stop auto load more data. if need more data, user can do it manaully
-    if (scrollView.contentOffset.y > yOffset/3 && !self.postDataModel.isLoadingPosts && self.dataFailCount < 3) {
-        //            self performSelector:<#(nonnull SEL)#> withObject:<#(nullable id)#> afterDelay:<#(NSTimeInterval)#> inModes:<#(nonnull NSArray<NSRunLoopMode> *)#>
+    if (yOffset - scrollView.contentOffset.y < SCREEN_HEIGHT * 3 && !self.postDataModel.isLoadingPosts && self.dataFailCount < 3) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf loadData:YES];
         });

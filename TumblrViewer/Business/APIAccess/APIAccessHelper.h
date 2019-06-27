@@ -52,6 +52,14 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 - (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
 
 
+/**
+ <#Description#>
+
+ @param sinceId <#sinceId description#>
+ @param count <#count description#>
+ @param callback <#callback description#>
+ */
+- (void)requestDashboardSince:(NSInteger)sinceId count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
 
 /**
  <#Description#>

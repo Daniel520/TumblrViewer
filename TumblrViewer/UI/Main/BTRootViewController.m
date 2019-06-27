@@ -60,9 +60,11 @@
 - (void)setUpLeftMenuView{
     
     UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal];
+    [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+//    [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal];
     [profileBtn addTarget:self action:@selector(showLeftMenuView:) forControlEvents:UIControlEventTouchUpInside];
-//    profileBtn.frame = CGRectMake(0, 0, 25 , 25);
+//    profileBtn.layer.cornerRadius = 30/2;
+//    profileBtn.clipsToBounds = YES;
     
     //1.自定义navigationBar左边的按钮
     UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];

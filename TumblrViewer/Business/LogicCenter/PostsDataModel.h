@@ -16,13 +16,20 @@ typedef enum {
     Type_BlogPost
 }PostsType;
 
-typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * _Nullable error);
+typedef enum {
+    Data_Status_Normal,
+    Data_Status_End
+}PostDataStatus;
+
+typedef void (^PostsDataCallback)(NSArray<BTPost*> * _Nullable posts, NSError * _Nullable error, PostDataStatus status);
 
 @interface PostsDataModel : NSObject <NSCopying>
 
 @property (nonatomic, strong, readonly) NSArray *posts;
 
 @property (nonatomic, assign, readonly) BOOL isLoadingPosts;
+
+@property (nonatomic, assign, readonly) BOOL isNoMoreData;
 
 
 /**

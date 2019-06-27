@@ -19,6 +19,9 @@
 @property (nonatomic, strong) NSMutableArray *postArr;
 @property (nonatomic, assign) NSInteger currentOffset;
 @property (nonatomic, assign, readwrite) BOOL isLoadingPosts;
+@property (nonatomic, assign, readwrite) BOOL isNoMoreData;
+@property (nonatomic, assign) NSUInteger lastDataHash;
+@property (nonatomic, strong) NSDictionary *lastDataDic;
 
 @end
 
@@ -39,6 +42,10 @@
 
 - (void)loadData:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 {
+    if (self.isLoadingPosts) {
+        return;
+    }
+    
     self.isLoadingPosts = YES;
     BTWeakSelf(weakSelf);
     
@@ -50,27 +57,72 @@
         // clear data to refresh
         //        self.dashboardImgArr = [NSArray new];
         self.postArr = [NSMutableArray new];
+    } else if(self.isNoMoreData) {
+        //No more data, so do nothing
+        return;
     }
     
-    //    switch (type) {
-    //        case Type_Dashboard:{
-    [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
-        
-        if (error) {
-            [BTToastManager showToastWithText:@"Network Error, please try again"];
-            NSLog(@"error info:%@",error);
-        }
-        
-        //                weakSelf.currentOffset += weakSelf.postArr.count;
-        //                weakSelf.currentOffset += PAGELEN;
-        NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
-        
-        [weakSelf.postArr addObjectsFromArray:returnPosts];
-        
-        callback(returnPosts, error);
-        
-        weakSelf.isLoadingPosts = NO;
-    }];
+#warning todo try to use since_id as use offset we find it will return the same data
+    NSLog(@"load dashboard data from offset:%d, length:%d",self.currentOffset, PAGELEN);
+//    if (self.currentOffset == 0) {
+        [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+            
+            if (error) {
+                [BTToastManager showToastWithText:@"Network Error, please try again"];
+                NSLog(@"error info:%@",error);
+            }
+            
+            //        if ([self isPostDataEnd:dashboardDic]) {
+            //            self.isNoMoreData = YES;
+            //            callback(nil, error, Data_Status_End);
+            //        }
+            //
+            //        if (dashboardDic != nil) {
+            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+            //            weakSelf.lastDataDic = dashboardDic;
+            //        }
+            
+            //                weakSelf.currentOffset += weakSelf.postArr.count;
+            //                weakSelf.currentOffset += PAGELEN;
+            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+            
+            [weakSelf.postArr addObjectsFromArray:returnPosts];
+            
+            callback(returnPosts, error, Data_Status_Normal);
+            
+            weakSelf.isLoadingPosts = NO;
+        }];
+//    } else {
+//        NSInteger sinceId  = [[self.posts lastObject] postid];
+//        [[APIAccessHelper shareApiAccessHelper] requestDashboardSince:sinceId count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+//
+//            if (error) {
+//                [BTToastManager showToastWithText:@"Network Error, please try again"];
+//                NSLog(@"error info:%@",error);
+//            }
+//
+//            //        if ([self isPostDataEnd:dashboardDic]) {
+//            //            self.isNoMoreData = YES;
+//            //            callback(nil, error, Data_Status_End);
+//            //        }
+//            //
+//            //        if (dashboardDic != nil) {
+//            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+//            //            weakSelf.lastDataDic = dashboardDic;
+//            //        }
+//
+//            //                weakSelf.currentOffset += weakSelf.postArr.count;
+//            //                weakSelf.currentOffset += PAGELEN;
+//            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+//
+//            [weakSelf.postArr addObjectsFromArray:returnPosts];
+//
+//            callback(returnPosts, error, Data_Status_Normal);
+//
+//            weakSelf.isLoadingPosts = NO;
+//        }];
+//    }
+    
 //    break;
 //}
 //        case Type_BlogPost:{
@@ -86,6 +138,10 @@
 
 - (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
 {
+    if (self.isLoadingPosts) {
+        return;
+    }
+    
     self.isLoadingPosts = YES;
     BTWeakSelf(weakSelf);
     
@@ -97,7 +153,12 @@
         // clear data to refresh
         //        self.dashboardImgArr = [NSArray new];
         self.postArr = [NSMutableArray new];
+    } else if(self.isNoMoreData) {
+        //No more data, so do nothing
+        return;
     }
+    
+    NSLog(@"load posts data from offset:%d, length:%d",self.currentOffset, PAGELEN);
     
     [[APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:blogId type:nil Start:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
         
@@ -106,16 +167,40 @@
             NSLog(@"error info:%@",error);
         }
         
+        if ([self isPostDataEnd:dashboardDic]) {
+            self.isNoMoreData = YES;
+            callback(nil, error, Data_Status_End);
+        }
+        
         //                weakSelf.currentOffset += weakSelf.postArr.count;
         //                weakSelf.currentOffset += PAGELEN;
         NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
         
         [weakSelf.postArr addObjectsFromArray:returnPosts];
         
-        callback(returnPosts, error);
+        callback(returnPosts, error, Data_Status_Normal);
         
         weakSelf.isLoadingPosts = NO;
     }];
+}
+
+- (BOOL)isPostDataEnd:(NSDictionary*)postsDic
+{
+//    NSArray *tmPosts = [postsDic objectForKey:@"posts"];
+//    if (tmPosts.count > 0) {
+//        NSInteger lastPostID = [[[tmPosts lastObject] objectForKey:@"id"] integerValue];
+//
+//        // if the last return data post id equal to the current loaded data last post instance post id, then it should be the end of data
+//        if (lastPostID == [(BTPost*)[self.posts lastObject] postid]) {
+//            return YES;
+//        }
+//    }
+    
+    if (self.lastDataHash == [[postsDic description] hash]) {
+        //two data hash the same mean it's the end of data
+        return YES;
+    }
+    return NO;
 }
 
 - (NSArray *)translteDashboardData:(NSDictionary*)dashboardDic
@@ -152,7 +237,7 @@
             NSDictionary *reblogDic = [postDic objectForKey:@"reblog"];
             NSString *reblogContent = [reblogDic objectForKey:@"tree_html"];
             
-            NSArray *reblogImageInfos = [self extractImageFromHtml:reblogContent];
+            NSArray *reblogImageInfos = [self extractImageFromHtml:reblogContent withPostDic:postDic];
             
             imageInfos = [imageInfos arrayByAddingObjectsFromArray:reblogImageInfos];
             
@@ -194,13 +279,13 @@
     //    self.dashboardImgArr = [self.dashboardImgArr arrayByAddingObjectsFromArray:posts];
 }
 
-- (NSArray *)extractImageFromHtml:(NSString*)bodyString
+- (NSArray *)extractImageFromHtml:(NSString*)bodyString withPostDic:(NSDictionary*)postDic
 {
     NSError *error = nil;
     HTMLParser *parser = [[HTMLParser alloc] initWithString:bodyString error:&error];
     
     if (error) {
-        NSLog(@"Error: %@ withbody:%@", error, bodyString);
+        NSLog(@"Error: %@ withbody:%@ in postid:%@", error, bodyString, [postDic objectForKey:@"id"]);
         return nil;
     }
     
@@ -277,7 +362,7 @@
 //
 //    HTMLNode *bodyNode = [parser body];
     
-    NSArray *imageInfos = [self extractImageFromHtml:body];
+    NSArray *imageInfos = [self extractImageFromHtml:body withPostDic:postDic];
     
 //    //load html reblog image. but find it's duplicate with the main post images, so comment first
 //    NSDictionary *reblogDic = [postDic objectForKey:@"reblog"];
@@ -291,7 +376,7 @@
         HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
         
         if (error) {
-            NSLog(@"Error: %@", error);
+            NSLog(@"Error: %@ with bodyString:%@ in postid:%@", error, body, [postDic objectForKey:@"id"]);
             return nil;
         }
         
@@ -418,15 +503,15 @@
         if ([videoInfoString isKindOfClass:[NSString class]] && ![BTUtils isStringEmpty:videoInfoString]) {
             
             
-            if (error) {
-                NSLog(@"Error: %@", error);
-                continue;
-            }
+//            if (error) {
+//                NSLog(@"Error: %@", error);
+//                continue;
+//            }
             
             HTMLParser *parser = [[HTMLParser alloc] initWithString:videoInfoString error:&error];
             
             if (error) {
-                NSLog(@"Error: %@", error);
+                NSLog(@"Error: %@ with videoInfoString:%@ in postid:%@", error, videoInfoString, [postDic objectForKey:@"id"]);
                 return nil;
             }
             
