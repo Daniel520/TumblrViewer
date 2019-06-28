@@ -84,7 +84,7 @@
     self.setKeyBtn.layer.cornerRadius = 5;
     
     [self.setKeyBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.setKeyBtn setTitle:@"Set Your API Key" forState:UIControlStateNormal];
+    [self.setKeyBtn setTitle:NSLocalizedString(@"setup_API", nil) forState:UIControlStateNormal];
     [self.setKeyBtn addTarget:self action:@selector(gotoSetKey) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.setKeyBtn];
     
@@ -113,7 +113,7 @@
     self.loginBtn.layer.cornerRadius = 10;
     
     [self.loginBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.loginBtn setTitle:@"Login" forState:UIControlStateNormal];
+    [self.loginBtn setTitle:NSLocalizedString(@"login", nil) forState:UIControlStateNormal];
     [self.loginBtn addTarget:self action:@selector(authenticate) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.loginBtn];
@@ -176,6 +176,7 @@
     BTBlogInfo *blog = [[[APIAccessHelper shareApiAccessHelper] getUserInfo].blogList objectAtIndex:0];
 //    BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog WithDataType:Type_Dashboard];
     BTRootViewController *rootVC = [[BTRootViewController alloc] initWithBlog:blog];
+    [self.navigationController popViewControllerAnimated:NO];
     [self.navigationController pushViewController:rootVC animated:NO];
 }
 

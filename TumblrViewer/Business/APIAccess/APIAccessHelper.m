@@ -111,6 +111,19 @@ static APIAccessHelper *instance = nil;
     [self authenticate:^(NSError *error){}];
 }
 
+- (void)logout
+{
+    self.tmToken = nil;
+    self.tmTokenSecret = nil;
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault removeObjectForKey:TOKEN_KEY];
+    [userDefault removeObjectForKey:TOKEN_SECRET_KEY];
+    [userDefault removeObjectForKey:USERINFO_KEY];
+    [userDefault synchronize];
+    
+}
+
 - (void)authenticate:(BTAuthenticationCallback)callback
 {
     BTWeakSelf(weakSelf);

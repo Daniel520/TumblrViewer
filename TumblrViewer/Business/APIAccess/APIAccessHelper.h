@@ -79,6 +79,12 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
  @param post <#post description#>
  */
 - (void)forwardPost:(BTPost*)post;
+
+
+/**
+ Log out profile
+ */
+- (void)logout;
 @end
 
 NS_ASSUME_NONNULL_END

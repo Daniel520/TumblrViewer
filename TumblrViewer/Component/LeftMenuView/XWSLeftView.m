@@ -185,32 +185,28 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (indexPath.row) {
         case 0:
-            iconImageView.image = [UIImage imageNamed:@"left_devices_list"];
-            titleLab.text = @"设备列表";
+            iconImageView.image = [UIImage imageNamed:@"house"];
+            titleLab.text = NSLocalizedString(@"dashboard", nil);
             break;
         case 1:
-            iconImageView.image = [UIImage imageNamed:@"left_alarm"];
-            titleLab.text = @"警报";
+            iconImageView.image = [UIImage imageNamed:@"heart"];
+            titleLab.text = NSLocalizedString(@"like", nil);
             break;
         case 2:
-            iconImageView.image = [UIImage imageNamed:@"left_statistics"];
-            titleLab.text = @"统计";
+            iconImageView.image = [UIImage imageNamed:@"star"];
+            titleLab.text = NSLocalizedString(@"follows", nil);
             break;
         case 3:
-            iconImageView.image = [UIImage imageNamed:@"left_feedback"];
-            titleLab.text = @"意见反馈";
+            iconImageView.image = [UIImage imageNamed:@"download"];
+            titleLab.text = NSLocalizedString(@"download", nil);
             break;
         case 4:
-            iconImageView.image = [UIImage imageNamed:@"left_help"];
-            titleLab.text = @"帮助";
+            iconImageView.image = [UIImage imageNamed:@"settings-1"];
+            titleLab.text = NSLocalizedString(@"setup_API", nil);
             break;
         case 5:
-            iconImageView.image = [UIImage imageNamed:@"left_scan"];
-            titleLab.text = @"扫一扫";
-            break;
-        case 6:
-            iconImageView.image = [UIImage imageNamed:@"left_setting"];
-            titleLab.text = @"设置";
+            iconImageView.image = [UIImage imageNamed:@"logout"];
+            titleLab.text = NSLocalizedString(@"logout", nil);
             break;
             
         default:
@@ -221,36 +217,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    XWSTouchItem item = XWSTouchItemUserInfo;
-    switch (indexPath.row) {
-        case 0:
-            item = XWSTouchItemDevicesList;
-            break;
-        case 1:
-            item = XWSTouchItemAlarm;
-            break;
-        case 2:
-            item = XWSTouchItemStatistics;
-            break;
-        case 3:
-            item = XWSTouchItemFeedback;
-            break;
-        case 4:
-            item = XWSTouchItemHelp;
-            break;
-        case 5:
-            item = XWSTouchItemScan;
-            break;
-        case 6:
-            item = XWSTouchItemSetting;
-            break;
-            
-        default:
-            break;
-    }
     
     if ([self.delegate respondsToSelector:@selector(touchLeftView:byType:)]) {
-        [self.delegate touchLeftView:self byType:item];
+        [self.delegate touchLeftView:self byType:indexPath.item + 1];
     }
 }
 

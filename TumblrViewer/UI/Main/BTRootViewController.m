@@ -13,6 +13,8 @@
 #import <UIButton+WebCache.h>
 
 #import "XWSLeftView.h"
+#import "APIAccessHelper.h"
+#import "LoginViewController.h"
 
 
 @interface BTRootViewController () <XWSLeftViewDelegate>
@@ -37,7 +39,7 @@
         if (blog) {
             self.title = blog.name;
         }else{
-            self.title = @"Dashboard";
+            self.title = NSLocalizedString(@"dashboard", nil);
         }
         
         self.blogInfo = blog;
@@ -59,14 +61,15 @@
 
 - (void)setUpLeftMenuView{
     
+    //setup navigation left button
     UIButton *profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"avatar.png"]];
-//    [profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal];
-    [profileBtn addTarget:self action:@selector(showLeftMenuView:) forControlEvents:UIControlEventTouchUpInside];
-//    profileBtn.layer.cornerRadius = 30/2;
-//    profileBtn.clipsToBounds = YES;
     
-    //1.自定义navigationBar左边的按钮
+    [profileBtn.widthAnchor constraintEqualToConstant:35].active = YES;
+    [profileBtn.heightAnchor constraintEqualToConstant:35].active = YES;
+    [profileBtn addTarget:self action:@selector(showLeftMenuView:) forControlEvents:UIControlEventTouchUpInside];
+//    profileBtn.layer.cornerRadius = 35/2;
+//    profileBtn.layer.masksToBounds = YES;
     UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];
     self.navigationItem.leftBarButtonItem = leftBarItem;
     
@@ -131,40 +134,37 @@
             
         }
             break;
-        case XWSTouchItemDevicesList:
+        case XWSTouchItemDashboard:
         {
             
         }
             break;
-        case XWSTouchItemAlarm:
+        case XWSTouchItemLike:
         {
             
         }
             break;
-        case XWSTouchItemStatistics:
+        case XWSTouchItemFollows:
         {
             
         }
             break;
-        case XWSTouchItemFeedback:
+        case XWSTouchItemDownload:
         {
             
         }
             break;
-        case XWSTouchItemHelp:
+        case XWSTouchItemSetupAPI:
         {
             
         }
             break;
-        case XWSTouchItemScan:
+        case XWSTouchItemLogout:
         {
-            
-        }
-            break;
-        case XWSTouchItemSetting:
-        {
-            
-            
+            [[APIAccessHelper shareApiAccessHelper] logout];
+            [self.navigationController popViewControllerAnimated:NO];
+            LoginViewController *loginVC = [LoginViewController new];
+            [self.navigationController pushViewController:loginVC animated:NO];
         }
             break;
             

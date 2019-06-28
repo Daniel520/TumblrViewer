@@ -11,15 +11,14 @@
 #import "Masonry.h"
 
 typedef NS_ENUM(NSInteger, XWSTouchItem) {
-    XWSTouchItemUserInfo = 0,//点击头像或者账号
-    XWSTouchItemDevicesList,//设备列表
-    XWSTouchItemAlarm,//警报
-    XWSTouchItemStatistics,//统计
-    XWSTouchItemFeedback,//意见反馈
-    XWSTouchItemHelp,//帮助
-    XWSTouchItemScan,//扫一扫
-    XWSTouchItemSetting,//设置
-    XWSTouchItemCoverView//点击或者滑动coverView
+    XWSTouchItemUserInfo = 0,
+    XWSTouchItemDashboard,
+    XWSTouchItemLike,
+    XWSTouchItemFollows,
+    XWSTouchItemDownload,
+    XWSTouchItemSetupAPI,
+    XWSTouchItemLogout,
+    XWSTouchItemCoverView
 };
 
 

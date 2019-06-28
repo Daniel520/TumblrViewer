@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  TumblrViewer
+
+  Created by Danielyu on 2019/6/28.
+  Copyright © 2019 jingda yu. All rights reserved.
+*/
+
+//Login
+"setup_API" = "设置 API Key";
+"login" = "登录";
+
+//Main & Menu
+"dashboard" = "主页";
+"like" = "喜欢";
+"follows" = "关注";
+"download" = "下载";
+"logout" = "登出";
