@@ -445,7 +445,9 @@
     CGFloat yOffset = [layout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
     
     //if data fail more than 3, then stop auto load more data. if need more data, user can do it manaully
-    if (yOffset - scrollView.contentOffset.y < SCREEN_HEIGHT * 3 && !self.postDataModel.isLoadingPosts && self.dataFailCount < 3) {
+    if ((yOffset - scrollView.contentOffset.y < SCREEN_HEIGHT * 2  || yOffset < scrollView.contentOffset.y)
+        && !self.postDataModel.isLoadingPosts
+        && self.dataFailCount < 3) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf loadData:YES];
         });

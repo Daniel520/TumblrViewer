@@ -21,6 +21,8 @@
 //#import "BTRootViewController.h"
 #import "BTPostListViewController.h"
 
+#define CONTROL_BAR_HEIGHT 60 + WINDOW_SAFE_AREA_INSETS.bottom
+
 @interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) BTPost *post;
@@ -79,87 +81,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
-
-- (void)initControlBar
-{
-    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
-    
-    CGFloat viewHeight = 40;// * ADJUST_VIEW_RADIO;
-    
-    BTWeakSelf(weakSelf);
-    UIView *view = [[UIView alloc] init];
-    [self.view addSubview:view];
-    self.controlView = view;
-    
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(weakSelf.view);
-        make.height.mas_equalTo(viewHeight + WINDOW_SAFE_AREA_INSETS.bottom);
-    }];
-    
-    UIButton *forwardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    [forwardBtn setTitle:@"forward" forState:UIControlStateNormal];
-    [forwardBtn setImage:[UIImage imageNamed:@"forward"] forState:UIControlStateNormal];
-    [forwardBtn addTarget:self action:@selector(forward:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:forwardBtn];
-    
-    [forwardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view).with.offset(-20);
-        make.height.width.mas_equalTo(30);
-    }];
-    
-    [self setupAvatar:post];
-    
-}
-
-- (void)setupAvatar:(BTPost*)post
-{
-    BTWeakSelf(weakSelf);
-    if (!self.avatarBtn && self.controlView) {
-        self.avatarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.avatarBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.controlView addSubview:self.avatarBtn];
-        [self.avatarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(weakSelf.controlView).with.offset(20);
-            make.height.width.mas_equalTo(30);
-        }];
-        
-        self.blogNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.blogNameBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.blogNameBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self.controlView addSubview:self.blogNameBtn];
-        [self.blogNameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(weakSelf.avatarBtn.mas_right).with.offset(5);
-            make.height.mas_equalTo(30);
-            make.width.mas_lessThanOrEqualTo(150);
-        }];
-    }
-    
-#warning todo set image placeholder
-    [self.avatarBtn sd_setImageWithURL:[NSURL URLWithString:post.blogInfo.avatarPath] forState:UIControlStateNormal];
-    [self.avatarBtn.layer setValue:post forKey:@"post"];
-    
-    
-    [self.blogNameBtn setTitle:post.blogInfo.name forState:UIControlStateNormal];
-    
-    
-    
-}
-
-- (void)avatarClick:(UIButton*)btn
-{
-    BTPost *post = [self.avatarBtn.layer valueForKey:@"post"];
-//    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
-    BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)forward:(id)sender
-{
-    NSLog(@"forward button add");
-    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
-    [[APIAccessHelper shareApiAccessHelper] forwardPost:post];
 }
 
 - (void)setupContentView
@@ -334,7 +255,7 @@
     
     [self.imagePositionsArr addObject:imgPositions];
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, y);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, y + CONTROL_BAR_HEIGHT);
     
     [self scrollToPageIndex:self.currentIndexPath.item];
 }
@@ -497,6 +418,155 @@
         
         [self tapImage:index];
     }
+}
+
+#pragma mark Control Bar Logic
+- (void)initControlBar
+{
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    
+    //    CGFloat viewHeight = 60;// * ADJUST_VIEW_RADIO;
+    
+    BTWeakSelf(weakSelf);
+    UIView *view = [[UIView alloc] init];
+    [self.view addSubview:view];
+    self.controlView = view;
+    
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(weakSelf.view);
+        //        make.height.mas_equalTo(viewHeight + WINDOW_SAFE_AREA_INSETS.bottom);
+        make.height.mas_equalTo(CONTROL_BAR_HEIGHT);
+    }];
+    
+    //Backgtound
+    UIImageView *backgroundView = [[UIImageView alloc] init];
+    backgroundView.image = [[UIImage imageNamed:@"bg_control_down"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+    [self.controlView addSubview:backgroundView];
+    
+    [backgroundView mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.bottom.right.top.equalTo(weakSelf.controlView);
+    }];
+    
+    //Control Button
+    
+    //Download
+    UIButton *downloadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [downloadBtn setImage:[UIImage imageNamed:@"download-1"] forState:UIControlStateNormal];
+    [downloadBtn addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:downloadBtn];
+    
+    [downloadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view).with.offset(-20);
+        make.top.equalTo(view).with.offset(20);
+        make.height.width.mas_equalTo(30);
+    }];
+    
+    //Forward
+    UIButton *forwardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [forwardBtn setImage:[UIImage imageNamed:@"forward"] forState:UIControlStateNormal];
+    [forwardBtn addTarget:self action:@selector(forward:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:forwardBtn];
+    
+    [forwardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(downloadBtn.mas_left).with.offset(-10);
+        make.top.equalTo(view).with.offset(20);
+        make.height.width.mas_equalTo(30);
+    }];
+    
+    //Like
+    UIButton *likeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [likeBtn setImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+    [likeBtn addTarget:self action:@selector(like:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:likeBtn];
+    
+    [likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(forwardBtn.mas_left).with.offset(-10);
+        make.top.equalTo(view).with.offset(20);
+        make.height.width.mas_equalTo(30);
+    }];
+    
+    //Link
+    UIButton *linkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [linkBtn setImage:[UIImage imageNamed:@"link"] forState:UIControlStateNormal];
+    [linkBtn addTarget:self action:@selector(link:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:linkBtn];
+    
+    [linkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(likeBtn.mas_left).with.offset(-10);
+        make.top.equalTo(view).with.offset(20);
+        make.height.width.mas_equalTo(30);
+    }];
+    
+    //Title & Avatar
+    [self setupAvatar:post];
+    
+}
+
+- (void)setupAvatar:(BTPost*)post
+{
+    BTWeakSelf(weakSelf);
+    if (!self.avatarBtn && self.controlView) {
+        self.avatarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.avatarBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.controlView addSubview:self.avatarBtn];
+        [self.avatarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(weakSelf.controlView).with.offset(20);
+            make.top.equalTo(weakSelf.controlView).with.offset(20);
+            make.height.width.mas_equalTo(30);
+        }];
+        
+        self.blogNameBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.blogNameBtn addTarget:self action:@selector(avatarClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.blogNameBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.controlView addSubview:self.blogNameBtn];
+        [self.blogNameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(weakSelf.avatarBtn.mas_right).with.offset(5);
+            make.top.equalTo(weakSelf.controlView).with.offset(20);
+            make.height.mas_equalTo(30);
+            make.width.mas_lessThanOrEqualTo(150);
+        }];
+    }
+    
+#warning todo set image placeholder
+    [self.avatarBtn sd_setImageWithURL:[NSURL URLWithString:post.blogInfo.avatarPath] forState:UIControlStateNormal];
+    [self.avatarBtn.layer setValue:post forKey:@"post"];
+    
+    
+    [self.blogNameBtn setTitle:post.blogInfo.name forState:UIControlStateNormal];
+    
+    
+    
+}
+
+- (void)avatarClick:(UIButton*)btn
+{
+    BTPost *post = [self.avatarBtn.layer valueForKey:@"post"];
+    //    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+    BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)download:(id)sender
+{
+    
+}
+
+- (IBAction)forward:(id)sender
+{
+    NSLog(@"forward button add");
+    BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];
+    [[APIAccessHelper shareApiAccessHelper] forwardPost:post];
+}
+
+- (IBAction)like:(id)sender
+{
+    
+}
+
+- (IBAction)link:(id)sender
+{
+    
 }
 //- (void)addObserverForPlayer
 //{
