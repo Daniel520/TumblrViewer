@@ -22,6 +22,7 @@
 @property (nonatomic, assign, readwrite) BOOL isNoMoreData;
 @property (nonatomic, assign) NSUInteger lastDataHash;
 @property (nonatomic, strong) NSDictionary *lastDataDic;
+@property (nonatomic, assign) NSInteger totalPosts;
 
 @end
 
@@ -59,6 +60,7 @@
         self.postArr = [NSMutableArray new];
     } else if(self.isNoMoreData) {
         //No more data, so do nothing
+        callback(nil, nil, Data_Status_End);
         return;
     }
     
@@ -72,10 +74,10 @@
                 NSLog(@"error info:%@",error);
             }
             
-            //        if ([self isPostDataEnd:dashboardDic]) {
-            //            self.isNoMoreData = YES;
-            //            callback(nil, error, Data_Status_End);
-            //        }
+//            if ([self isPostDataEnd:dashboardDic]) {
+//                self.isNoMoreData = YES;
+//                callback(nil, error, Data_Status_End);
+//            }
             //
             //        if (dashboardDic != nil) {
             //            weakSelf.lastDataHash = [[dashboardDic description] hash];
@@ -101,10 +103,10 @@
                 NSLog(@"error info:%@",error);
             }
 
-            //        if ([self isPostDataEnd:dashboardDic]) {
-            //            self.isNoMoreData = YES;
-            //            callback(nil, error, Data_Status_End);
-            //        }
+//            if ([self isPostDataEnd:dashboardDic]) {
+//                self.isNoMoreData = YES;
+//                callback(nil, error, Data_Status_End);
+//            }
             //
             //        if (dashboardDic != nil) {
             //            weakSelf.lastDataHash = [[dashboardDic description] hash];
@@ -142,6 +144,11 @@
         return;
     }
     
+    if (self.totalPosts == self.posts.count || self.isNoMoreData) {
+        self.isNoMoreData = YES;
+        callback(nil, nil, Data_Status_End);
+    }
+    
     self.isLoadingPosts = YES;
     BTWeakSelf(weakSelf);
     
@@ -153,9 +160,6 @@
         // clear data to refresh
         //        self.dashboardImgArr = [NSArray new];
         self.postArr = [NSMutableArray new];
-    } else if(self.isNoMoreData) {
-        //No more data, so do nothing
-        return;
     }
     
     NSLog(@"load posts data from offset:%d, length:%d",self.currentOffset, PAGELEN);
@@ -167,9 +171,12 @@
             NSLog(@"error info:%@",error);
         }
         
-        if ([self isPostDataEnd:dashboardDic]) {
+        self.totalPosts = [[[dashboardDic objectForKey:@"blog"] objectForKey:@"posts"] integerValue];
+        
+        if ([self isPostDataEnd:dashboardDic] || self.totalPosts == self.posts.count) {
             self.isNoMoreData = YES;
             callback(nil, error, Data_Status_End);
+            weakSelf.isLoadingPosts = NO;
         }
         
         //                weakSelf.currentOffset += weakSelf.postArr.count;

@@ -185,26 +185,22 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (indexPath.row) {
         case 0:
-            iconImageView.image = [UIImage imageNamed:@"house"];
-            titleLab.text = NSLocalizedString(@"dashboard", nil);
-            break;
-        case 1:
             iconImageView.image = [UIImage imageNamed:@"heart"];
             titleLab.text = NSLocalizedString(@"like", nil);
             break;
-        case 2:
+        case 1:
             iconImageView.image = [UIImage imageNamed:@"star"];
             titleLab.text = NSLocalizedString(@"follows", nil);
             break;
-        case 3:
+        case 2:
             iconImageView.image = [UIImage imageNamed:@"download"];
             titleLab.text = NSLocalizedString(@"download", nil);
             break;
-        case 4:
+        case 3:
             iconImageView.image = [UIImage imageNamed:@"settings-1"];
             titleLab.text = NSLocalizedString(@"setup_API", nil);
             break;
-        case 5:
+        case 4:
             iconImageView.image = [UIImage imageNamed:@"logout"];
             titleLab.text = NSLocalizedString(@"logout", nil);
             break;

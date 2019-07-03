@@ -36,11 +36,11 @@
 {
     self = [super init];
     if (self) {
-        if (blog) {
-            self.title = blog.name;
-        }else{
-            self.title = NSLocalizedString(@"dashboard", nil);
-        }
+//        if (blog) {
+//            self.title = blog.name;
+//        }else{
+        self.title = NSLocalizedString(@"dashboard", nil);
+//        }
         
         self.blogInfo = blog;
     }
@@ -50,6 +50,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.navigationController.viewControllers.count <= 2 && [self isEqual:self.navigationController.topViewController]) {
+        [self.navigationItem setHidesBackButton:TRUE animated:NO];
+    }
     
     BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:self.blogInfo WithDataType:Type_Dashboard];
     [self addChildViewController:vc];
@@ -131,14 +135,16 @@
     switch (type) {
         case XWSTouchItemUserInfo:
         {
-            
+            //    BTRootViewController *vc = [[BTRootViewController alloc] initWithBlog:post.blogInfo WithDataType:Type_BlogPost];
+            BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:self.blogInfo WithDataType:Type_BlogPost];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        case XWSTouchItemDashboard:
-        {
-            
-        }
-            break;
+//        case XWSTouchItemDashboard:
+//        {
+//
+//        }
+//            break;
         case XWSTouchItemLike:
         {
             

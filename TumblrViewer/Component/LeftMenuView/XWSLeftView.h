@@ -12,7 +12,7 @@
 
 typedef NS_ENUM(NSInteger, XWSTouchItem) {
     XWSTouchItemUserInfo = 0,
-    XWSTouchItemDashboard,
+//    XWSTouchItemDashboard,
     XWSTouchItemLike,
     XWSTouchItemFollows,
     XWSTouchItemDownload,

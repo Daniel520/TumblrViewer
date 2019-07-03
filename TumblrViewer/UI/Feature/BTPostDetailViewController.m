@@ -21,8 +21,6 @@
 //#import "BTRootViewController.h"
 #import "BTPostListViewController.h"
 
-#define CONTROL_BAR_HEIGHT 60 + WINDOW_SAFE_AREA_INSETS.bottom
-
 @interface BTPostDetailViewController () <UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) BTPost *post;

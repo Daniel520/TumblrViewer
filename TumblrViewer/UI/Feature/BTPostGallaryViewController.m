@@ -310,8 +310,6 @@
 
 #pragma mark Control Bar Logic
 
-#define CONTROL_BAR_HEIGHT 60 + WINDOW_SAFE_AREA_INSETS.bottom
-
 - (void)initControlBar
 {
     BTPost *post = [self.postDataModel.posts objectAtIndex:self.currentIndexPath.section];

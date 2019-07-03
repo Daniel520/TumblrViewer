@@ -43,9 +43,10 @@
     if (self) {
         if (blog) {
             self.title = blog.name;
-        }else{
-            self.title = @"Dashboard";
         }
+//        else{
+//            self.title = NSLocalizedString(@"dashboard", nil);
+//        }
         self.blogInfo = blog;
         self.type = type;
     }
@@ -55,9 +56,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (self.navigationController.viewControllers.count <= 2 && [self isEqual:self.navigationController.topViewController]) {
-        [self.navigationItem setHidesBackButton:TRUE animated:NO];
-    }
     
     self.view.backgroundColor = [UIColor blackColor];
     //    self.title = @"Dashboard";
@@ -115,8 +113,8 @@
         
         if (status == Data_Status_End) {
             //load all data
-            [self.mainCollectionView.mj_footer endRefreshing];
-            self.mainCollectionView.mj_footer.state = MJRefreshStateNoMoreData;
+            [weakSelf collectionStopRefreshData];
+//            self.mainCollectionView.mj_footer.state = MJRefreshStateNoMoreData;
 //            [self.mainCollectionView.mj_footer resetNoMoreData];
         }
         
@@ -445,9 +443,13 @@
     CGFloat yOffset = [layout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
     
     //if data fail more than 3, then stop auto load more data. if need more data, user can do it manaully
-    if ((yOffset - scrollView.contentOffset.y < SCREEN_HEIGHT * 2  || yOffset < scrollView.contentOffset.y)
-        && !self.postDataModel.isLoadingPosts
-        && self.dataFailCount < 3) {
+    if ((yOffset - scrollView.contentOffset.y < SCREEN_HEIGHT * 2  ||
+         scrollView.contentOffset.y > yOffset / 3 ||
+         yOffset < scrollView.contentOffset.y) &&
+        !self.postDataModel.isNoMoreData &&
+        !self.postDataModel.isLoadingPosts &&
+        self.dataFailCount < 3) {
+            
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf loadData:YES];
         });
