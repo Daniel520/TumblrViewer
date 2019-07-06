@@ -26,7 +26,8 @@
 //@property (nonatomic, assign) NSInteger dataFailCount;
 //@property (nonatomic, assign) PostsType type;
 @property (nonatomic, strong) BTBlogInfo *blogInfo;
-@property (strong, nonatomic) XWSLeftView *leftMenuView;
+@property (nonatomic, strong) XWSLeftView *leftMenuView;
+@property (nonatomic, strong) UIButton *profileBtn;
 
 @end
 
@@ -51,6 +52,8 @@
 {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfoUpdate:) name:BTUserInfoUpdateNotification object:nil];
+    
     if (self.navigationController.viewControllers.count <= 2 && [self isEqual:self.navigationController.topViewController]) {
         [self.navigationItem setHidesBackButton:TRUE animated:NO];
     }
@@ -63,6 +66,23 @@
     [self setUpLeftMenuView];
 }
 
+- (void)userInfoUpdate:(NSNotification*)notification
+{
+    if ([notification.object isKindOfClass:[BTUserInfo class]]) {
+        BTUserInfo *userInfo = (BTUserInfo*)notification.object;
+        
+        if (userInfo.blogList.count > 0) {
+            self.blogInfo = [userInfo.blogList objectAtIndex:0];
+            [self.profileBtn sd_setImageWithURL:[NSURL URLWithString:self.blogInfo.avatarPath] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"avatar.png"]];
+            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            dic[@"account"] = self.blogInfo.name;
+            dic[@"icon"] = self.blogInfo.avatarPath;
+            [self.leftMenuView updateTopInfo:dic];
+        }
+    }
+}
+
 - (void)setUpLeftMenuView{
     
     //setup navigation left button
@@ -72,6 +92,7 @@
     [profileBtn.widthAnchor constraintEqualToConstant:35].active = YES;
     [profileBtn.heightAnchor constraintEqualToConstant:35].active = YES;
     [profileBtn addTarget:self action:@selector(showLeftMenuView:) forControlEvents:UIControlEventTouchUpInside];
+    self.profileBtn = profileBtn;
 //    profileBtn.layer.cornerRadius = 35/2;
 //    profileBtn.layer.masksToBounds = YES;
     UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithCustomView:profileBtn];

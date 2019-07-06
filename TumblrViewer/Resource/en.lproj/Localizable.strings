@@ -16,3 +16,6 @@
 "follows" = "Follows";
 "download" = "Download";
 "logout" = "Logout";
+
+//Toast
+"network_error" = "Network Error, please try again";

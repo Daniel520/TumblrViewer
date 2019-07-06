@@ -143,6 +143,11 @@
     if (self.isLoadingPosts) {
         return;
     }
+ 
+    if ([BTUtils isStringEmpty:blogId]) {
+        [BTToastManager showToastWithText:NSLocalizedString(@"network_error", nil)];
+        return;
+    }
     
     if (self.totalPosts == self.posts.count || self.isNoMoreData) {
         self.isNoMoreData = YES;
@@ -167,7 +172,7 @@
     [[APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:blogId type:nil Start:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
         
         if (error) {
-            [BTToastManager showToastWithText:@"Network Error, please try again"];
+            [BTToastManager showToastWithText:NSLocalizedString(@"network_error", nil)];
             NSLog(@"error info:%@",error);
         }
         

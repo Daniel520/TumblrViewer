@@ -193,6 +193,8 @@ static APIAccessHelper *instance = nil;
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setObject:data forKey:USERINFO_KEY];
         [userDefault synchronize];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:BTUserInfoUpdateNotification object:userInfo];
     }];
     
     [task resume];

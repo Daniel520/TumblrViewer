@@ -45,4 +45,12 @@ typedef NS_ENUM(NSInteger, XWSTouchItem) {
 - (void)startCoverViewOpacityWithAlpha:(CGFloat)alpha withDuration:(CGFloat)duration;
 /*取消门板透明度动画*/
 - (void)cancelCoverViewOpacity;
+
+
+/**
+ Update Menu Top Header Info
+
+ @param info with 2 keys, 1 is account which is a NSString object for the label, 2 is the icon url under NSString
+ */
+- (void)updateTopInfo:(NSDictionary*)info;
 @end

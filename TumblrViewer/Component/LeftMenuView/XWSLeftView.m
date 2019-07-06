@@ -59,6 +59,21 @@
     }
 }
 
+- (void)updateTopInfo:(NSDictionary*)info
+{
+    self.accountLabel.text = info[@"account"];
+    NSString *iconUrl = info[@"icon"];
+    if (iconUrl) {
+        if ([iconUrl containsString:@"http"] || [iconUrl containsString:@"https"]) {
+            [self.icon sd_setImageWithURL:[NSURL URLWithString:iconUrl]];
+        }else{
+            self.icon.image = [UIImage imageNamed:iconUrl];
+        }
+    }else{
+        self.icon.image = [UIImage imageNamed:@"logo_icon"];
+    }
+}
+
 #pragma mark - 内部方法
 
 - (UIView *)coverView{
