@@ -209,13 +209,30 @@ static APIAccessHelper *instance = nil;
     return config;
 }
 
-- (void)requestDashboardSince:(NSInteger)sinceId count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
+- (void)requestFollowing:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *usersDic, NSError * error))callback
 {
     TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
     
     NSURLSessionTask *task = nil;
     
-    task = [apiClient dashboardRequest:@{@"limit":@(count),@"before_id":@(sinceId),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
+    task = [apiClient followingDataTaskWithParameters:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+        
+        if (error) {
+            NSLog(@"error info:%@",error);
+        }
+        callback(response, error);
+    }];
+    
+    [task resume];
+}
+
+- (void)requestDashboardSince:(NSInteger)before_id count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = nil;
+    
+    task = [apiClient dashboardRequest:@{@"limit":@(count),@"before_id":@(before_id),@"reblog_info" : @(YES), @"notes_info" : @(YES)} callback:^( id _Nullable response, NSError * _Nullable error){
         
         
         if (error) {
@@ -226,6 +243,42 @@ static APIAccessHelper *instance = nil;
     
     [task resume];
 }
+
+- (void)requestLikedBeforeTime:(NSTimeInterval)beforeTime count:(NSInteger)count callback:( void(^)(NSDictionary *likesDic, NSError * error))callback
+{
+    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+    
+    NSURLSessionTask *task = nil;
+    
+    task = [apiClient likesDataTaskWithParameters:@{@"limit":@(count),@"before":@(beforeTime)} callback:^( id _Nullable response, NSError * _Nullable error){
+        
+        
+        if (error) {
+            NSLog(@"error info:%@",error);
+        }
+        callback(response, error);
+    }];
+    
+    [task resume];
+}
+
+//- (void)requestLikesStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *likeDic, NSError * error))callback
+//{
+//    TMAPIClient *apiClient = [[APIAccessHelper shareApiAccessHelper] generateApiClient];
+//    
+//    NSURLSessionTask *task = nil;
+//    
+//    task = [apiClient likesDataTaskWithParameters:@{@"limit":@(count),@"offset":@(offset)} callback:^( id _Nullable response, NSError * _Nullable error){
+//        
+//        
+//        if (error) {
+//            NSLog(@"error info:%@",error);
+//        }
+//        callback(response, error);
+//    }];
+//    
+//    [task resume];
+//}
 
 - (void)requestDashboardStart:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback
 {

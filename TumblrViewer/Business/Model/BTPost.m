@@ -73,7 +73,8 @@
                               @"blog":self.blogInfo.name,
                               @"text":self.text ? self.text : [NSNull null],
                               @"photos":self.imageInfos ? self.imageInfos : [NSNull null],
-                              @"videoInfo":self.videoInfo ? self.videoInfo : [NSNull null]
+                              @"videoInfo":self.videoInfo ? self.videoInfo : [NSNull null],
+                              @"postTime":@(self.postTime)
 //                              @"contentBody":self.contentBody ? self.contentBody : [NSNull null]
                               };
     NSString *des = [postDic description];

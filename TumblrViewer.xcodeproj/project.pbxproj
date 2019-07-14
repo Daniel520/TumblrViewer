@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		05984714FDD350053D3AF23A /* libPods-TumblrViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A007F1D8F2C5BB62DE2511B0 /* libPods-TumblrViewer.a */; };
 		12E573343849C6A82D328A2D /* libPods-TumblrViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED1157BE6975B9C01C6D7BFD /* libPods-TumblrViewerTests.a */; };
+		1324D87022DB204B00488CB2 /* BTUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324D86F22DB204B00488CB2 /* BTUsersViewController.m */; };
+		1324D87322DB21E800488CB2 /* UserDateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324D87222DB21E800488CB2 /* UserDateCenter.m */; };
+		1324D87922DB32A900488CB2 /* BTBlogInfoCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324D87822DB32A900488CB2 /* BTBlogInfoCollectionCell.m */; };
+		1324D87C22DB591600488CB2 /* LogicDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1324D87B22DB591600488CB2 /* LogicDataCenter.m */; };
 		A8BA40DC700BE4B569F57F36 /* libPods-TumblrViewerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F1CE533C97F2DF70DA0A0E /* libPods-TumblrViewerUITests.a */; };
 		A923A75622B4DA08002340B5 /* BTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A923A75522B4DA08002340B5 /* BTCollectionViewWaterfallLayout.m */; };
 		A923A75B22B4FF56002340B5 /* UIImage+AddCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = A923A75A22B4FF56002340B5 /* UIImage+AddCorner.m */; };
@@ -126,6 +130,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1324D86E22DB204B00488CB2 /* BTUsersViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTUsersViewController.h; sourceTree = "<group>"; };
+		1324D86F22DB204B00488CB2 /* BTUsersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTUsersViewController.m; sourceTree = "<group>"; };
+		1324D87122DB21E800488CB2 /* UserDateCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDateCenter.h; sourceTree = "<group>"; };
+		1324D87222DB21E800488CB2 /* UserDateCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDateCenter.m; sourceTree = "<group>"; };
+		1324D87722DB32A900488CB2 /* BTBlogInfoCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTBlogInfoCollectionCell.h; sourceTree = "<group>"; };
+		1324D87822DB32A900488CB2 /* BTBlogInfoCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBlogInfoCollectionCell.m; sourceTree = "<group>"; };
+		1324D87A22DB591600488CB2 /* LogicDataCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogicDataCenter.h; sourceTree = "<group>"; };
+		1324D87B22DB591600488CB2 /* LogicDataCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogicDataCenter.m; sourceTree = "<group>"; };
 		191250296FFDBABB56972FF6 /* Pods-TumblrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TumblrViewer.debug.xcconfig"; path = "Target Support Files/Pods-TumblrViewer/Pods-TumblrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		41CB0DE5EEEB8BA4C16CE2E1 /* Pods-TumblrViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TumblrViewerTests.debug.xcconfig"; path = "Target Support Files/Pods-TumblrViewerTests/Pods-TumblrViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		654A5C53EE79B669EFB9727F /* Pods-TumblrViewerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TumblrViewerUITests.release.xcconfig"; path = "Target Support Files/Pods-TumblrViewerUITests/Pods-TumblrViewerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -451,6 +463,8 @@
 				C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */,
 				A923A75F22B7E639002340B5 /* BTPostListViewController.h */,
 				A923A76022B7E639002340B5 /* BTPostListViewController.m */,
+				1324D86E22DB204B00488CB2 /* BTUsersViewController.h */,
+				1324D86F22DB204B00488CB2 /* BTUsersViewController.m */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -523,6 +537,8 @@
 				A9D19FF12250CF370043CFBE /* BTDashboardCollectionCell.m */,
 				C3E5C38022ABA104004C68FC /* BTWebview.h */,
 				C3E5C38122ABA104004C68FC /* BTWebview.m */,
+				1324D87722DB32A900488CB2 /* BTBlogInfoCollectionCell.h */,
+				1324D87822DB32A900488CB2 /* BTBlogInfoCollectionCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -644,6 +660,10 @@
 			children = (
 				C355BD262299443500A12C41 /* PostsDataModel.h */,
 				C355BD272299443500A12C41 /* PostsDataModel.m */,
+				1324D87122DB21E800488CB2 /* UserDateCenter.h */,
+				1324D87222DB21E800488CB2 /* UserDateCenter.m */,
+				1324D87A22DB591600488CB2 /* LogicDataCenter.h */,
+				1324D87B22DB591600488CB2 /* LogicDataCenter.m */,
 			);
 			path = LogicCenter;
 			sourceTree = "<group>";
@@ -953,9 +973,12 @@
 				A9D19FF22250CF370043CFBE /* BTDashboardCollectionCell.m in Sources */,
 				A9D19FF92250EEE70043CFBE /* HTMLParser.m in Sources */,
 				A9B5CB9C224BC08800B2FAFD /* BTMainTabViewController.m in Sources */,
+				1324D87022DB204B00488CB2 /* BTUsersViewController.m in Sources */,
 				A9B40EEB2295924A006A3762 /* BTPostGallaryViewController.m in Sources */,
 				A9CEECB722AEC4180079B88C /* BRToastWindow.m in Sources */,
+				1324D87922DB32A900488CB2 /* BTBlogInfoCollectionCell.m in Sources */,
 				A9CEECA522AEB0540079B88C /* BTPostDetailViewController.m in Sources */,
+				1324D87322DB21E800488CB2 /* UserDateCenter.m in Sources */,
 				A923A75B22B4FF56002340B5 /* UIImage+AddCorner.m in Sources */,
 				A9CEECB922AEC4180079B88C /* BTToastViewControllerContainerView.m in Sources */,
 				C3478ECE22BF17CD009A5416 /* XWSLeftView.m in Sources */,
@@ -966,6 +989,7 @@
 				A9CEECB622AEC4180079B88C /* BTToastInfo.m in Sources */,
 				A9FAB6D222A2865000BEDACF /* BTBaseViewController.m in Sources */,
 				A9B5CB68224BBCFD00B2FAFD /* main.m in Sources */,
+				1324D87C22DB591600488CB2 /* LogicDataCenter.m in Sources */,
 				A99CC70A224CCCF6007B22C9 /* APIAccessHelper.m in Sources */,
 				C3E5C38A22ACDE17004C68FC /* BTUserInfo.m in Sources */,
 				A9B35CE22281CF380041CE4C /* BTPost.m in Sources */,

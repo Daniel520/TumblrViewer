@@ -80,7 +80,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger postid;
 @property (nonatomic, strong) NSString *reblogKey;
 @property (nonatomic, strong) BTBlogInfo *blogInfo;
-
+@property (nonatomic, assign) NSTimeInterval postTime;
+@property (nonatomic, assign) NSTimeInterval likedTimestamp;
 //test
 //@property (nonatomic, strong) NSArray *imgURLs;
 //@property (nonatomic, strong) NSArray *videoURLs;

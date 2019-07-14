@@ -10,6 +10,8 @@
 #import "BTBaseViewController.h"
 #import "PostsDataModel.h"
 
+#define CELL_IDENTIFIER @"blogInfoCell"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BTRootViewController : BTBaseViewController

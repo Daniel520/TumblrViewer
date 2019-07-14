@@ -43,6 +43,25 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 
 
 /**
+ Get Following Users Info
+
+ @param offset <#offset description#>
+ @param count <#count description#>
+ @param callback <#callback description#>
+ */
+- (void)requestFollowing:(NSInteger)offset count:(NSInteger)count callback:( void(^)(NSDictionary *usersDic, NSError * error))callback;
+
+/**
+ <#Description#>
+
+ @param beforeTime <#beforeTime description#>
+ @param count <#count description#>
+ @param callback <#callback description#>
+ */
+- (void)requestLikedBeforeTime:(NSTimeInterval)beforeTime count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
+
+
+/**
  <#Description#>
 
  @param offset <#offset description#>
@@ -55,11 +74,11 @@ typedef void (^BTAuthenticationCallback)(NSError * _Nullable);
 /**
  <#Description#>
 
- @param sinceId <#sinceId description#>
+ @param before_id <#sinceId description#>
  @param count <#count description#>
  @param callback <#callback description#>
  */
-- (void)requestDashboardSince:(NSInteger)sinceId count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
+- (void)requestDashboardSince:(NSInteger)before_id count:(NSInteger)count callback:( void(^)(NSDictionary *dashboardDic, NSError * error))callback;
 
 /**
  <#Description#>

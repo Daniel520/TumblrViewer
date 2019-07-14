@@ -9,6 +9,7 @@
 #import "BTRootViewController.h"
 #import "BTPostListViewController.h"
 #import "BTPost.h"
+#import "BTUsersViewController.h"
 
 #import <UIButton+WebCache.h>
 
@@ -168,12 +169,14 @@
 //            break;
         case XWSTouchItemLike:
         {
-            
+            BTPostListViewController *vc = [[BTPostListViewController alloc] initWithBlog:self.blogInfo WithDataType:Type_LikesPost];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case XWSTouchItemFollows:
         {
-            
+            BTUsersViewController *vc = [[BTUsersViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case XWSTouchItemDownload:

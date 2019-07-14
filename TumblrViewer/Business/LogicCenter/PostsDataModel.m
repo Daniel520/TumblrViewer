@@ -41,7 +41,7 @@
     return [self.postArr copy];
 }
 
-- (void)loadData:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
+- (void)loadDataFor:(PostsType)type loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback
 {
     if (self.isLoadingPosts) {
         return;
@@ -64,78 +64,118 @@
         return;
     }
     
-#warning todo try to use since_id as use offset we find it will return the same data
-    NSLog(@"load dashboard data from offset:%d, length:%d",self.currentOffset, PAGELEN);
-    if (self.currentOffset == 0) {
-        [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
-            
-            if (error) {
-                [BTToastManager showToastWithText:@"Network Error, please try again"];
-                NSLog(@"error info:%@",error);
+
+    switch (type) {
+        case Type_Dashboard:
+        {
+#warning todo try to use before_id as use offset we find it will return the same data
+            NSLog(@"load dashboard data from offset:%d, length:%d",self.currentOffset, PAGELEN);
+            if (self.currentOffset == 0) {
+                [[APIAccessHelper shareApiAccessHelper] requestDashboardStart:self.currentOffset count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+                    
+                    if (error) {
+                        [BTToastManager showToastWithText:@"Network Error, please try again"];
+                        NSLog(@"error info:%@",error);
+                    }
+                    
+                    //            if ([self isPostDataEnd:dashboardDic]) {
+                    //                self.isNoMoreData = YES;
+                    //                callback(nil, error, Data_Status_End);
+                    //            }
+                    //
+                    //        if (dashboardDic != nil) {
+                    //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+                    //            weakSelf.lastDataDic = dashboardDic;
+                    //        }
+                    
+                    //                weakSelf.currentOffset += weakSelf.postArr.count;
+                    //                weakSelf.currentOffset += PAGELEN;
+                    NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
+                    NSArray *returnPosts = [weakSelf translteDashboardData:tmPosts];
+                    
+                    [weakSelf.postArr addObjectsFromArray:returnPosts];
+                    
+                    callback(returnPosts, error, Data_Status_Normal);
+                    
+                    weakSelf.isLoadingPosts = NO;
+                }];
+            } else {
+                NSInteger before_id  = [[self.posts lastObject] postid];
+                [[APIAccessHelper shareApiAccessHelper] requestDashboardSince:before_id count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
+                    
+                    if (error) {
+                        [BTToastManager showToastWithText:@"Network Error, please try again"];
+                        NSLog(@"error info:%@",error);
+                    }
+                    
+                    //            if ([self isPostDataEnd:dashboardDic]) {
+                    //                self.isNoMoreData = YES;
+                    //                callback(nil, error, Data_Status_End);
+                    //            }
+                    //
+                    //        if (dashboardDic != nil) {
+                    //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+                    //            weakSelf.lastDataDic = dashboardDic;
+                    //        }
+                    
+                    //                weakSelf.currentOffset += weakSelf.postArr.count;
+                    //                weakSelf.currentOffset += PAGELEN;
+                    NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
+                    NSArray *returnPosts = [weakSelf translteDashboardData:tmPosts];
+                    
+                    [weakSelf.postArr addObjectsFromArray:returnPosts];
+                    
+                    callback(returnPosts, error, Data_Status_Normal);
+                    
+                    weakSelf.isLoadingPosts = NO;
+                }];
+            }
+        }
+            break;
+        case Type_LikesPost:
+        {
+            NSTimeInterval requestTime = [[[NSDate alloc] init] timeIntervalSince1970];
+            if (self.posts.count > 0) {
+                requestTime = [[self.posts lastObject] likedTimestamp];
             }
             
-//            if ([self isPostDataEnd:dashboardDic]) {
-//                self.isNoMoreData = YES;
-//                callback(nil, error, Data_Status_End);
-//            }
-            //
-            //        if (dashboardDic != nil) {
-            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
-            //            weakSelf.lastDataDic = dashboardDic;
-            //        }
+            [[APIAccessHelper shareApiAccessHelper] requestLikedBeforeTime:requestTime count:PAGELEN callback:^(NSDictionary *likesDic, NSError *error){
+                
+                if (error) {
+                    [BTToastManager showToastWithText:@"Network Error, please try again"];
+                    NSLog(@"error info:%@",error);
+                }
+                
+                //            if ([self isPostDataEnd:dashboardDic]) {
+                //                self.isNoMoreData = YES;
+                //                callback(nil, error, Data_Status_End);
+                //            }
+                //
+                //        if (dashboardDic != nil) {
+                //            weakSelf.lastDataHash = [[dashboardDic description] hash];
+                //            weakSelf.lastDataDic = dashboardDic;
+                //        }
+                
+                //                weakSelf.currentOffset += weakSelf.postArr.count;
+                //                weakSelf.currentOffset += PAGELEN;
+                NSArray *postsDic = [likesDic objectForKey:@"liked_posts"];
+                NSArray *returnPosts = [weakSelf translteDashboardData:postsDic];
+                
+                [weakSelf.postArr addObjectsFromArray:returnPosts];
+                
+                callback(returnPosts, error, Data_Status_Normal);
+                
+                weakSelf.isLoadingPosts = NO;
+            }];
             
-            //                weakSelf.currentOffset += weakSelf.postArr.count;
-            //                weakSelf.currentOffset += PAGELEN;
-            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+        }
+            break;
             
-            [weakSelf.postArr addObjectsFromArray:returnPosts];
-            
-            callback(returnPosts, error, Data_Status_Normal);
-            
-            weakSelf.isLoadingPosts = NO;
-        }];
-    } else {
-        NSInteger sinceId  = [[self.posts lastObject] postid];
-        [[APIAccessHelper shareApiAccessHelper] requestDashboardSince:sinceId count:PAGELEN callback:^(NSDictionary *dashboardDic, NSError *error){
-
-            if (error) {
-                [BTToastManager showToastWithText:@"Network Error, please try again"];
-                NSLog(@"error info:%@",error);
-            }
-
-//            if ([self isPostDataEnd:dashboardDic]) {
-//                self.isNoMoreData = YES;
-//                callback(nil, error, Data_Status_End);
-//            }
-            //
-            //        if (dashboardDic != nil) {
-            //            weakSelf.lastDataHash = [[dashboardDic description] hash];
-            //            weakSelf.lastDataDic = dashboardDic;
-            //        }
-
-            //                weakSelf.currentOffset += weakSelf.postArr.count;
-            //                weakSelf.currentOffset += PAGELEN;
-            NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
-
-            [weakSelf.postArr addObjectsFromArray:returnPosts];
-
-            callback(returnPosts, error, Data_Status_Normal);
-
-            weakSelf.isLoadingPosts = NO;
-        }];
+        default:
+            break;
     }
     
-//    break;
-//}
-//        case Type_BlogPost:{
-////            [APIAccessHelper shareApiAccessHelper] requestPostFromBlogId:<#(nonnull NSString *)#> type:<#(nonnull NSString *)#> Start:<#(NSInteger)#> count:<#(NSInteger)#> callback:<#^(NSDictionary * _Nonnull dashboardDic, NSError * _Nonnull error)callback#>
-//        }
-//
-//            break;
-//
-//        default:
-//            break;
-//    }
+
 }
 
 - (void)loadDataFromBlog:(NSString*)blogId loadMore:(BOOL)isLoadMore callback:(nonnull PostsDataCallback)callback;
@@ -186,7 +226,8 @@
         
         //                weakSelf.currentOffset += weakSelf.postArr.count;
         //                weakSelf.currentOffset += PAGELEN;
-        NSArray *returnPosts = [weakSelf translteDashboardData:dashboardDic];
+        NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
+        NSArray *returnPosts = [weakSelf translteDashboardData:tmPosts];
         
         [weakSelf.postArr addObjectsFromArray:returnPosts];
         
@@ -215,9 +256,9 @@
     return NO;
 }
 
-- (NSArray *)translteDashboardData:(NSDictionary*)dashboardDic
+- (NSArray *)translteDashboardData:(NSArray*)tmPosts
 {
-    NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
+//    NSArray *tmPosts = [dashboardDic objectForKey:@"posts"];
     
     self.currentOffset += tmPosts.count;
     
@@ -234,7 +275,8 @@
             post = [self translatePostDic:postDic];
             post.postid = [[postDic objectForKey:@"id"] integerValue];
             post.reblogKey = [postDic objectForKey:@"reblog_key"];
-            
+            post.postTime = [[postDic objectForKey:@"timestamp"] doubleValue];
+            post.likedTimestamp = [[postDic objectForKey:@"liked_timestamp"] doubleValue];
 //            if (post) {
 //                [posts addObject:post];
 //            }
@@ -266,7 +308,8 @@
                 post.imageInfos = imageInfos;
                 post.postid = [[postDic objectForKey:@"id"] integerValue];
                 post.reblogKey = [postDic objectForKey:@"reblog_key"];
-                
+                post.postTime = [[postDic objectForKey:@"timestamp"] doubleValue];
+                post.likedTimestamp = [[postDic objectForKey:@"liked_timestamp"] doubleValue];
 //                [posts addObject:post];
             }
         } else if ([type isEqualToString:@"video"]) {
@@ -274,7 +317,8 @@
             post = [self translateVideoPostDic:postDic];
             post.postid = [[postDic objectForKey:@"id"] integerValue];
             post.reblogKey = [postDic objectForKey:@"reblog_key"];
-            
+            post.postTime = [[postDic objectForKey:@"timestamp"] doubleValue];
+            post.likedTimestamp = [[postDic objectForKey:@"liked_timestamp"] doubleValue];
 //            if (post) {
 //                [posts addObject:post];
 //            }

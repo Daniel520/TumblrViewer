@@ -105,7 +105,7 @@
         [self.mainCollectionView.mj_footer beginRefreshing];
     }
     
-    PostsDataCallback dataCallback = ^(NSArray<BTPost*> *posts, NSError * error, PostDataStatus status){
+    PostsDataCallback dataCallback = ^(NSArray<BTPost*> *posts, NSError * error, DataStatus status){
         if (error) {
             weakSelf.dataFailCount++;
             NSLog(@"error info:%@",error);
@@ -116,6 +116,8 @@
             [weakSelf collectionStopRefreshData];
 //            self.mainCollectionView.mj_footer.state = MJRefreshStateNoMoreData;
 //            [self.mainCollectionView.mj_footer resetNoMoreData];
+            [self.mainCollectionView.mj_footer endRefreshingWithNoMoreData];
+            weakSelf.mainCollectionView.mj_footer.hidden = YES;
         }
         
         weakSelf.dataFailCount = 0;
@@ -125,7 +127,9 @@
     };
     
     switch (self.type) {
-        case Type_Dashboard:{
+        case Type_Dashboard:
+        case Type_LikesPost:
+        {
 //            [self.postDataModel loadData:isLoadMore callback:^(NSArray<BTPost*> *posts, NSError * error){
 //
 //                if (error) {
@@ -138,7 +142,8 @@
 //
 //                [weakSelf updateDashboard];
 //            }];
-            [self.postDataModel loadData:isLoadMore callback:dataCallback];
+//            [self.postDataModel loadData:isLoadMore callback:dataCallback];
+            [self.postDataModel loadDataFor:self.type loadMore:isLoadMore callback:dataCallback];
         }
             break;
         case Type_BlogPost:{
