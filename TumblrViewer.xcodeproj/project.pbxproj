@@ -106,6 +106,7 @@
 		C3478ECE22BF17CD009A5416 /* XWSLeftView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3478ECC22BF17CC009A5416 /* XWSLeftView.m */; };
 		C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */; };
 		C355BD282299443500A12C41 /* PostsDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C355BD272299443500A12C41 /* PostsDataModel.m */; };
+		C3E2050422DF7273009AF03D /* BTBottomControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E2050322DF7273009AF03D /* BTBottomControlBar.m */; };
 		C3E5C37F22AB9FF9004C68FC /* BTURLCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C37E22AB9FF9004C68FC /* BTURLCacheProtocol.m */; };
 		C3E5C38222ABA104004C68FC /* BTWebview.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C38122ABA104004C68FC /* BTWebview.m */; };
 		C3E5C38722ABAD48004C68FC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E5C38522ABAD48004C68FC /* NSData+Base64.m */; };
@@ -272,6 +273,8 @@
 		C355BD23229940D200A12C41 /* BTVideoPlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTVideoPlayViewController.m; sourceTree = "<group>"; };
 		C355BD262299443500A12C41 /* PostsDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostsDataModel.h; sourceTree = "<group>"; };
 		C355BD272299443500A12C41 /* PostsDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostsDataModel.m; sourceTree = "<group>"; };
+		C3E2050222DF7273009AF03D /* BTBottomControlBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTBottomControlBar.h; sourceTree = "<group>"; };
+		C3E2050322DF7273009AF03D /* BTBottomControlBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTBottomControlBar.m; sourceTree = "<group>"; };
 		C3E5C37D22AB9FF9004C68FC /* BTURLCacheProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTURLCacheProtocol.h; sourceTree = "<group>"; };
 		C3E5C37E22AB9FF9004C68FC /* BTURLCacheProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTURLCacheProtocol.m; sourceTree = "<group>"; };
 		C3E5C38022ABA104004C68FC /* BTWebview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTWebview.h; sourceTree = "<group>"; };
@@ -539,6 +542,8 @@
 				C3E5C38122ABA104004C68FC /* BTWebview.m */,
 				1324D87722DB32A900488CB2 /* BTBlogInfoCollectionCell.h */,
 				1324D87822DB32A900488CB2 /* BTBlogInfoCollectionCell.m */,
+				C3E2050222DF7273009AF03D /* BTBottomControlBar.h */,
+				C3E2050322DF7273009AF03D /* BTBottomControlBar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -997,6 +1002,7 @@
 				C355BD24229940D200A12C41 /* BTVideoPlayViewController.m in Sources */,
 				A9B5CBA1224BC0C400B2FAFD /* LoginViewController.m in Sources */,
 				C355BD282299443500A12C41 /* PostsDataModel.m in Sources */,
+				C3E2050422DF7273009AF03D /* BTBottomControlBar.m in Sources */,
 				C3E5C37F22AB9FF9004C68FC /* BTURLCacheProtocol.m in Sources */,
 				A9B5CBA5224BC10000B2FAFD /* BTMainAppDelegate.m in Sources */,
 				A9CEECB822AEC4180079B88C /* BTToastViewController.m in Sources */,
