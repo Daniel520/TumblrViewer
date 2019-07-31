@@ -16,6 +16,7 @@
 #import "BTMaintabViewController.h"
 #import "BTRootViewController.h"
 #import "LoginViewController.h"
+#import <SDImageCache.h>
 
 @interface BTMainAppDelegate()
 
@@ -29,6 +30,11 @@
     // Override point for customization after application launch.
     
 //    [Bugly startWithAppId:@"e42f20fad7"];
+    
+    //set the image cache age to 1 year.
+    [SDImageCache sharedImageCache].config.maxCacheAge = 60 * 60 * 24 * 365;
+    //update the image expire time after image accessed
+    [SDImageCache sharedImageCache].config.diskCacheExpireType = SDImageCacheConfigExpireTypeAccessDate;
     
     self.apiHelper = [APIAccessHelper shareApiAccessHelper];
     

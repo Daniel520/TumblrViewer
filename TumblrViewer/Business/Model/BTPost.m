@@ -64,6 +64,11 @@
     }
 }
 
+- (BOOL)isLiked
+{
+    return self.likedTimestamp > 0;
+}
+
 - (NSString*)description
 {
     NSDictionary *postDic = @{
@@ -74,7 +79,8 @@
                               @"text":self.text ? self.text : [NSNull null],
                               @"photos":self.imageInfos ? self.imageInfos : [NSNull null],
                               @"videoInfo":self.videoInfo ? self.videoInfo : [NSNull null],
-                              @"postTime":@(self.postTime)
+                              @"postTime":@(self.postTime),
+                              @"isLiked":@(self.isLiked)
 //                              @"contentBody":self.contentBody ? self.contentBody : [NSNull null]
                               };
     NSString *des = [postDic description];
