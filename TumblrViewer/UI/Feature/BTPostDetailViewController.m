@@ -104,7 +104,7 @@
     }
 }
 
-- (void)setupWebview
+- (void) setupWebview
 {
     BTWeakSelf(weakSelf);
     [NSURLProtocol registerClass:[BTURLCacheProtocol class]];
