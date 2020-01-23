@@ -189,7 +189,7 @@
         return;
     }
     
-    if (self.totalPosts == self.posts.count || self.isNoMoreData) {
+    if ((self.totalPosts > 0 && self.totalPosts == self.posts.count) || self.isNoMoreData) {
         self.isNoMoreData = YES;
         callback(nil, nil, Data_Status_End);
     }

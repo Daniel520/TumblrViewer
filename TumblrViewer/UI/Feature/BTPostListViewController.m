@@ -105,6 +105,7 @@
         [self.mainCollectionView.mj_footer beginRefreshing];
     }
     
+    //Handle Data End
     PostsDataCallback dataCallback = ^(NSArray<BTPost*> *posts, NSError * error, DataStatus status){
         if (error) {
             weakSelf.dataFailCount++;
@@ -299,6 +300,7 @@
     if (indexPath.item == self.postDataModel.posts.count - 1) {
         CGFloat shorestHeight = [(BTCollectionViewWaterfallLayout*)collectionView.collectionViewLayout getShortestOffsetWithCount:self.postDataModel.posts.count inSection:0];
         
+        //If current page is less than screen height, auto load more to fill the screen
         BTWeakSelf(weakSelf);
         if (shorestHeight < SCREEN_HEIGHT * 1.5 && !self.postDataModel.isLoadingPosts) {
             dispatch_async(dispatch_get_main_queue(), ^{
